@@ -6,7 +6,7 @@ from colorlog import __version__, __doc__
 setup(
     name             = 'colorlog',
     description      = 'Log formatting with colors!',
-    long_description = __doc__,
+    long_description = open("README.rst").read(),
     version          = __version__,
 
     author           = 'Sam Clements',

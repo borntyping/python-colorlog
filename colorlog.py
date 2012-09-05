@@ -1,5 +1,5 @@
-__version__ = 0.2
-__doc__ = open("README.rst").read()
+__version__ = 0.3
+__all__ = ['ColoredFormatter', 'CODES', 'DEFAULT_COLOR_LEVELS']
 
 import logging
 
@@ -39,7 +39,22 @@ DEFAULT_COLOR_LEVELS =  {
 }
 
 class ColoredFormatter (logging.Formatter):
-	"""	A log record formatter providing color codes for terminal output """
+	"""
+	A log record formatter providing color codes for terminal output,
+	by providing additional values to the format string.
+	
+	The codes are in the format ``fg_{colorname}`` or ``bg_{colorname}``
+	(foreground and background colors). Also provided are ``bold``
+	(for bold output), ``reset`` (to reset all formatting), and ``fg_level``
+	/ ``bg_level``, which return the color associated with the records level
+	(which is defined by either ``DEFAULT_COLOR_LEVELS`` or a user-provided
+	dict (``color_levels``) containing a mapping of level names to color names.
+
+	The colors names are ``black``, ``red``, ``green``, ``yellow``, ``blue``,
+	``purple``, ``cyan`` and ``white``.
+
+	A reset code is implictly appended to all messages unless ``reset == False``.
+	"""
 	
 	def __init__ (self, format, reset=False, color_levels=DEFAULT_COLOR_LEVELS):
 		"""
