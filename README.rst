@@ -9,7 +9,7 @@ It allows colors to be placed in the format string, which is mostly useful when 
 Usage
 =====
 
-``ColoredFormatter`` requires at minumum a format string, and takes two options - ``reset`` and ``color_levels``, which are shown using values equivalent to the defaults the following example.
+``ColoredFormatter`` requires at minumum a format string, and takes two options - ``reset`` (implictly add a reset  code at the end of message strings, defaults to true) and ``color_levels`` (a mapping of record level names to color names, defaults to ``colorlog.DEFAULT_COLOR_LEVELS``).
 
 ::
 
@@ -28,6 +28,16 @@ Usage
 	formatter = ColoredFormatter(formatstring, reset=True, color_levels=levels)
 
 The formatter can then be used in a normal ``logging`` setup.
+
+Codes
+=====
+
+The following values are made availible for use in the format string:
+
+  - ``fg_{colorname}``, ``bg_{colorname}``: Foreground and background colors. The colors names are ``black``, ``red``, ``green``, ``yellow``, ``blue``, ``purple``, ``cyan`` and ``white``.
+  - ``bold``: Bold output.
+  - ``reset``: Clear all formatting (both foreground and background colors).
+  - ``fg_level``, ``bg_level``: Return the color associated with the records level (from ``color_levels``).
 
 Licence
 =======
