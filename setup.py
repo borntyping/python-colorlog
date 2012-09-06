@@ -11,7 +11,7 @@ setup(
     author           = 'Sam Clements',
     author_email     = 'sam@borntyping.co.uk',
     url              = 'https://github.com/borntyping/colorlog',
-    license          = 'LICENSE.txt',
+    license          = open("LICENCE.txt").read(),
     
     py_modules       = ['colorlog'],
     
