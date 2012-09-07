@@ -1,4 +1,4 @@
-__version__ = '0.6'
+__version__ = '0.7'
 __all__ = ['ColoredFormatter', 'CODES', 'DEFAULT_COLOR_LEVELS']
 
 import logging
@@ -31,7 +31,7 @@ for i, name in colors:
 
 # The default colors to use
 DEFAULT_COLOR_LEVELS =  {
-	'DEBUG':    'cyan',
+	'DEBUG':    'white',
 	'INFO':     'green',
 	'WARNING':  'yellow',
 	'ERROR':    'red',
@@ -44,7 +44,7 @@ class ColoredFormatter (logging.Formatter):
 	by providing additional values to the format string.
 	"""
 	
-	def __init__ (self, format, reset=False, color_levels=DEFAULT_COLOR_LEVELS):
+	def __init__ (self, format, color_levels=DEFAULT_COLOR_LEVELS, reset=False):
 		"""
 		format (str): The format string to use
 		reset (bool): Implictly appends a reset code to all records unless set to False
