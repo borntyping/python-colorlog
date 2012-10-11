@@ -7,7 +7,7 @@ import unittest, logging
 import colorlog
 
 class TestColoredFormatter (unittest.TestCase):
-	logformat = "%(c.bold)s%(loglevel_fg)s%(levelname)-8s %(c.fg.bold_black)s%(name)s%(c.reset)s %(message)s"
+	logformat = "%(log_color)s%(levelname)-8s%(reset)s %(bold_red)s%(bg_white)s%(name)s%(reset)s %(message)s"
 
 	def setUp(self):
 		formatter = colorlog.ColoredFormatter(self.logformat)
@@ -22,7 +22,6 @@ class TestColoredFormatter (unittest.TestCase):
 
 	def test_log_messages (self):
 		"""	Simply passes if the code does not throw an exception """
-		print()
 		self.logger.debug('debug message')
 		self.logger.info('info message')
 		self.logger.warn('warn message')
