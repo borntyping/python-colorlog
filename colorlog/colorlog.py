@@ -14,27 +14,21 @@ default_log_colors =  {
 }
 
 class ColoredFormatter (logging.Formatter):
-	"""
-	A log record formatter providing color codes for terminal output,
-	by providing additional values to the format string.
-	"""
+	"""	A formatter that allows colors to be placed in the format string, intended to help in creating prettier, more readable logging output. """
 
 	def __init__ (self, format, log_colors=default_log_colors, reset=False):
 		"""
-		format (str): The format string to use
-		reset (bool): Implictly appends a reset code to all records unless set to False
-		log_colors (dict): A mapping of logging level names to color names
+		:Parameters:
+		- format (str): The format string to use
+		- log_colors (dict): A mapping of log level names to color names
+		- reset (bool): Implictly appends a reset code to all records unless set to False
 		"""
 		super(ColoredFormatter, self).__init__(format)
-
-		#: Set to true to not place a reset code at the end of the message
+		self.log_colors = log_colors
 		self.reset = reset
 
-		#: A mapping of log level names to color names
-		self.log_colors = log_colors
-
 	def format (self, record):
-		# Add the color codes to the dict
+		# Add the color codes to the record
 		record.__dict__.update(escape_codes)
 
 		# If we recognise the level name,
