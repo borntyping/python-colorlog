@@ -35,22 +35,20 @@ class ColoredFormatter (logging.Formatter):
 
 	def format (self, record):
 		# Add the color codes to the dict
-		record.c = escape_codes
-
-		print record.c
+		record.__dict__.update(escape_codes)
 
 		# If we recognise the level name,
 		# add the levels color as `fg_level` and `bg_level`
-		if False and record.levelname in self.log_colors:
+		if record.levelname in self.log_colors:
 			color = self.log_colors[record.levelname]
-			record.loglevel_fg = escape_codes.fg[color]
-			record.loglevel_bg = escape_codes.bg[color]
+			record.fg_log = escape_codes['fg_' + color]
+			record.bg_log = escape_codes['bg_' + color]
 
 		# Format the message
 		message = super(ColoredFormatter, self).format(record)
 
 		# Add a reset code to the end of the message
 		if not self.reset:
-			message += escape_codes.reset
+			message += escape_codes['reset']
 
 		return message

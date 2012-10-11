@@ -14,9 +14,9 @@ Usage
 ::
 
 	from colorlog import ColoredFormatter
-	
+
 	formatstring = "%(bg_level)s%(levelname)-8s%(reset)s %(blue)%(message)s"
-	
+
 	levels = {
 		'DEBUG':    'cyan',
 		'INFO':     'green',
@@ -24,7 +24,7 @@ Usage
 		'ERROR':    'red',
 		'CRITICAL': 'red',
 	}
-	
+
 	formatter = ColoredFormatter(formatstring, reset=True, color_levels=levels)
 
 The formatter can then be used in a normal ``logging`` setup.
@@ -39,7 +39,12 @@ The following values are made availible for use in the format string:
   - ``reset``: Clear all formatting (both foreground and background colors).
   - ``fg_level``, ``bg_level``: Return the color associated with the records level (from ``color_levels``).
 
+Compatibility
+=============
+
+`colorlog`` should work with both Python 2 and 3. At a minimum, it's been tested on Python 2.7 and 3.2.
+
 Licence
 =======
-	
+
 ``colorlog`` is distributed under the MIT Licence.
