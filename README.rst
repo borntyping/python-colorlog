@@ -37,7 +37,7 @@ The following values are made availible for use in the format string:
   - ``fg_{colorname}``, ``bg_{colorname}``: Foreground and background colors. The colors names are ``black``, ``red``, ``green``, ``yellow``, ``blue``, ``purple``, ``cyan`` and ``white``.
   - ``bold``: Bold output.
   - ``reset``: Clear all formatting (both foreground and background colors).
-  - ``fg_level``, ``bg_level``: Return the color associated with the records level (from ``color_levels``).
+  - ``log_color``: Return the color associated with the records level (from ``color_levels``).
 
 Compatibility
 =============

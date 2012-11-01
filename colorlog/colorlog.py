@@ -32,7 +32,7 @@ class ColoredFormatter (logging.Formatter):
 		record.__dict__.update(escape_codes)
 
 		# If we recognise the level name,
-		# add the levels color as `fg_level` and `bg_level`
+		# add the levels color as `log_color`
 		if record.levelname in self.log_colors:
 			color = self.log_colors[record.levelname]
 			record.log_color = escape_codes[color]
