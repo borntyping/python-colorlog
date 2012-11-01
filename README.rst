@@ -42,7 +42,7 @@ The following values are made availible for use in the format string:
 Compatibility
 =============
 
-`colorlog`` should work with both Python 2 and 3. At a minimum, it's been tested on Python 2.7 and 3.2.
+``colorlog`` should work with both Python 2 and 3. At a minimum, it's been tested on Python 2.7 and 3.2.
 
 Licence
 =======
