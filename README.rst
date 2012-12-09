@@ -9,13 +9,16 @@ It allows colors to be placed in the format string, which is mostly useful when 
 Usage
 =====
 
-``ColoredFormatter`` requires at minumum a format string, and takes two options - ``reset`` (implictly add a reset  code at the end of message strings, defaults to true) and ``color_levels`` (a mapping of record level names to color names, defaults to ``colorlog.DEFAULT_COLOR_LEVELS``).
+From Python
+-----------
+
+``ColoredFormatter`` requires at minumum a format string, and takes several options - ``datefmt`` (an optional date format string passed to base class), ``reset`` (implictly add a reset  code at the end of message strings, defaults to true), and ``log_colors`` (a mapping of record level names to color names, defaults to ``colorlog.default_log_colors``).
 
 ::
 
 	from colorlog import ColoredFormatter
 
-	formatstring = "%(bg_level)s%(levelname)-8s%(reset)s %(blue)%(message)s"
+	formatstring = "%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s"
 
 	levels = {
 		'DEBUG':    'cyan',
@@ -28,6 +31,19 @@ Usage
 	formatter = ColoredFormatter(formatstring, reset=True, color_levels=levels)
 
 The formatter can then be used in a normal ``logging`` setup.
+
+From Configuration File
+-----------------------
+
+The ``ColoredFormatter`` may also be instantiated. from a standard logging (INI-style) configuration file.  Notably, it will only be passed the format and datefmt parameters by the python logging format initializer (all other params will be default).
+
+::
+	[formatter_color]
+	format=%(asctime)s,%(msecs)03d %(levelname)-8s %(log_color)s%(threadName)s %(message)s
+	datefmt = %m-%d %H:%M:%S
+	class = colorlog.ColoredFormatter
+
+The formatter will then be used by any handlers that are configured to use the ``color`` logger (for example above).
 
 Codes
 =====
