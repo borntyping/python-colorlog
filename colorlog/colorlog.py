@@ -16,14 +16,15 @@ default_log_colors =  {
 class ColoredFormatter (logging.Formatter):
 	"""	A formatter that allows colors to be placed in the format string, intended to help in creating prettier, more readable logging output. """
 
-	def __init__ (self, format, log_colors=default_log_colors, reset=False):
+	def __init__ (self, format, datefmt=None, log_colors=default_log_colors, reset=True):
 		"""
 		:Parameters:
 		- format (str): The format string to use
+		- datefmt (str): Allow for special date formatting (if ommited, standard ISO8601 formatting applied by base class).
 		- log_colors (dict): A mapping of log level names to color names
 		- reset (bool): Implictly appends a reset code to all records unless set to False
 		"""
-		super(ColoredFormatter, self).__init__(format)
+		super(ColoredFormatter, self).__init__(format, datefmt)
 		self.log_colors = log_colors
 		self.reset = reset
 
@@ -40,8 +41,8 @@ class ColoredFormatter (logging.Formatter):
 		# Format the message
 		message = super(ColoredFormatter, self).format(record)
 
-		# Add a reset code to the end of the message
-		if not self.reset:
+		# Add a reset code to the end of the message (if it wasn't explicitly added in format str)
+		if self.reset and not message.endswith(escape_codes['reset']):
 			message += escape_codes['reset']
 
 		return message
