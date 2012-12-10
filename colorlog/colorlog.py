@@ -2,7 +2,9 @@
 
 from __future__ import absolute_import
 
-import logging
+from sys import version_info
+
+from logging import Formatter
 
 from colorlog.escape_codes import escape_codes
 
@@ -17,18 +19,24 @@ default_log_colors =  {
 	'CRITICAL': 'bold_red',
 }
 
-class ColoredFormatter (logging.Formatter):
+class ColoredFormatter (Formatter):
 	"""	A formatter that allows colors to be placed in the format string, intended to help in creating prettier, more readable logging output. """
 
-	def __init__ (self, format, datefmt=None, log_colors=default_log_colors, reset=True):
+	def __init__ (self, format, datefmt=None, log_colors=default_log_colors, reset=True, style='%'):
 		"""
 		:Parameters:
 		- format (str): The format string to use
-		- datefmt (str): Allow for special date formatting (if ommited, standard ISO8601 formatting applied by base class).
+		- datefmt (str): A format string for the date
 		- log_colors (dict): A mapping of log level names to color names
 		- reset (bool): Implictly appends a reset code to all records unless set to False
+		- style ('%' or '{' or '$'): The format style to use. No meaning prior to Python 3.2.
+		
+		The ``format``, ``datefmt`` and ``style`` args are passed on to the Formatter constructor.
 		"""
-		super(ColoredFormatter, self).__init__(format, datefmt)
+		if version_info < (3, 2):
+			super(ColoredFormatter, self).__init__(format, datefmt)
+		else:
+			super(ColoredFormatter, self).__init__(format, datefmt, style=style)
 		self.log_colors = log_colors
 		self.reset = reset
 
@@ -41,6 +49,8 @@ class ColoredFormatter (logging.Formatter):
 		if record.levelname in self.log_colors:
 			color = self.log_colors[record.levelname]
 			record.log_color = escape_codes[color]
+		else:
+			record.log_color = ""
 
 		# Format the message
 		message = super(ColoredFormatter, self).format(record)

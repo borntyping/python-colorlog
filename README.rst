@@ -25,6 +25,7 @@ Arguments
 	- ``datefmt``: An optional date format passed to the base class. See `logging.Formatter`_.
 	- ``reset``: Implicitly adds a color reset code to the message output, unless the output already ends with one. Defaults to ``True``.
 	- ``log_colors``: A mapping of record level names to color names. The defaults can be found in ``colorlog.default_log_colors``, or the below example.
+	- ``style``: Availible on Python 3.2 and above. See `logging.Formatter`_.
 
 Examples
 ========
@@ -79,7 +80,6 @@ With `fileConfig`_
 	class=colorlog.ColoredFormatter
 	format=%(log_color)s%(levelname)-8s%(reset)s %(bg_blue)s[%(name)s]%(reset)s %(message)s from fileConfig
 	datefmt=%m-%d %H:%M:%S
-	reset=True
 	
 	...
 
@@ -87,17 +87,18 @@ An instance of ColoredFormatter created with those arguments will then be used b
 
 A full example configuration can be found in ``tests/test_config.ini``.
 
-Tests
-=====
+Tests and Compatibility
+=======================
 
 Tests similar to those in the above examples can be found in `tests/test_colorlog.py`. 
 
-The test output is somewhat improved by running `nosetests --nologcapture --nocapture`.
+``colorlog`` should work with both Python 2 and 3.
+Nose is used to test the code on both Python 2.7 and 3.2.
 
-Compatibility
-=============
+:: 
 
-``colorlog`` should work with both Python 2 and 3. It's been tested on Python 2.7 and 3.2.
+	nosetests-2.7 --nocapture --nologcapture
+	nosetests-3.2 --nocapture --nologcapture
 
 Licence
 =======
