@@ -1,8 +1,12 @@
-"""	The Formatter class """
+"""	The ColoredFormatter class """
+
+from __future__ import absolute_import
 
 import logging
 
-from escape_codes import escape_codes
+from colorlog.escape_codes import escape_codes
+
+__all__ = ['escape_codes', 'default_log_colors', 'ColoredFormatter']
 
 # The default colors to use for the debug levels
 default_log_colors =  {

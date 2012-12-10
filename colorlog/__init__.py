@@ -1,6 +1,7 @@
 """    A logging formatter for colored output """
 
-__version__ = '1.3'
+from __future__ import absolute_import
 
-from colorlog import ColoredFormatter
-from escape_codes import escape_codes
+__all__ = ['ColoredFormatter', 'escape_codes']
+
+from colorlog.colorlog import *

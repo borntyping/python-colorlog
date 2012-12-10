@@ -1,9 +1,8 @@
 from distutils.core import setup
-from colorlog import __version__
 
 setup(
     name             = 'colorlog',
-    version          = __version__,
+    version          = '1.4',
 
     description      = 'Log formatting with colors!',
     long_description = open("README.rst").read(),
