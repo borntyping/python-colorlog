@@ -95,11 +95,7 @@ Compatibility
 Tests
 =====
 
-Tests similar to those in the above examples can be found in `tests/test_colorlog.py`. The tests can be run with::
-
-	python2.6 tests/test_colorlog_26.py
-	python2.7 tests/test_colorlog.py
-	python3.2 tests/test_colorlog.py
+Tests similar to those in the above examples can be found in `tests/test_colorlog.py`, which can also be run with any supported version of Python.
 
 Licence
 =======
