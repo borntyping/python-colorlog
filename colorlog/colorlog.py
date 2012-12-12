@@ -24,7 +24,7 @@ class ColoredFormatter (logging.Formatter):
 		- log_colors (dict): A mapping of log level names to color names
 		- reset (bool): Implictly appends a reset code to all records unless set to False
 		"""
-		super(ColoredFormatter, self).__init__(format, datefmt)
+		logging.Formatter.__init__(self, format, datefmt)
 		self.log_colors = log_colors
 		self.reset = reset
 
@@ -39,7 +39,7 @@ class ColoredFormatter (logging.Formatter):
 			record.log_color = escape_codes[color]
 
 		# Format the message
-		message = super(ColoredFormatter, self).format(record)
+		message = logging.Formatter.format(self, record)
 
 		# Add a reset code to the end of the message (if it wasn't explicitly added in format str)
 		if self.reset and not message.endswith(escape_codes['reset']):
