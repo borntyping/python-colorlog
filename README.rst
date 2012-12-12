@@ -87,18 +87,19 @@ An instance of ColoredFormatter created with those arguments will then be used b
 
 A full example configuration can be found in ``tests/test_config.ini``.
 
-Tests and Compatibility
-=======================
+Compatibility
+=============
 
-Tests similar to those in the above examples can be found in `tests/test_colorlog.py`. 
+``colorlog`` works on Python 2.6 and above, including Python 3.
 
-``colorlog`` should work with both Python 2 and 3.
-Nose is used to test the code on both Python 2.7 and 3.2.
+Tests
+=====
 
-:: 
+Tests similar to those in the above examples can be found in `tests/test_colorlog.py`. The tests can be run with::
 
-	nosetests-2.7 --nocapture --nologcapture
-	nosetests-3.2 --nocapture --nologcapture
+	python2.6 tests/test_colorlog_26.py
+	python2.7 tests/test_colorlog.py
+	python3.2 tests/test_colorlog.py
 
 Licence
 =======

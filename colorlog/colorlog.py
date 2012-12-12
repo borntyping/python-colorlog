@@ -33,10 +33,12 @@ class ColoredFormatter (Formatter):
 		
 		The ``format``, ``datefmt`` and ``style`` args are passed on to the Formatter constructor.
 		"""
-		if version_info < (3, 2):
+		if version_info > (3, 2):
+			super(ColoredFormatter, self).__init__(format, datefmt, style=style)
+		elif version_info > (2, 7):
 			super(ColoredFormatter, self).__init__(format, datefmt)
 		else:
-			super(ColoredFormatter, self).__init__(format, datefmt, style=style)
+			Formatter.__init__(self, format, datefmt)
 		self.log_colors = log_colors
 		self.reset = reset
 
@@ -53,7 +55,10 @@ class ColoredFormatter (Formatter):
 			record.log_color = ""
 
 		# Format the message
-		message = super(ColoredFormatter, self).format(record)
+		if version_info > (2, 7):
+			message = super(ColoredFormatter, self).format(record)
+		else:
+			message = Formatter.format(self, record)
 
 		# Add a reset code to the end of the message (if it wasn't explicitly added in format str)
 		if self.reset and not message.endswith(escape_codes['reset']):
