@@ -2,6 +2,14 @@
 Log formatting with colors!
 ===========================
 
+.. image:: https://pypip.in/v/colorlog/badge.png
+    :target: https://crate.io/packages/colorlog/
+    :alt: Latest PyPI version
+
+.. image:: https://pypip.in/d/colorlog/badge.png
+    :target: https://crate.io/packages/colorlog/
+    :alt: Number of PyPI downloads
+
 ``ColoredFormatter`` is a formatter for use with pythons logging module.
 
 It allows colors to be placed in the format string, which is mostly useful when paired with a StreamHandler that is outputting to a terminal. This is accomplished by added a set of terminal color codes to the record before it is used to format the string.
