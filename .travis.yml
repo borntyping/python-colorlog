@@ -4,4 +4,5 @@ python:
   - "2.7"
   - "3.2"
   - "3.3"
-script: python tests/test_colorlog.py
+install: "python setup.py install"
+script: "python tests/test_colorlog.py"

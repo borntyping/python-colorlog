@@ -9,7 +9,7 @@ Log formatting with colors!
 .. image:: https://travis-ci.org/borntyping/colorlog.png
    :target: https://travis-ci.org/borntyping/colorlog
 
-``ColoredFormatter`` is a formatter for use with pythons logging module.
+``colorlog.ColoredFormatter`` is a formatter for use with pythons logging module.
 
 It allows colors to be placed in the format string, which is mostly useful when paired with a StreamHandler that is outputting to a terminal. This is accomplished by added a set of terminal color codes to the record before it is used to format the string.
 
@@ -97,19 +97,20 @@ A full example configuration can be found in ``tests/test_config.ini``.
 Compatibility
 =============
 
-``colorlog`` works on Python 2.6 and above, including Python 3.
+colorlog works on Python 2.6 and above, including Python 3.
 
 Tests
 =====
 
 Tests similar to the above examples are found in ``tests/test_colorlog.py``.
+They require colorlog to be installed or otherwise available to Python.
 
 [tox](http://tox.readthedocs.org/) will run the tests under all compatible python versions.
 
 Licence
 =======
 
-``colorlog`` is distributed under the MIT Licence.
+colorlog is distributed under the MIT Licence.
 
 .. _logging.Formatter: http://docs.python.org/3/library/logging.html#logging.Formatter
 .. _dictConfig: http://docs.python.org/3/library/logging.config.html#logging.config.dictConfig
