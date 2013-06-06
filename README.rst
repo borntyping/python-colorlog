@@ -105,7 +105,7 @@ Tests
 Tests similar to the above examples are found in ``tests/test_colorlog.py``.
 They require colorlog to be installed or otherwise available to Python.
 
-[tox](http://tox.readthedocs.org/) will run the tests under all compatible python versions.
+`tox`_ will run the tests under all compatible python versions.
 
 Licence
 =======
@@ -115,3 +115,4 @@ colorlog is distributed under the MIT Licence.
 .. _logging.Formatter: http://docs.python.org/3/library/logging.html#logging.Formatter
 .. _dictConfig: http://docs.python.org/3/library/logging.config.html#logging.config.dictConfig
 .. _fileConfig: http://docs.python.org/3/library/logging.config.html#logging.config.fileConfig
+.. _tox: http://tox.readthedocs.org/
