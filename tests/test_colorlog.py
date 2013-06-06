@@ -8,7 +8,7 @@ from __future__ import print_function
 
 from os.path import join, dirname, realpath
 from sys import version_info
-from unittest import TestCase, main
+from unittest import TestCase, TestLoader, TextTestRunner
 
 from logging import StreamHandler, DEBUG, getLogger
 from logging.config import fileConfig
@@ -23,7 +23,7 @@ class TestColoredFormatter (TestCase):
 		"""Passes if the code does not throw an exception"""
 		logger.debug('a debug message')
 		logger.info('an info message')
-		logger.warn('a warning message')
+		logger.warning('a warning message')
 		logger.error('an error message')
 		logger.critical('a critical message')
 	
@@ -53,6 +53,7 @@ if version_info > (2, 7):
 	from logging.config import dictConfig
 	
 	class TestColoredFormatter (TestColoredFormatter):
+		@skipUnless(version_info > (2, 7), "requires python 2.7 or above")
 		def test_dict_config (self):
 			"""Build the logger from a dictionary"""
 			dictConfig({
@@ -99,4 +100,5 @@ if version_info > (2, 7):
 			self.example_log_messages(self.logger)
 
 if __name__ == '__main__':
-	main(verbosity=0)
+	TextTestRunner(verbosity=0).run(
+		TestLoader().loadTestsFromTestCase(TestColoredFormatter))
