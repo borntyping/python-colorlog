@@ -9,7 +9,7 @@ setup(
 
     author           = 'Sam Clements',
     author_email     = 'sam@borntyping.co.uk',
-    url              = 'https://github.com/borntyping/colorlog',
+    url              = 'https://github.com/borntyping/python-colorlog',
     license          = open("LICENCE.txt").read(),
 
     packages         = ['colorlog'],
@@ -26,6 +26,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
         'Topic :: Terminals',
         'Topic :: Utilities',
     ],
