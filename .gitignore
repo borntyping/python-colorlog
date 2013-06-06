@@ -1,4 +1,5 @@
 MANIFEST
+MANIFEST.in
 dist/*
 build/*
 *.egg-info/*
