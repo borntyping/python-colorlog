@@ -20,8 +20,7 @@ class TestColoredFormatter (TestCase):
 	datefmt = "%H:%M:%S"
 
 	def example_log_messages (self, logger):
-		"""	Simply passes if the code does not throw an exception """
-		print()
+		"""Passes if the code does not throw an exception"""
 		logger.debug('a debug message')
 		logger.info('an info message')
 		logger.warn('a warning message')
@@ -29,23 +28,25 @@ class TestColoredFormatter (TestCase):
 		logger.critical('a critical message')
 	
 	def test_basic (self):
+		"""Manually build the logger"""
 		formatter = ColoredFormatter(self.logformat, datefmt=self.datefmt)
 
 		stream = StreamHandler()
 		stream.setLevel(DEBUG)
 		stream.setFormatter(formatter)
 
-		self.logger = getLogger('basic')
+		self.logger = getLogger('pythonConfig')
 		self.logger.setLevel(DEBUG)
 		self.logger.addHandler(stream)
 		
 		self.example_log_messages(self.logger)
 
 	def test_z_file_config (self):
+		"""Build the logger from a config file"""
 		filename = join(dirname(realpath(__file__)), "test_config.ini")
 		with open(filename, 'r') as f:
 			fileConfig(f.name)
-		self.example_log_messages(getLogger('file'))
+		self.example_log_messages(getLogger('fileConfig'))
 	
 if version_info > (2, 7):
 	from unittest import skipUnless
@@ -53,6 +54,7 @@ if version_info > (2, 7):
 	
 	class TestColoredFormatter (TestColoredFormatter):
 		def test_dict_config (self):
+			"""Build the logger from a dictionary"""
 			dictConfig({
 				'version':1,
 				
@@ -72,28 +74,29 @@ if version_info > (2, 7):
 				},
 
 				'loggers':{
-					'dict': {
+					'dictConfig': {
 						'handlers':	['stream'],
 						'level': 'DEBUG',
 					},
 				},
 			})
 			
-			self.example_log_messages(getLogger('dict'))
+			self.example_log_messages(getLogger('dictConfig'))
 		
 		@skipUnless(version_info > (3, 2), "requires python 3.2 or above")
-		def test_py3 (self):		
+		def test_py3 (self):
+			"""Manually build the logger using {} style formatting"""
 			formatter = ColoredFormatter("{bg_black}{asctime}{reset} {log_color}{levelname:8}{reset} {bold_black}{name}:{reset}{message}", datefmt=self.datefmt, style="{")
 
 			stream = StreamHandler()
 			stream.setLevel(DEBUG)
 			stream.setFormatter(formatter)
 
-			self.logger = getLogger('py3')
+			self.logger = getLogger('py3-formatting')
 			self.logger.setLevel(DEBUG)
 			self.logger.addHandler(stream)
 			
 			self.example_log_messages(self.logger)
 
 if __name__ == '__main__':
-	main()
+	main(verbosity=0)
