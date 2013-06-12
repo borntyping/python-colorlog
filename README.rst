@@ -45,7 +45,7 @@ The following code creates a ColoredFormatter for use in a logging setup, passin
 		"%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s",
 		datefmt=None,
 		reset=True,
-		color_levels={
+		log_colors={
 			'DEBUG':    'cyan',
 			'INFO':     'green',
 			'WARNING':  'yellow',
