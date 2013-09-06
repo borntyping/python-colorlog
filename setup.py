@@ -1,8 +1,8 @@
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name             = 'colorlog',
-    version          = '1.8',
+    version          = '2.0.0pre',
 
     description      = 'Log formatting with colors!',
     long_description = open("README.rst").read(),
@@ -10,12 +10,12 @@ setup(
     author           = 'Sam Clements',
     author_email     = 'sam@borntyping.co.uk',
     url              = 'https://github.com/borntyping/python-colorlog',
-    license          = open("LICENCE.txt").read(),
+    license          = 'MIT License',
 
     packages         = ['colorlog'],
 
     classifiers      = [
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',

@@ -3,7 +3,7 @@ Log formatting with colors!
 ===========================
 
 .. image:: https://pypip.in/v/colorlog/badge.png
-    :target: https://crate.io/packages/colorlog/
+    :target: https://pypi.python.org/pypi/colorlog
     :alt: Latest PyPI version
 
 .. image:: https://travis-ci.org/borntyping/colorlog.png
@@ -18,21 +18,21 @@ Codes
 
 The following values are made availible for use in the format string:
 
-  - ``fg_{colorname}``, ``bg_{colorname}``: Foreground and background colors. The colors names are ``black``, ``red``, ``green``, ``yellow``, ``blue``, ``purple``, ``cyan`` and ``white``.
-  - ``bold``: Bold output.
-  - ``reset``: Clear all formatting (both foreground and background colors).
-  - ``log_color``: Return the color associated with the records level (from ``color_levels``).
-  
+- ``fg_{colorname}``, ``bg_{colorname}``: Foreground and background colors. The colors names are ``black``, ``red``, ``green``, ``yellow``, ``blue``, ``purple``, ``cyan`` and ``white``.
+- ``bold``: Bold output.
+- ``reset``: Clear all formatting (both foreground and background colors).
+- ``log_color``: Return the color associated with the records level (from ``color_levels``).
+
 Arguments
 =========
 
 ``ColoredFormatter`` takes several arguments:
-	
-	- ``format``: The format string used to output the message (required).
-	- ``datefmt``: An optional date format passed to the base class. See `logging.Formatter`_.
-	- ``reset``: Implicitly adds a color reset code to the message output, unless the output already ends with one. Defaults to ``True``.
-	- ``log_colors``: A mapping of record level names to color names. The defaults can be found in ``colorlog.default_log_colors``, or the below example.
-	- ``style``: Availible on Python 3.2 and above. See `logging.Formatter`_.
+
+- ``format``: The format string used to output the message (required).
+- ``datefmt``: An optional date format passed to the base class. See `logging.Formatter`_.
+- ``reset``: Implicitly adds a color reset code to the message output, unless the output already ends with one. Defaults to ``True``.
+- ``log_colors``: A mapping of record level names to color names. The defaults can be found in ``colorlog.default_log_colors``, or the below example.
+- ``style``: Available on Python 3.2 and above. See `logging.Formatter`_.
 
 Examples
 ========
@@ -53,12 +53,12 @@ The following code creates a ColoredFormatter for use in a logging setup, passin
 			'CRITICAL': 'red',
 		}
 	)
-	
+
 With `dictConfig`_
 ------------------
 
 ::
-	
+
 	logging.config.dictConfig({
 		'formatters': {
 			'colored': {
@@ -66,7 +66,7 @@ With `dictConfig`_
 				'format': "%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s"
 			}
 		},
-		
+
 		...
 	})
 
@@ -79,7 +79,7 @@ With `fileConfig`_
 ::
 
 	...
-	
+
 	[formatters]
 	keys=color
 
@@ -87,7 +87,7 @@ With `fileConfig`_
 	class=colorlog.ColoredFormatter
 	format=%(log_color)s%(levelname)-8s%(reset)s %(bg_blue)s[%(name)s]%(reset)s %(message)s from fileConfig
 	datefmt=%m-%d %H:%M:%S
-	
+
 	...
 
 An instance of ColoredFormatter created with those arguments will then be used by any handlers that are configured to use the ``color`` formatter.
@@ -110,7 +110,13 @@ They require colorlog to be installed or otherwise available to Python.
 Licence
 =======
 
-colorlog is distributed under the MIT Licence.
+Copyright (c) 2012 Sam Clements <sam@borntyping.co.uk>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 .. _logging.Formatter: http://docs.python.org/3/library/logging.html#logging.Formatter
 .. _dictConfig: http://docs.python.org/3/library/logging.config.html#logging.config.dictConfig
