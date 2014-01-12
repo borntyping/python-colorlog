@@ -12,9 +12,9 @@ __all__ = ['escape_codes', 'default_log_colors', 'ColoredFormatter']
 # The default colors to use for the debug levels
 default_log_colors = {
     'DEBUG':    'white',
-    'INFO':     'green',
+    'INFO':     'light_green',
     'WARNING':  'yellow',
-    'ERROR':    'red',
+    'ERROR':    'light_red',
     'CRITICAL': 'bold_red',
 }
 
