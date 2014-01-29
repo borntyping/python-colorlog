@@ -37,7 +37,7 @@ Arguments
 Examples
 ========
 
-.. image:: https://dl.dropboxusercontent.com/u/13472215/github/colorlog.png
+.. image:: doc/example.png
 	:alt: Example output
 
 The following code creates a ColoredFormatter for use in a logging setup, passing each arguments defaults to the constructor::
