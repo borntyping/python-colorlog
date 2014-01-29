@@ -37,6 +37,9 @@ Arguments
 Examples
 ========
 
+.. image:: doc/example.png
+	:alt: Example output
+
 The following code creates a ColoredFormatter for use in a logging setup, passing each arguments defaults to the constructor::
 
 	from colorlog import ColoredFormatter
