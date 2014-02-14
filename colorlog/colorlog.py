@@ -8,6 +8,7 @@ import logging
 from colorlog.escape_codes import escape_codes
 
 __all__ = ['escape_codes', 'default_log_colors', 'ColoredFormatter']
+BASIC_FORMAT = "%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s"
 
 # The default colors to use for the debug levels
 default_log_colors = {
@@ -17,7 +18,6 @@ default_log_colors = {
     'ERROR':    'red',
     'CRITICAL': 'bold_red',
 }
-
 
 class ColoredFormatter(logging.Formatter):
     """A formatter that allows colors to be placed in the format string.
@@ -50,6 +50,12 @@ class ColoredFormatter(logging.Formatter):
         self.log_colors = log_colors
         self.reset = reset
 
+    @classmethod
+    def default(cls):
+        """ If all you want is color and no customization.
+        """
+        return ColoredFormatter(BASIC_FORMAT)
+
     def format(self, record):
         # Add the color codes to the record
         record.__dict__.update(escape_codes)
@@ -74,3 +80,29 @@ class ColoredFormatter(logging.Formatter):
             message += escape_codes['reset']
 
         return message
+
+
+## taken from logging/__init__.py
+
+
+def intercept(f):
+    if len(logging.root.handlers) == 0:
+        # hacky, but works
+        logging.basicConfig()
+        stream = logging.root.handlers[0]
+        stream.setFormatter(ColoredFormatter.default())
+    return f
+
+critical    = intercept(logging.critical)
+fatal       = intercept(logging.critical)
+error       = intercept(logging.error)
+exception   = intercept(logging.exception)
+warning     = intercept(logging.warning)
+warn        = intercept(logging.warning)
+info        = intercept(logging.info)
+debug       = intercept(logging.debug)
+log         = intercept(logging.log)
+disable     = logging.disable
+
+import atexit
+atexit.register(logging.shutdown)
