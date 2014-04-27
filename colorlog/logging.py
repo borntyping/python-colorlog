@@ -10,9 +10,9 @@ from colorlog.colorlog import ColoredFormatter
 BASIC_FORMAT = "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s"
 
 
-def basicConfig():
+def basicConfig(*args, **kwargs):
     """This calls basicConfig() and then overrides the formatter it creates"""
-    logging.basicConfig()
+    logging.basicConfig(*args, **kwargs)
     logging._acquireLock()
     try:
         stream = logging.root.handlers[0]
