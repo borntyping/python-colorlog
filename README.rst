@@ -102,7 +102,7 @@ Compatibility
 
 colorlog works on Python 2.6 and above, including Python 3. 
 
-On Windows, install `colorama` for it to work properly.
+On Windows, requires `colorama`_ to work properly.
 
 Tests
 =====
@@ -127,3 +127,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .. _dictConfig: http://docs.python.org/3/library/logging.config.html#logging.config.dictConfig
 .. _fileConfig: http://docs.python.org/3/library/logging.config.html#logging.config.fileConfig
 .. _tox: http://tox.readthedocs.org/
+.. _colorama: https://pypi.python.org/pypi/colorama
