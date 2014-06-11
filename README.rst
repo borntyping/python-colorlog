@@ -100,7 +100,9 @@ A full example configuration can be found in ``tests/test_config.ini``.
 Compatibility
 =============
 
-colorlog works on Python 2.6 and above, including Python 3.
+colorlog works on Python 2.6 and above, including Python 3. 
+
+On Windows, install `colorama` for it to work properly.
 
 Tests
 =====
