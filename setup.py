@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name             = 'colorlog',
-    version          = '2.2.0',
+    version          = '2.3.0',
 
     description      = 'Log formatting with colors!',
     long_description = open("README.rst").read(),
@@ -13,6 +13,8 @@ setup(
     license          = 'MIT License',
 
     packages         = ['colorlog'],
+
+    extras_require   = {'windows': ['colorama']},
 
     classifiers      = [
         'Development Status :: 5 - Production/Stable',
