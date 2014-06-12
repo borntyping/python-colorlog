@@ -7,6 +7,13 @@ import sys
 
 from colorlog.escape_codes import escape_codes
 
+try:
+    import colorama
+except ImportError:
+    pass # colorama on windows is recommended but not required
+else:
+    colorama.init()
+
 __all__ = ['escape_codes', 'default_log_colors', 'ColoredFormatter']
 
 # The default colors to use for the debug levels
