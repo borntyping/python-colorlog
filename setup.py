@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name             = 'colorlog',
-    version          = '2.3.0',
+    version          = '2.3.1',
 
     description      = 'Log formatting with colors!',
     long_description = open("README.rst").read(),
@@ -27,8 +27,8 @@ setup(
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Topic :: Terminals',
         'Topic :: Utilities',
     ],
