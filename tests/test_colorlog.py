@@ -8,7 +8,7 @@ from __future__ import absolute_import, print_function
 
 from os.path import join, dirname, realpath
 from sys import version_info
-from unittest import TestCase, TestLoader, TextTestRunner
+from unittest import TestCase, TextTestRunner, main
 
 from logging import StreamHandler, DEBUG, getLogger, root
 from logging.config import fileConfig
@@ -60,6 +60,35 @@ class TestColoredFormatter(TestCase):
         with open(filename, 'r') as f:
             fileConfig(f.name)
         self.example_log_messages(getLogger('fileConfig'))
+
+
+class TestRainbow(TestCase):
+    RAINBOW = (
+        "%(log_color)s%(levelname)s%(reset)s:%(bold_black)s%(name)s:%(reset)s"
+
+        "%(bold_red)sr%(red)sa%(yellow)si%(green)sn%(bold_blue)sb"
+        "%(blue)so%(purple)sw%(reset)s "
+
+        "%(fg_bold_red)sr%(fg_red)sa%(fg_yellow)si%(fg_green)sn"
+        "%(fg_bold_blue)sb%(fg_blue)so%(fg_purple)sw%(reset)s "
+
+        "%(bg_red)sr%(bg_bold_red)sa%(bg_yellow)si%(bg_green)sn"
+        "%(bg_bold_blue)sb%(bg_blue)so%(bg_purple)sw%(reset)s "
+    )
+
+    def test_rainbow(self):
+        formatter = ColoredFormatter(self.RAINBOW)
+
+        stream = StreamHandler()
+        stream.setLevel(DEBUG)
+        stream.setFormatter(formatter)
+
+        logger = getLogger('rainbow')
+        logger.setLevel(DEBUG)
+        logger.addHandler(stream)
+
+        logger.critical(None)
+
 
 if version_info > (2, 7):
     from unittest import skipUnless
@@ -117,6 +146,4 @@ if version_info > (2, 7):
             self.example_log_messages(logger)
 
 if __name__ == '__main__':
-    tests = TestLoader().loadTestsFromTestCase(TestColoredFormatter)
-    result = TextTestRunner(verbosity=0).run(tests)
-    exit(len(result.errors) + len(result.failures))
+    main(testRunner=TextTestRunner(verbosity=0))

@@ -18,8 +18,8 @@ Codes
 
 The following values are made availible for use in the format string:
 
-- ``fg_{colorname}``, ``bg_{colorname}``: Foreground and background colors. The colors names are ``black``, ``red``, ``green``, ``yellow``, ``blue``, ``purple``, ``cyan`` and ``white``.
-- ``bold``: Bold output.
+- ``{color}``, ``fg_{color}``, ``bg_{color}``: Foreground and background colors. The color names are ``black``, ``red``, ``green``, ``yellow``, ``blue``, ``purple``, ``cyan`` and ``white``.
+- ``bold``, ``bold_{color}``, ``fg_bold_{color}``, ``bg_bold_{color}``: Bold/bright colors.
 - ``reset``: Clear all formatting (both foreground and background colors).
 - ``log_color``: Return the color associated with the records level (from ``color_levels``).
 
@@ -108,7 +108,6 @@ Tests
 =====
 
 Tests similar to the above examples are found in ``tests/test_colorlog.py``.
-They require colorlog to be installed or otherwise available to Python.
 
 `tox`_ will run the tests under all compatible python versions.
 

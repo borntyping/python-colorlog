@@ -20,12 +20,12 @@ esc = lambda *x: '\033[' + ';'.join(x) + 'm'
 
 # The initial list of escape codes
 escape_codes = {
-    'reset': esc('39', '49', '0'),
+    'reset': esc('0'),
     'bold': esc('01'),
 }
 
 # The color names
-colors = [
+COLORS = [
     'black',
     'red',
     'green',
@@ -36,11 +36,17 @@ colors = [
     'white'
 ]
 
-# Create foreground and background colors...
-for lcode, lname in [('3', ''), ('4', 'bg_')]:
-    # ...with the list of colors...
-    for code, name in enumerate(colors):
-        code = str(code)
-        # ...and both normal and bold versions of each color
-        escape_codes[lname + name] = esc(lcode + code)
-        escape_codes[lname + "bold_" + name] = esc(lcode + code, "01")
+PREFIXES = [
+    # Foreground without prefix
+    ('3', ''), ('01;3', 'bold_'),
+
+    # Foreground with fg_ prefix
+    ('3', 'fg_'), ('01;3', 'fg_bold_'),
+
+    # Background with bg_ prefix - bold/light works differently
+    ('4', 'bg_'), ('10', 'bg_bold_'),
+]
+
+for prefix, prefix_name in PREFIXES:
+    for code, name in enumerate(COLORS):
+        escape_codes[prefix_name + name] = esc(prefix + str(code))
