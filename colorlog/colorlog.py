@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 
 import logging
+import copy
 import sys
 
 from colorlog.escape_codes import escape_codes
@@ -53,7 +54,8 @@ class ColoredFormatter(logging.Formatter):
         self.reset = reset
 
     def format(self, record):
-        # Add the color codes to the record
+        # Add the color codes to the copy of record
+        record = copy.copy(record)
         record.__dict__.update(escape_codes)
 
         # If we recognise the level name,
