@@ -2,12 +2,23 @@
 Log formatting with colors!
 ===========================
 
-.. image:: https://pypip.in/v/colorlog/badge.png
-    :target: https://pypi.python.org/pypi/colorlog
-    :alt: Latest PyPI version
+.. image:: http://img.shields.io/pypi/v/colorlog.svg?style=flat-square
+	:target: https://pypi.python.org/pypi/colorlog
+	:alt: colorlog on PyPI
 
-.. image:: https://travis-ci.org/borntyping/colorlog.png
-   :target: https://travis-ci.org/borntyping/colorlog
+.. image:: http://img.shields.io/pypi/l/colorlog.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/colorlog
+    :alt: colorlog on PyPI
+
+.. image:: http://img.shields.io/travis/borntyping/python-colorlog/master.svg?style=flat-square
+    :target: https://travis-ci.org/borntyping/python-colorlog
+    :alt: Travis-CI build status for python-colorlog
+
+.. image:: https://img.shields.io/github/issues/borntyping/python-colorlog.svg?style=flat-square
+    :target: https://github.com/borntyping/python-colorlog/issues
+    :alt: GitHub issues for python-colorlog
+
+|
 
 ``colorlog.ColoredFormatter`` is a formatter for use with pythons logging module.
 

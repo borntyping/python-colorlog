@@ -1,5 +1,5 @@
 """
-Generates a dictionary of ANSI escape codes
+Generates a dictionary of ANSI escape codes.
 
 http://en.wikipedia.org/wiki/ANSI_escape_code
 
@@ -13,7 +13,7 @@ except ImportError:
 else:
     colorama.init()
 
-__all__ = ['escape_codes']
+__all__ = ('escape_codes',)
 
 # Returns escape codes from format codes
 esc = lambda *x: '\033[' + ';'.join(x) + 'm'

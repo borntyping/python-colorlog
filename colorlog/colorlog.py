@@ -1,32 +1,47 @@
-"""The ColoredFormatter class"""
+"""The ColoredFormatter class."""
 
 from __future__ import absolute_import
 
 import logging
+import copy
 import sys
 
 from colorlog.escape_codes import escape_codes
 
-__all__ = ['escape_codes', 'default_log_colors', 'ColoredFormatter']
+__all__ = ('escape_codes', 'default_log_colors', 'ColoredFormatter')
 
 # The default colors to use for the debug levels
 default_log_colors = {
-    'DEBUG':    'white',
-    'INFO':     'green',
-    'WARNING':  'yellow',
-    'ERROR':    'red',
+    'DEBUG': 'white',
+    'INFO': 'green',
+    'WARNING': 'yellow',
+    'ERROR': 'red',
     'CRITICAL': 'bold_red',
+}
+
+# The default format to use for each style
+default_formats = {
+    '%': "%(log_color)s%(levelname)s:%(name)s:%(message)s",
+    '{': '{log_color}{levelname}:{name}:{message}',
+    '$': '${log_color}${levelname}:${name}:${message}'
 }
 
 
 class ColoredFormatter(logging.Formatter):
-    """A formatter that allows colors to be placed in the format string.
+    """
+    A formatter that allows colors to be placed in the format string.
 
-    Intended to help in creating more readable logging output."""
+    Intended to help in creating more readable logging output.
+    """
 
-    def __init__(self, format, datefmt=None,
-                 log_colors=default_log_colors, reset=True, style='%'):
+    def __init__(self, format=None, datefmt=None,
+                 log_colors=None, reset=True, style='%'):
         """
+        Set the format and colors the ColoredFormatter will use.
+
+        The ``format``, ``datefmt`` and ``style`` args are passed on to the
+        ``logging.Formatter`` constructor.
+
         :Parameters:
         - format (str): The format string to use
         - datefmt (str): A format string for the date
@@ -36,22 +51,27 @@ class ColoredFormatter(logging.Formatter):
             Implictly append a color reset to all records unless False
         - style ('%' or '{' or '$'):
             The format style to use. No meaning prior to Python 3.2.
-
-        The ``format``, ``datefmt`` and ``style`` args are passed on to the
-        Formatter constructor.
         """
+        if format is None:
+            if sys.version_info > (3, 2):
+                format = default_formats[style]
+            else:
+                format = default_formats['%']
+
         if sys.version_info > (3, 2):
-            super(ColoredFormatter, self).__init__(
-                format, datefmt, style=style)
+            super(ColoredFormatter, self).__init__(format, datefmt, style)
         elif sys.version_info > (2, 7):
             super(ColoredFormatter, self).__init__(format, datefmt)
         else:
             logging.Formatter.__init__(self, format, datefmt)
-        self.log_colors = log_colors
+
+        self.log_colors = (
+            default_log_colors if log_colors is None else log_colors)
         self.reset = reset
 
     def format(self, record):
-        # Add the color codes to the record
+        """Format a message from a record object."""
+        record = copy.copy(record)
         record.__dict__.update(escape_codes)
 
         # If we recognise the level name,

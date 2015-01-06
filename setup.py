@@ -1,22 +1,28 @@
 from setuptools import setup
 
 setup(
-    name             = 'colorlog',
-    version          = '2.4.0',
+    name='colorlog',
+    version='2.5.0',
 
-    description      = 'Log formatting with colors!',
-    long_description = open("README.rst").read(),
+    description='Log formatting with colors!',
+    long_description=open("README.rst").read(),
 
-    author           = 'Sam Clements',
-    author_email     = 'sam@borntyping.co.uk',
-    url              = 'https://github.com/borntyping/python-colorlog',
-    license          = 'MIT License',
+    author='Sam Clements',
+    author_email='sam@borntyping.co.uk',
+    url='https://github.com/borntyping/python-colorlog',
+    license='MIT License',
 
-    packages         = ['colorlog'],
+    packages=[
+        'colorlog'
+    ],
 
-    extras_require   = {'windows': ['colorama']},
+    extras_require={
+        'windows': [
+            'colorama'
+        ]
+    },
 
-    classifiers      = [
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
