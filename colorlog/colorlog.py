@@ -25,7 +25,7 @@ class ColoredFormatter(logging.Formatter):
     Intended to help in creating more readable logging output."""
 
     def __init__(self, format, datefmt=None,
-                 log_colors=default_log_colors, reset=True, style='%'):
+                 log_colors=None, reset=True, style='%'):
         """
         :Parameters:
         - format (str): The format string to use
@@ -47,7 +47,9 @@ class ColoredFormatter(logging.Formatter):
             super(ColoredFormatter, self).__init__(format, datefmt)
         else:
             logging.Formatter.__init__(self, format, datefmt)
-        self.log_colors = log_colors
+
+        self.log_colors = (
+            default_log_colors if log_colors is None else log_colors)
         self.reset = reset
 
     def format(self, record):

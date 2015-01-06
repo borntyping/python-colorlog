@@ -54,12 +54,55 @@ class TestColoredFormatter(TestCase):
 
         self.example_log_messages(logger)
 
+    def test_python_defaults(self):
+        """Manually build the logger"""
+        formatter = ColoredFormatter(
+            self.LOGFORMAT,
+            log_colors=None,
+            datefmt=None,
+            reset=True,
+            style='%')
+
+        stream = StreamHandler()
+        stream.setLevel(DEBUG)
+        stream.setFormatter(formatter)
+
+        logger = getLogger('defaultConfig')
+        logger.setLevel(DEBUG)
+        logger.addHandler(stream)
+
+        self.example_log_messages(logger)
+
     def test_file(self):
         """Build the logger from a config file"""
         filename = join(dirname(realpath(__file__)), "test_config.ini")
         with open(filename, 'r') as f:
             fileConfig(f.name)
         self.example_log_messages(getLogger('fileConfig'))
+
+    def test_custom_colors(self):
+        formatter = ColoredFormatter(
+            "%(log_color)s%(levelname)s%(reset)s:"
+            "%(black)s%(name)s:%(reset)s%(message)s%(reset)s",
+            reset=False,
+            log_colors={
+                'DEBUG':    'black',
+                'INFO':     'blue',
+                'WARNING':  'purple',
+                'ERROR':    'cyan',
+                'CRITICAL': 'bold_cyan',
+            }
+        )
+
+        stream = StreamHandler()
+        stream.setLevel(DEBUG)
+        stream.setFormatter(formatter)
+
+        logger = getLogger('customColors')
+        logger.setLevel(DEBUG)
+        logger.addHandler(stream)
+
+        self.example_log_messages(logger)
 
 
 class TestRainbow(TestCase):
@@ -87,7 +130,11 @@ class TestRainbow(TestCase):
         logger.setLevel(DEBUG)
         logger.addHandler(stream)
 
-        logger.critical(None)
+        logger.debug('a debug message')
+        logger.info('an info message')
+        logger.warning('a warning message')
+        logger.error('an error message')
+        logger.critical('a critical message')
 
 
 if version_info > (2, 7):
