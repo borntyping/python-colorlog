@@ -24,6 +24,9 @@ Log formatting with colors!
 
 It allows colors to be placed in the format string, which is mostly useful when paired with a StreamHandler that is outputting to a terminal. This is accomplished by added a set of terminal color codes to the record before it is used to format the string.
 
+* `Source on GitHub <https://github.com/borntyping/python-colorlog>`_
+* `Packages on PyPI <https://pypi.python.org/pypi/colorlog>`_
+
 Codes
 =====
 
