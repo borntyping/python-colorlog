@@ -21,9 +21,9 @@ default_log_colors = {
 
 # The default format to use for each style
 default_formats = {
-    '%': "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s",
-    '{': '{log_color}{levelname}{reset}:{name}:{message}',
-    '$': '${log_color}${levelname}${reset}:${name}:${message}'
+    '%': "%(log_color)s%(levelname)s:%(name)s:%(message)s",
+    '{': '{log_color}{levelname}:{name}:{message}',
+    '$': '${log_color}${levelname}:${name}:${message}'
 }
 
 
