@@ -19,6 +19,13 @@ default_log_colors = {
     'CRITICAL': 'bold_red',
 }
 
+# The default format to use for each style
+default_formats = {
+    '%': "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s",
+    '{': '{log_color}{levelname}{reset}:{name}:{message}',
+    '$': '${log_color}${levelname}${reset}:${name}:${message}'
+}
+
 
 class ColoredFormatter(logging.Formatter):
     """
@@ -27,7 +34,7 @@ class ColoredFormatter(logging.Formatter):
     Intended to help in creating more readable logging output.
     """
 
-    def __init__(self, format, datefmt=None,
+    def __init__(self, format=None, datefmt=None,
                  log_colors=None, reset=True, style='%'):
         """
         Set the format and colors the ColoredFormatter will use.
@@ -45,9 +52,14 @@ class ColoredFormatter(logging.Formatter):
         - style ('%' or '{' or '$'):
             The format style to use. No meaning prior to Python 3.2.
         """
+        if format is None:
+            if sys.version_info > (3, 2):
+                format = default_formats[style]
+            else:
+                format = default_formats['%']
+
         if sys.version_info > (3, 2):
-            super(ColoredFormatter, self).__init__(
-                format, datefmt, style=style)
+            super(ColoredFormatter, self).__init__(format, datefmt, style)
         elif sys.version_info > (2, 7):
             super(ColoredFormatter, self).__init__(format, datefmt)
         else:
