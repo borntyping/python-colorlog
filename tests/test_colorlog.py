@@ -1,5 +1,5 @@
 """
-Tests for the colorlog library
+Tests for the colorlog library.
 
 Some tests are only loaded on Python 2.7 and above.
 """
@@ -17,18 +17,20 @@ from colorlog import ColoredFormatter
 
 
 class TestColoredFormatter(TestCase):
+    """Test the ColoredFormatter class as much as possible."""
+
     LOGFORMAT = (
         "%(log_color)s%(levelname)s%(reset)s:"
         "%(bold_black)s%(name)s:%(reset)s%(message)s"
     )
 
     def setUp(self):
-        """Clear the handlers on the root logger before each test"""
+        """Clear the handlers on the root logger before each test."""
         root.handlers = list()
         root.setLevel(DEBUG)
 
     def example_log_messages(self, logger):
-        """Passes if the code does not throw an exception"""
+        """Pass if the code does not throw an exception."""
         logger.debug('a debug message')
         logger.info('an info message')
         logger.warning('a warning message')
@@ -36,12 +38,12 @@ class TestColoredFormatter(TestCase):
         logger.critical('a critical message')
 
     def test_colorlog_module(self):
-        """Use the default module level logger"""
+        """Use the default module level logger."""
         import colorlog
         self.example_log_messages(colorlog)
 
     def test_python(self):
-        """Manually build the logger"""
+        """Manually build the logger."""
         formatter = ColoredFormatter(self.LOGFORMAT)
 
         stream = StreamHandler()
@@ -55,7 +57,7 @@ class TestColoredFormatter(TestCase):
         self.example_log_messages(logger)
 
     def test_python_defaults(self):
-        """Manually build the logger"""
+        """Manually build the logger."""
         formatter = ColoredFormatter(
             self.LOGFORMAT,
             log_colors=None,
@@ -74,13 +76,14 @@ class TestColoredFormatter(TestCase):
         self.example_log_messages(logger)
 
     def test_file(self):
-        """Build the logger from a config file"""
+        """Build the logger from a config file."""
         filename = join(dirname(realpath(__file__)), "test_config.ini")
         with open(filename, 'r') as f:
             fileConfig(f.name)
         self.example_log_messages(getLogger('fileConfig'))
 
     def test_custom_colors(self):
+        """Check that a custom set of colors can be used."""
         formatter = ColoredFormatter(
             "%(log_color)s%(levelname)s%(reset)s:"
             "%(black)s%(name)s:%(reset)s%(message)s%(reset)s",
@@ -106,6 +109,8 @@ class TestColoredFormatter(TestCase):
 
 
 class TestRainbow(TestCase):
+    """Attempt to print all supported colors."""
+
     RAINBOW = (
         "%(log_color)s%(levelname)s%(reset)s:%(bold_black)s%(name)s:%(reset)s"
 
@@ -120,6 +125,7 @@ class TestRainbow(TestCase):
     )
 
     def test_rainbow(self):
+        """Create and use a formatter using the RAINBOW format above."""
         formatter = ColoredFormatter(self.RAINBOW)
 
         stream = StreamHandler()
@@ -142,9 +148,11 @@ if version_info > (2, 7):
     from logging.config import dictConfig
 
     class TestColoredFormatter(TestColoredFormatter):
+        """Test ColoredFormatter features that require python >= 2.7."""
+
         @skipUnless(version_info > (2, 7), "requires python 2.7 or above")
         def test_dict_config(self):
-            """Build the logger from a dictionary"""
+            """Build the logger from a dictionary."""
             dictConfig({
                 'version': 1,
 
@@ -157,14 +165,14 @@ if version_info > (2, 7):
 
                 'handlers': {
                     'stream': {
-                        'class':        'logging.StreamHandler',
-                        'formatter':    'colored',
+                        'class': 'logging.StreamHandler',
+                        'formatter': 'colored',
                     },
                 },
 
                 'loggers': {
                     'dictConfig': {
-                        'handlers':    ['stream'],
+                        'handlers': ['stream'],
                         'level': 'DEBUG',
                     },
                 },
@@ -179,7 +187,7 @@ if version_info > (2, 7):
 
         @skipUnless(version_info > (3, 2), "requires python 3.2 or above")
         def test_py3(self):
-            """Manually build the logger using {} style formatting"""
+            """Manually build the logger using {} style formatting."""
             formatter = ColoredFormatter(self.BRACES_LOGFORMAT, style="{")
 
             stream = StreamHandler()

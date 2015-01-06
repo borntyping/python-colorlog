@@ -1,17 +1,12 @@
 #!/usr/bin/env python
-
-"""
-python-colorlog example
-"""
+"""python-colorlog example."""
 
 import logging
 from colorlog import ColoredFormatter
 
 
 def setup_logger():
-    """
-    Returns a logger with a default ColoredFormatter.
-    """
+    """Return a logger with a default ColoredFormatter."""
     formatter = ColoredFormatter(
         "%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s",
         datefmt=None,
@@ -35,6 +30,7 @@ def setup_logger():
 
 
 def main():
+    """Create and use a logger."""
     logger = setup_logger()
 
     logger.debug('a debug message')

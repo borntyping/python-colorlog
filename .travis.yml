@@ -8,7 +8,12 @@ env:
   - TOXENV=py32
   - TOXENV=py33
   - TOXENV=pypy
+  - TOXENV=py26-colorama
+  - TOXENV=py27-colorama
+  - TOXENV=py32-colorama
+  - TOXENV=py33-colorama
+  - TOXENV=pypy-colorama
 install:
-  - pip install tox --use-mirrors
+  - pip install tox
 script:
   - tox

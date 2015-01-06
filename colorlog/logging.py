@@ -1,4 +1,4 @@
-"""Wrappers around the logging module"""
+"""Wrappers around the logging module."""
 
 from __future__ import absolute_import
 
@@ -11,7 +11,7 @@ BASIC_FORMAT = "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s"
 
 
 def basicConfig(**kwargs):
-    """This calls basicConfig() and then overrides the formatter it creates"""
+    """Call ``logging.basicConfig`` and override the formatter it creates."""
     logging.basicConfig(**kwargs)
     logging._acquireLock()
     try:
@@ -25,7 +25,7 @@ def basicConfig(**kwargs):
 
 
 def ensure_configured(func):
-    """This ensures basicConfig is called if no handlers exist"""
+    """Modify a function to call ``basicConfig`` first if no handlers exist."""
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         if len(logging.root.handlers) == 0:
