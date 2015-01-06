@@ -26,6 +26,7 @@ It allows colors to be placed in the format string, which is mostly useful when 
 
 * `Source on GitHub <https://github.com/borntyping/python-colorlog>`_
 * `Packages on PyPI <https://pypi.python.org/pypi/colorlog>`_
+* `Builds on Travis CI <https://travis-ci.org/borntyping/python-colorlog>`_
 
 Codes
 =====
