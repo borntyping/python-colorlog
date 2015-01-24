@@ -8,7 +8,7 @@ import sys
 
 from colorlog.escape_codes import escape_codes
 
-__all__ = ('escape_codes', 'default_log_colors', 'ColoredFormatter')
+__all__ = ('escape_codes', 'default_log_colors', 'default_log_message_colors', 'ColoredFormatter')
 
 # The default colors to use for the debug levels
 default_log_colors = {
@@ -18,6 +18,17 @@ default_log_colors = {
     'ERROR': 'red',
     'CRITICAL': 'bold_red',
 }
+
+
+# The default colors to use in the message for the debug levels
+default_log_message_colors = {
+    'DEBUG': 'blue',
+    'INFO': 'blue',
+    'WARNING': 'blue',
+    'ERROR': 'blue',
+    'CRITICAL': 'blue'
+}
+
 
 # The default format to use for each style
 default_formats = {
@@ -35,7 +46,8 @@ class ColoredFormatter(logging.Formatter):
     """
 
     def __init__(self, format=None, datefmt=None,
-                 log_colors=None, reset=True, style='%'):
+                 log_colors=None, reset=True, style='%',
+                 log_message_colors=None):
         """
         Set the format and colors the ColoredFormatter will use.
 
@@ -51,6 +63,8 @@ class ColoredFormatter(logging.Formatter):
             Implictly append a color reset to all records unless False
         - style ('%' or '{' or '$'):
             The format style to use. No meaning prior to Python 3.2.
+        - log_message_colors (dict):
+            A mapping of log level names to color names used for the body
         """
         if format is None:
             if sys.version_info > (3, 2):
@@ -66,7 +80,13 @@ class ColoredFormatter(logging.Formatter):
             logging.Formatter.__init__(self, format, datefmt)
 
         self.log_colors = (
-            default_log_colors if log_colors is None else log_colors)
+            default_log_colors if log_colors is None else log_colors
+        )
+        self.log_message_colors = (
+            default_log_message_colors
+            if log_message_colors is None
+            else log_message_colors
+        )
         self.reset = reset
 
     def format(self, record):
@@ -78,9 +98,27 @@ class ColoredFormatter(logging.Formatter):
         # add the levels color as `log_color`
         if record.levelname in self.log_colors:
             color = self.log_colors[record.levelname]
-            record.log_color = escape_codes[color]
+            split_color = color.split(" ")
+            if len(split_color) < 2:
+                record.log_color = escape_codes[color]
+            else:
+                c0, c1 = split_color[0], split_color[1]
+                record.log_color = escape_codes[c0] + escape_codes[c1]
         else:
             record.log_color = ""
+
+        # If we recognise the level name,
+        # add the levels color as `log_message_color`
+        if record.levelname in self.log_message_colors:
+            color = self.log_message_colors[record.levelname]
+            split_color = color.split(" ")
+            if len(split_color) < 2:
+                record.log_message_color = escape_codes[color]
+            else:
+                c0, c1 = split_color[0], split_color[1]
+                record.log_message_color = escape_codes[c0] + escape_codes[c1]
+        else:
+            record.log_message_color = ""
 
         # Format the message
         if sys.version_info > (2, 7):
