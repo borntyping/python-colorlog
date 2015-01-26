@@ -64,13 +64,13 @@ class ColoredFormatter(logging.Formatter):
     Intended to help in creating more readable logging output.
     """
 
-    def __init__(self, format=None, datefmt=None,
+    def __init__(self, fmt=None, datefmt=None,
                  log_colors=None, reset=True, style='%',
                  secondary_log_colors=None):
         """
         Set the format and colors the ColoredFormatter will use.
 
-        The ``format``, ``datefmt`` and ``style`` args are passed on to the
+        The ``fmt``, ``datefmt`` and ``style`` args are passed on to the
         ``logging.Formatter`` constructor.
 
         The ``secondary_log_colors`` argument can be used to create additional
@@ -79,7 +79,7 @@ class ColoredFormatter(logging.Formatter):
         ``log_colors`` set.
 
         :Parameters:
-        - format (str): The format string to use
+        - fmt (str): The format string to use
         - datefmt (str): A format string for the date
         - log_colors (dict):
             A mapping of log level names to color names
@@ -90,18 +90,18 @@ class ColoredFormatter(logging.Formatter):
         - secondary_log_colors (dict):
             Map secondary ``log_color`` attributes. (*New in version 2.6.*)
         """
-        if format is None:
+        if fmt is None:
             if sys.version_info > (3, 2):
-                format = default_formats[style]
+                fmt = default_formats[style]
             else:
-                format = default_formats['%']
+                fmt = default_formats['%']
 
         if sys.version_info > (3, 2):
-            super(ColoredFormatter, self).__init__(format, datefmt, style)
+            super(ColoredFormatter, self).__init__(fmt, datefmt, style)
         elif sys.version_info > (2, 7):
-            super(ColoredFormatter, self).__init__(format, datefmt)
+            super(ColoredFormatter, self).__init__(fmt, datefmt)
         else:
-            logging.Formatter.__init__(self, format, datefmt)
+            logging.Formatter.__init__(self, fmt, datefmt)
 
         self.log_colors = (
             log_colors if log_colors is not None else default_log_colors)

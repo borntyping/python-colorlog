@@ -23,7 +23,7 @@ def test_reset(create_and_test_logger):
 
 def test_no_reset(create_and_test_logger):
     create_and_test_logger(
-        format="%(reset)s%(log_color)s%(levelname)s:%(name)s:%(message)s",
+        fmt="%(reset)s%(log_color)s%(levelname)s:%(name)s:%(message)s",
         reset=False,
         # Check that each line does not end with an escape code
         validator=lambda line: not line.endswith('\x1b[0m'))
@@ -32,7 +32,7 @@ def test_no_reset(create_and_test_logger):
 def test_secondary_colors(create_and_test_logger):
     expected = ':\x1b[31mtest_secondary_colors:\x1b[34m'
     create_and_test_logger(
-        format=(
+        fmt=(
             "%(log_color)s%(levelname)s:"
             "%(name_log_color)s%(name)s:"
             "%(message_log_color)s%(message)s"
@@ -58,7 +58,7 @@ def test_secondary_colors(create_and_test_logger):
 
 def test_some_secondary_colors(create_and_test_logger):
     lines = create_and_test_logger(
-        format="%(message_log_color)s%(message)s",
+        fmt="%(message_log_color)s%(message)s",
         secondary_log_colors={
             'message': {
                 'ERROR':    'red',
@@ -72,10 +72,10 @@ def test_some_secondary_colors(create_and_test_logger):
 @pytest.mark.skipif(sys.version_info < (3, 2), reason="requires python3.2")
 def test_braces_style(create_and_test_logger):
     create_and_test_logger(
-        format='{log_color}{levelname}:{name}:{message}', style='{')
+        fmt='{log_color}{levelname}:{name}:{message}', style='{')
 
 
 @pytest.mark.skipif(sys.version_info < (3, 2), reason="requires python3.2")
 def test_template_style(create_and_test_logger):
     create_and_test_logger(
-        format='${log_color}${levelname}:${name}:${message}', style='$')
+        fmt='${log_color}${levelname}:${name}:${message}', style='$')

@@ -3,6 +3,9 @@
 import logging
 import logging.config
 import os.path
+import sys
+
+import pytest
 
 
 def path(filename):

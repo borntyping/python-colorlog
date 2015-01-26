@@ -18,7 +18,7 @@ def basicConfig(**kwargs):
         stream = logging.root.handlers[0]
         stream.setFormatter(
             ColoredFormatter(
-                format=kwargs.get('format', BASIC_FORMAT),
+                fmt=kwargs.get('format', BASIC_FORMAT),
                 datefmt=kwargs.get('datefmt', None)))
     finally:
         logging._releaseLock()
