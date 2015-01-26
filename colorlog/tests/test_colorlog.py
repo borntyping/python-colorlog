@@ -37,6 +37,46 @@ def test_no_reset(create_and_test_logger):
         validator=lambda line: not line.endswith('\x1b[0m'))
 
 
+def test_secondary_colors(create_and_test_logger):
+    expected = ':\x1b[31mtest_secondary_colors:\x1b[34m'
+    create_and_test_logger(
+        format=(
+            "%(log_color)s%(levelname)s:"
+            "%(name_log_color)s%(name)s:"
+            "%(message_log_color)s%(message)s"
+        ),
+        secondary_log_colors={
+            'name': {
+                'DEBUG': 'red',
+                'INFO': 'red',
+                'WARNING': 'red',
+                'ERROR': 'red',
+                'CRITICAL': 'red',
+            },
+            'message': {
+                'DEBUG': 'blue',
+                'INFO': 'blue',
+                'WARNING': 'blue',
+                'ERROR': 'blue',
+                'CRITICAL': 'blue',
+            }
+        },
+        validator=lambda line: expected in line)
+
+
+def test_some_secondary_colors(create_and_test_logger):
+    lines = create_and_test_logger(
+        format="%(message_log_color)s%(message)s",
+        secondary_log_colors={
+            'message': {
+                'ERROR':    'red',
+                'CRITICAL': 'red'
+            }
+        })
+    # Check that only two lines are colored
+    assert len([l for l in lines if '\x1b[31m' in l]) == 2
+
+
 def test_build_from_file(test_logger):
     logging.config.fileConfig(path("test_config.ini"))
     test_logger(logging.getLogger(), lambda l: ':test_config.ini' in l)

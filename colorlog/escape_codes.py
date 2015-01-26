@@ -13,7 +13,7 @@ except ImportError:
 else:
     colorama.init()
 
-__all__ = ('escape_codes',)
+__all__ = ('escape_codes', 'parse_colors')
 
 # Returns escape codes from format codes
 esc = lambda *x: '\033[' + ';'.join(x) + 'm'
@@ -50,3 +50,8 @@ PREFIXES = [
 for prefix, prefix_name in PREFIXES:
     for code, name in enumerate(COLORS):
         escape_codes[prefix_name + name] = esc(prefix + str(code))
+
+
+def parse_colors(sequence):
+    """Return escape codes from a color sequence."""
+    return ''.join(escape_codes[n] for n in sequence.split(',') if n)

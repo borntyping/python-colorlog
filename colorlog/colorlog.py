@@ -3,12 +3,12 @@
 from __future__ import absolute_import
 
 import logging
-import copy
+import collections
 import sys
 
-from colorlog.escape_codes import escape_codes
+from colorlog.escape_codes import escape_codes, parse_colors
 
-__all__ = ('escape_codes', 'default_log_colors', 'default_log_message_colors', 'ColoredFormatter')
+__all__ = ('escape_codes', 'default_log_colors', 'ColoredFormatter')
 
 # The default colors to use for the debug levels
 default_log_colors = {
@@ -19,23 +19,42 @@ default_log_colors = {
     'CRITICAL': 'bold_red',
 }
 
-
-# The default colors to use in the message for the debug levels
-default_log_message_colors = {
-    'DEBUG': 'blue',
-    'INFO': 'blue',
-    'WARNING': 'blue',
-    'ERROR': 'blue',
-    'CRITICAL': 'blue'
-}
-
-
 # The default format to use for each style
 default_formats = {
     '%': "%(log_color)s%(levelname)s:%(name)s:%(message)s",
     '{': '{log_color}{levelname}:{name}:{message}',
     '$': '${log_color}${levelname}:${name}:${message}'
 }
+
+
+class ColoredRecord(object):
+    """
+    Wraps a LogRecord and attempts to parse missing keys as escape codes.
+
+    When the record is formatted, the logging library uses ``record.__dict__``
+    directly - so this class replaced the dict with a ``defaultdict`` that
+    checks if a missing key is an escape code.
+    """
+
+    class __dict(collections.defaultdict):
+        def __missing__(self, name):
+            try:
+                return parse_colors(name)
+            except Exception:
+                raise KeyError("{} is not a valid record attribute "
+                               "or color sequence".format(name))
+
+    def __init__(self, record):
+        # Replace the internal dict with one that can handle missing keys
+        self.__dict__ = self.__dict()
+        self.__dict__.update(record.__dict__)
+
+        # Keep a refrence to the original refrence so ``__getattr__`` can
+        # access functions that are not in ``__dict__``
+        self.__record = record
+
+    def __getattr__(self, name):
+        return getattr(self.__record, name)
 
 
 class ColoredFormatter(logging.Formatter):
@@ -47,12 +66,17 @@ class ColoredFormatter(logging.Formatter):
 
     def __init__(self, format=None, datefmt=None,
                  log_colors=None, reset=True, style='%',
-                 log_message_colors=None):
+                 secondary_log_colors=None):
         """
         Set the format and colors the ColoredFormatter will use.
 
         The ``format``, ``datefmt`` and ``style`` args are passed on to the
         ``logging.Formatter`` constructor.
+
+        The ``secondary_log_colors`` argument can be used to create additional
+        ``log_color`` attributes. Each key in the dictionary will set
+        ``log_color_{key}``, using the value to select from a different
+        ``log_colors`` set.
 
         :Parameters:
         - format (str): The format string to use
@@ -62,9 +86,9 @@ class ColoredFormatter(logging.Formatter):
         - reset (bool):
             Implictly append a color reset to all records unless False
         - style ('%' or '{' or '$'):
-            The format style to use. No meaning prior to Python 3.2.
-        - log_message_colors (dict):
-            A mapping of log level names to color names used for the body
+            The format style to use. (*No meaning prior to Python 3.2.*)
+        - secondary_log_colors (dict):
+            Map secondary ``log_color`` attributes. (*New in version 2.6.*)
         """
         if format is None:
             if sys.version_info > (3, 2):
@@ -80,45 +104,24 @@ class ColoredFormatter(logging.Formatter):
             logging.Formatter.__init__(self, format, datefmt)
 
         self.log_colors = (
-            default_log_colors if log_colors is None else log_colors
-        )
-        self.log_message_colors = (
-            default_log_message_colors
-            if log_message_colors is None
-            else log_message_colors
-        )
+            log_colors if log_colors is not None else default_log_colors)
+        self.secondary_log_colors = secondary_log_colors
         self.reset = reset
+
+    def color(self, log_colors, name):
+        """Return escape codes from a ``log_colors`` dict."""
+        return parse_colors(log_colors.get(name, ""))
 
     def format(self, record):
         """Format a message from a record object."""
-        record = copy.copy(record)
-        record.__dict__.update(escape_codes)
+        record = ColoredRecord(record)
+        record.log_color = self.color(self.log_colors, record.levelname)
 
-        # If we recognise the level name,
-        # add the levels color as `log_color`
-        if record.levelname in self.log_colors:
-            color = self.log_colors[record.levelname]
-            split_color = color.split(" ")
-            if len(split_color) < 2:
-                record.log_color = escape_codes[color]
-            else:
-                c0, c1 = split_color[0], split_color[1]
-                record.log_color = escape_codes[c0] + escape_codes[c1]
-        else:
-            record.log_color = ""
-
-        # If we recognise the level name,
-        # add the levels color as `log_message_color`
-        if record.levelname in self.log_message_colors:
-            color = self.log_message_colors[record.levelname]
-            split_color = color.split(" ")
-            if len(split_color) < 2:
-                record.log_message_color = escape_codes[color]
-            else:
-                c0, c1 = split_color[0], split_color[1]
-                record.log_message_color = escape_codes[c0] + escape_codes[c1]
-        else:
-            record.log_message_color = ""
+        # Set secondary log colors
+        if self.secondary_log_colors:
+            for name, log_colors in self.secondary_log_colors.items():
+                color = self.color(log_colors, record.levelname)
+                setattr(record, name + '_log_color', color)
 
         # Format the message
         if sys.version_info > (2, 7):
