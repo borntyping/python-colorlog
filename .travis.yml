@@ -1,6 +1,3 @@
-# Travis CI configuration
-# https://travis-ci.org/borntyping/python-dice
-
 language: python
 env:
   - TOXENV=py26
@@ -13,7 +10,12 @@ env:
   - TOXENV=py32-colorama
   - TOXENV=py33-colorama
   - TOXENV=pypy-colorama
+  - TOXENV=lint
 install:
   - pip install tox
 script:
   - tox
+matrix:
+  allow_failures:
+    - env: TOXENV=lint
+sudo: false
