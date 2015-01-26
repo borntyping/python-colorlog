@@ -1,16 +1,8 @@
 """Test the colorlog.colorlog module."""
 
-import logging
-import logging.config
-import os.path
 import sys
 
 import pytest
-
-
-def path(filename):
-    """Return an absolute path to a file in the current directory."""
-    return os.path.join(os.path.dirname(os.path.realpath(__file__)), filename)
 
 
 def test_colored_formatter(create_and_test_logger):
@@ -77,44 +69,13 @@ def test_some_secondary_colors(create_and_test_logger):
     assert len([l for l in lines if '\x1b[31m' in l]) == 2
 
 
-def test_build_from_file(test_logger):
-    logging.config.fileConfig(path("test_config.ini"))
-    test_logger(logging.getLogger(), lambda l: ':test_config.ini' in l)
-
-
-@pytest.mark.skipif(sys.version_info < (2, 7), reason="requires python2.7")
-def test_build_from_dictionary(test_logger):
-    logging.config.dictConfig({
-        'version': 1,
-        'formatters': {
-            'colored': {
-                '()': 'colorlog.ColoredFormatter',
-                'format':
-                    "%(log_color)s%(levelname)s:%(name)s:%(message)s:dict",
-            }
-        },
-        'handlers': {
-            'stream': {
-                'class': 'logging.StreamHandler',
-                'formatter': 'colored',
-                'level': 'DEBUG'
-            },
-        },
-        'loggers': {
-            '': {
-                'handlers': ['stream'],
-                'level': 'DEBUG',
-            },
-        },
-    })
-    test_logger(logging.getLogger(), lambda l: ':dict' in l)
-
-
 @pytest.mark.skipif(sys.version_info < (3, 2), reason="requires python3.2")
 def test_braces_style(create_and_test_logger):
-    create_and_test_logger(style='{')
+    create_and_test_logger(
+        format='{log_color}{levelname}:{name}:{message}', style='{')
 
 
 @pytest.mark.skipif(sys.version_info < (3, 2), reason="requires python3.2")
 def test_template_style(create_and_test_logger):
-    create_and_test_logger(style='$')
+    create_and_test_logger(
+        format='${log_color}${levelname}:${name}:${message}', style='$')
