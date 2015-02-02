@@ -41,7 +41,8 @@ def test_logger(reset_loggers, capsys):
 
         if validator is not None:
             for line in lines:
-                assert validator(line.strip()), repr(line.strip())
+                valid = validator(line.strip())
+                assert valid, "{!r} did not validate".format(line.strip())
 
         return lines
     return function

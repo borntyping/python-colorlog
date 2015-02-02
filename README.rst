@@ -31,12 +31,22 @@ It allows colors to be placed in the format string, which is mostly useful when 
 Codes
 =====
 
-The following values are made availible for use in the format string:
+Color escape codes can be selected based on the log records level, by adding parameters to the format string:
+
+- ``log_color``: Return the color associated with the records level (from ``color_levels``).
+- ``<name>_log_color``: Return another color based on the records level if the ``ColoredFormatter`` was created with a ``secondary_log_colors`` parameter (see below).
+
+The following escape codes are made availible for use in the format string:
 
 - ``{color}``, ``fg_{color}``, ``bg_{color}``: Foreground and background colors. The color names are ``black``, ``red``, ``green``, ``yellow``, ``blue``, ``purple``, ``cyan`` and ``white``.
 - ``bold``, ``bold_{color}``, ``fg_bold_{color}``, ``bg_bold_{color}``: Bold/bright colors.
 - ``reset``: Clear all formatting (both foreground and background colors).
-- ``log_color``: Return the color associated with the records level (from ``color_levels``).
+
+Multiple escape codes can be used at once by joining them with commas. This example would return the escape codes for black text on a white background:
+
+.. code-block:: python
+
+	colorlog.escape_codes.parse_colors("black,bg_white")
 
 Arguments
 =========
@@ -47,6 +57,7 @@ Arguments
 - ``datefmt``: An optional date format passed to the base class. See `logging.Formatter`_.
 - ``reset``: Implicitly adds a color reset code to the message output, unless the output already ends with one. Defaults to ``True``.
 - ``log_colors``: A mapping of record level names to color names. The defaults can be found in ``colorlog.default_log_colors``, or the below example.
+- ``secondary_log_colors``: A mapping of names to ``log_colors`` style mappings, defining additional colors that can be used in format strings. See below for an example.
 - ``style``: Available on Python 3.2 and above. See `logging.Formatter`_.
 
 Examples
@@ -55,7 +66,9 @@ Examples
 .. image:: doc/example.png
 	:alt: Example output
 
-The following code creates a ColoredFormatter for use in a logging setup, passing each arguments defaults to the constructor::
+The following code creates a ColoredFormatter for use in a logging setup, passing each arguments defaults to the constructor:
+
+.. code-block:: python
 
 	from colorlog import ColoredFormatter
 
@@ -68,14 +81,37 @@ The following code creates a ColoredFormatter for use in a logging setup, passin
 			'INFO':     'green',
 			'WARNING':  'yellow',
 			'ERROR':    'red',
-			'CRITICAL': 'red',
+			'CRITICAL': 'red,bg_white',
+		},
+		secondary_log_colors={},
+		style='%'
+	)
+
+Using ``secondary_log_colors``
+------------------------------
+
+Secondary log colors are a way to have more than one color that is selected based on the log level. Each key in ``secondary_log_colors`` adds an attribute that can be used in format strings (``message`` becomes ``message_log_color``), and has a corresponding value that is identical in format to the ``log_colors`` argument.
+
+The following example highlights the level name using the default log colors, and highlights the message in red for ``error`` and ``critical`` level log messages.
+
+.. code-block:: python
+
+	from colorlog import ColoredFormatter
+
+	formatter = ColoredFormatter(
+		"%(log_color)s%(levelname)-8s%(reset)s %(message_log_color)s%(message)s",
+		secondary_log_colors={
+			'message': {
+				'ERROR':    'red',
+				'CRITICAL': 'red'
+			}
 		}
 	)
 
 With `dictConfig`_
 ------------------
 
-::
+.. code-block:: python
 
 	logging.config.dictConfig({
 		'formatters': {
@@ -94,7 +130,7 @@ A full example dictionary can be found in ``tests/test_colorlog.py``.
 With `fileConfig`_
 ------------------
 
-::
+.. code-block:: ini
 
 	...
 
