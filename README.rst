@@ -31,12 +31,22 @@ It allows colors to be placed in the format string, which is mostly useful when 
 Codes
 =====
 
-The following values are made availible for use in the format string:
+Color escape codes can be selected based on the log records level, by adding parameters to the format string:
+
+- ``log_color``: Return the color associated with the records level (from ``color_levels``).
+- ``<name>_log_color``: Return another color based on the records level if the ``ColoredFormatter`` was created with a ``secondary_log_colors`` parameter (see below).
+
+The following escape codes are made availible for use in the format string:
 
 - ``{color}``, ``fg_{color}``, ``bg_{color}``: Foreground and background colors. The color names are ``black``, ``red``, ``green``, ``yellow``, ``blue``, ``purple``, ``cyan`` and ``white``.
 - ``bold``, ``bold_{color}``, ``fg_bold_{color}``, ``bg_bold_{color}``: Bold/bright colors.
 - ``reset``: Clear all formatting (both foreground and background colors).
-- ``log_color``: Return the color associated with the records level (from ``color_levels``).
+
+Multiple escape codes can be used at once by joining them with commas. This example would return the escape codes for black text on a white background:
+
+.. code-block:: python
+
+	colorlog.escape_codes.parse_colors("black,bg_white")
 
 Arguments
 =========
@@ -71,7 +81,7 @@ The following code creates a ColoredFormatter for use in a logging setup, passin
 			'INFO':     'green',
 			'WARNING':  'yellow',
 			'ERROR':    'red',
-			'CRITICAL': 'red',
+			'CRITICAL': 'red,bg_white',
 		},
 		secondary_log_colors={},
 		style='%'
