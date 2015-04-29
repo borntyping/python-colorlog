@@ -5,6 +5,7 @@ from __future__ import absolute_import
 import logging
 import collections
 import sys
+import re
 
 from colorlog.escape_codes import escape_codes, parse_colors
 
@@ -135,3 +136,30 @@ class ColoredFormatter(logging.Formatter):
             message += escape_codes['reset']
 
         return message
+
+
+class FilteredStreamHandler(logging.StreamHandler):
+    """
+    A stream handler that filters ANSI color codes if the output stream is not
+    a terminal.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(FilteredStreamHandler, self).__init__(*args, **kwargs)
+
+        self._regex = re.compile(r'\033[^m]*m')
+        self._filter = ((lambda x: x) if self.stream.isatty()
+                        else self.color_filter)
+
+    def color_filter(self, message):
+        return self._regex.sub('', message)
+
+    def emit(self, record):
+        try:
+            msg = self.format(record)
+            filtered = self._filter(msg)
+            self.stream.write(filtered)
+            self.stream.write('\n')
+            self.flush()
+        except Exception:
+            self.handleError(record)
