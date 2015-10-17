@@ -75,7 +75,7 @@ class ColoredFormatter(logging.Formatter):
 
         The ``secondary_log_colors`` argument can be used to create additional
         ``log_color`` attributes. Each key in the dictionary will set
-        ``log_color_{key}``, using the value to select from a different
+        ``{key}_log_color``, using the value to select from a different
         ``log_colors`` set.
 
         :Parameters:
