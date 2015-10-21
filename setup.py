@@ -17,7 +17,7 @@ setup(
     ],
 
     extras_require={
-        'windows': [
+        ':sys_platform=="win32"': [
             'colorama'
         ]
     },
