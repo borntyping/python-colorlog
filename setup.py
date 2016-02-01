@@ -2,10 +2,10 @@ from setuptools import setup
 
 setup(
     name='colorlog',
-    version='2.6.0',
+    version='2.6.1',
 
     description='Log formatting with colors!',
-    long_description=open("README.rst").read(),
+    long_description=open('README.md').read(),
 
     author='Sam Clements',
     author_email='sam@borntyping.co.uk',
