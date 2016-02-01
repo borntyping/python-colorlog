@@ -15,8 +15,10 @@ else:
 
 __all__ = ('escape_codes', 'parse_colors')
 
+
 # Returns escape codes from format codes
-esc = lambda *x: '\033[' + ';'.join(x) + 'm'
+def esc(*x):
+    return '\033[' + ';'.join(x) + 'm'
 
 # The initial list of escape codes
 escape_codes = {
