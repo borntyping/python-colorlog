@@ -2,13 +2,13 @@ language: python
 env:
   - TOXENV=py26
   - TOXENV=py27
-  - TOXENV=py32
   - TOXENV=py33
+  - TOXENV=py34
   - TOXENV=pypy
   - TOXENV=py26-colorama
   - TOXENV=py27-colorama
-  - TOXENV=py32-colorama
   - TOXENV=py33-colorama
+  - TOXENV=py34-colorama
   - TOXENV=pypy-colorama
   - TOXENV=lint
 install:
