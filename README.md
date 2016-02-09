@@ -49,7 +49,7 @@ parameters to the format string:
 - `log_color`: Return the color associated with the records level.
 - `<name>_log_color`: Return another color based on the records level if the formatter has secondary colors configured (see `secondary_log_colors` below).
 
-The following escape codes are made availible for use in the format string:
+The following escape codes are made available for use in the format string:
 
 - `{color}`, `fg_{color}`, `bg_{color}`: Foreground and background colors.
 - `bold`, `bold_{color}`, `fg_bold_{color}`, `bg_bold_{color}`: Bold/bright colors.
