@@ -29,7 +29,7 @@ Usage
 ```python
 import colorlog
 
-handler = logging.StreamHandler()
+handler = colorlog.StreamHandler()
 handler.setFormatter(colorlog.ColoredFormatter(
 	'%(log_color)s%(levelname)s:%(name)s:%(message)s'))
 
