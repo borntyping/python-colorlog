@@ -12,9 +12,7 @@ setup(
     url='https://github.com/borntyping/python-colorlog',
     license='MIT License',
 
-    packages=[
-        'colorlog'
-    ],
+    packages=['colorlog', 'colorlog.tests'],
 
     extras_require={
         ':sys_platform=="win32"': [
