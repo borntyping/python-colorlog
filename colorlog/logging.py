@@ -42,3 +42,5 @@ error = ensure_configured(logging.error)
 critical = ensure_configured(logging.critical)
 log = ensure_configured(logging.log)
 exception = ensure_configured(logging.exception)
+
+StreamHandler = logging.StreamHandler

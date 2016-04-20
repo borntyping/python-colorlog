@@ -29,9 +29,12 @@ Usage
 ```python
 import colorlog
 
-logger = colorlog.getLogger('example')
-logger.setFormatter(colorlog.ColoredFormatter(
+handler = logging.StreamHandler()
+handler.setFormatter(colorlog.ColoredFormatter(
 	'%(log_color)s%(levelname)s:%(name)s:%(message)s'))
+
+logger = colorlog.getLogger('example')
+logger.addHandler(handler)
 ```
 
 The `ColoredFormatter` class takes several arguments:
