@@ -26,6 +26,31 @@ default_formats = {
     '$': '${log_color}${levelname}:${name}:${message}'
 }
 
+# The level-based default formatters to use if level_fmts == 'default'
+default_level_formats = {
+    '%': {
+        'DEBUG': '%(log_color)s%(msg)s (%(module)s:%(lineno)d)',
+        'INFO': '%(log_color)s%(msg)s',
+        'WARNING': '%(log_color)sWARNING: %(msg)s (%(module)s:%(lineno)d)',
+        'ERROR': '%(log_color)sERROR: %(msg)s (%(module)s:%(lineno)d)',
+        'CRITICAL': '%(log_color)sCRITICAL: %(msg)s (%(module)s:%(lineno)d)',
+    },
+    '{': {
+        'DEBUG': '{log_color}{msg} ({module}:{lineno})',
+        'INFO': '{log_color}{msg}',
+        'WARNING': '{log_color}WARNING: {msg} ({module}:{lineno})',
+        'ERROR': '{log_color}ERROR: {msg} ({module}:{lineno})',
+        'CRITICAL': '{log_color}CRITICAL: {msg} ({module}:{lineno})',
+    },
+    '$': {
+        'DEBUG': '${log_color}${msg} (${module}:${lineno})',
+        'INFO': '${log_color}${msg}',
+        'WARNING': '${log_color}WARNING: ${msg} (${module}:${lineno})',
+        'ERROR': '${log_color}ERROR: ${msg} (${module}:${lineno})',
+        'CRITICAL': '${log_color}CRITICAL: ${msg} (${module}:${lineno})',
+    },
+}
+
 
 class ColoredRecord(object):
     """
@@ -66,7 +91,8 @@ class ColoredFormatter(logging.Formatter):
 
     def __init__(self, fmt=None, datefmt=None, style='%',
                  log_colors=None, reset=True,
-                 secondary_log_colors=None):
+                 secondary_log_colors=None,
+                 level_fmts=None):
         """
         Set the format and colors the ColoredFormatter will use.
 
@@ -96,6 +122,14 @@ class ColoredFormatter(logging.Formatter):
             else:
                 fmt = default_formats['%']
 
+        if level_fmts == 'default':
+            if sys.version_info > (3, 2):
+                self.level_fmts = default_level_formats[style]
+            else:
+                self.level_fmts = default_level_formats['%']
+        else:
+            self.level_fmts = level_fmts
+
         if sys.version_info > (3, 2):
             super(ColoredFormatter, self).__init__(fmt, datefmt, style)
         elif sys.version_info > (2, 7):
@@ -107,6 +141,7 @@ class ColoredFormatter(logging.Formatter):
             log_colors if log_colors is not None else default_log_colors)
         self.secondary_log_colors = secondary_log_colors
         self.reset = reset
+        self.style = style
 
     def color(self, log_colors, name):
         """Return escape codes from a ``log_colors`` dict."""
@@ -122,6 +157,27 @@ class ColoredFormatter(logging.Formatter):
             for name, log_colors in self.secondary_log_colors.items():
                 color = self.color(log_colors, record.levelname)
                 setattr(record, name + '_log_color', color)
+
+        # Customize formatter per log level
+        if self.level_fmts is not None:
+            if record.levelno == logging.DEBUG:
+                self._fmt = self.level_fmts['DEBUG']
+            elif record.levelno == logging.INFO:
+                self._fmt = self.level_fmts['INFO']
+            elif record.levelno == logging.WARNING:
+                self._fmt = self.level_fmts['WARNING']
+            elif record.levelno == logging.ERROR:
+                self._fmt = self.level_fmts['ERROR']
+            elif record.levelno == logging.CRITICAL:
+                self._fmt = self.level_fmts['CRITICAL']
+
+            if sys.version_info > (3, 2):
+                # Update self._style because we've changed self._fmt
+                # (code based on stdlib's logging.Formatter.__init__())
+                if self.style not in logging._STYLES:
+                    raise ValueError('Style must be one of: %s' % ','.join(
+                        logging._STYLES.keys()))
+                self._style = logging._STYLES[self.style][0](self._fmt)
 
         # Format the message
         if sys.version_info > (2, 7):
