@@ -115,6 +115,13 @@ class ColoredFormatter(logging.Formatter):
             The format style to use. (*No meaning prior to Python 3.2.*)
         - secondary_log_colors (dict):
             Map secondary ``log_color`` attributes. (*New in version 2.6.*)
+        - level_fmts (dict):
+            Map log levels (represented as strings, e.g. 'WARNING') to
+            different formatters. (*New in version <TBD>)  # TODO: version?
+            - If ``None``, use the formatter given in the ``fmt`` argument
+              instead (default behavior).
+            - If 'default', use a default mapping that differentiates
+              the log levels.
         """
         if fmt is None:
             if sys.version_info > (3, 2):
