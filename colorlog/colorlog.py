@@ -81,9 +81,6 @@ class ColoredFormatter(logging.Formatter):
 
         :Parameters:
         - fmt (str): The format string to use
-        - fmt (dict):
-            A mapping of log levels (represented as strings, e.g. 'WARNING') to
-            different formatters. (*New in version <TBD>)  # TODO: version?
         - datefmt (str): A format string for the date
         - log_colors (dict):
             A mapping of log level names to color names
@@ -143,9 +140,7 @@ class ColoredFormatter(logging.Formatter):
 
 class ColoredLevelFormatter(ColoredFormatter):
     """
-    A formatter that allows colors to be placed in the format string.
-
-    Intended to help in creating more readable logging output.
+    An Extension of ColoredFormatter that uses per-loglevel format strings.
     """
 
     def __init__(self, fmt=None, datefmt=None, style='%',
