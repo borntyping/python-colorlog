@@ -8,7 +8,8 @@ import sys
 
 from colorlog.escape_codes import escape_codes, parse_colors
 
-__all__ = ('escape_codes', 'default_log_colors', 'ColoredFormatter')
+__all__ = ('escape_codes', 'default_log_colors', 'ColoredFormatter',
+           'ColoredLevelFormatter')
 
 # The default colors to use for the debug levels
 default_log_colors = {
@@ -135,8 +136,6 @@ class ColoredFormatter(logging.Formatter):
             log_colors if log_colors is not None else default_log_colors)
         self.secondary_log_colors = secondary_log_colors
         self.reset = reset
-        self.style = style
-        self.fmt = fmt
 
     def color(self, log_colors, name):
         """Return escape codes from a ``log_colors`` dict."""
@@ -153,6 +152,65 @@ class ColoredFormatter(logging.Formatter):
                 color = self.color(log_colors, record.levelname)
                 setattr(record, name + '_log_color', color)
 
+        # Format the message
+        if sys.version_info > (2, 7):
+            message = super(ColoredFormatter, self).format(record)
+        else:
+            message = logging.Formatter.format(self, record)
+
+        # Add a reset code to the end of the message
+        # (if it wasn't explicitly added in format str)
+        if self.reset and not message.endswith(escape_codes['reset']):
+            message += escape_codes['reset']
+
+        return message
+
+
+class ColoredLevelFormatter(ColoredFormatter):
+    """
+    A formatter that allows colors to be placed in the format string.
+
+    Intended to help in creating more readable logging output.
+    """
+
+    def __init__(self, fmt=None, datefmt=None, style='%',
+                 log_colors=None, reset=True,
+                 secondary_log_colors=None):
+        """
+        Set the per-loglevel format that will be used.
+
+        Supports fmt as a dict. All other args are passed on to the
+        ``colorlog.ColoredFormatter`` constructor.
+
+        :Parameters:
+        - fmt (dict):
+            A mapping of log levels (represented as strings, e.g. 'WARNING') to
+            different formatters. (*New in version <TBD>)  # TODO: version?
+        (All other parameters are the same as in colorlog.ColoredFormatter)
+
+        Example:
+
+        formatter = colorlog.ColoredLevelFormatter(fmt={
+            'DEBUG':'%(log_color)s%(msg)s (%(module)s:%(lineno)d)',
+            'INFO': '%(log_color)s%(msg)s',
+            'WARNING': '%(log_color)sWARN: %(msg)s (%(module)s:%(lineno)d)',
+            'ERROR': '%(log_color)sERROR: %(msg)s (%(module)s:%(lineno)d)',
+            'CRITICAL': '%(log_color)sCRIT: %(msg)s (%(module)s:%(lineno)d)',
+        })
+        """
+        if sys.version_info > (2, 7):
+            super(ColoredLevelFormatter, self).__init__(
+                fmt=fmt, datefmt=datefmt, style=style, log_colors=log_colors,
+                reset=reset, secondary_log_colors=secondary_log_colors)
+        else:
+            ColoredFormatter.__init__(
+                self, fmt=fmt, datefmt=datefmt, style=style,
+                log_colors=log_colors, reset=reset,
+                secondary_log_colors=secondary_log_colors)
+        self.style = style
+        self.fmt = fmt
+
+    def format(self, record):
         # If fmt is a dict, customize formatter per log level
         if isinstance(self.fmt, dict):
             self._fmt = self.fmt[record.levelname]
@@ -164,15 +222,9 @@ class ColoredFormatter(logging.Formatter):
                         logging._STYLES.keys()))
                 self._style = logging._STYLES[self.style][0](self._fmt)
 
-        # Format the message
         if sys.version_info > (2, 7):
-            message = super(ColoredFormatter, self).format(record)
+            message = super(ColoredLevelFormatter, self).format(record)
         else:
-            message = logging.Formatter.format(self, record)
-
-        # Add a reset code to the end of the message
-        # (if it wasn't explicitly added in format str)
-        if self.reset and not message.endswith(escape_codes['reset']):
-            message += escape_codes['reset']
+            message = ColoredFormatter.format(self, record)
 
         return message
