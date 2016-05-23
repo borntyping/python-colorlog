@@ -26,7 +26,7 @@ default_formats = {
     '$': '${log_color}${levelname}:${name}:${message}'
 }
 
-# The level-based default formatters to use if level_fmts == 'default'
+# Level-based default formatters
 default_level_formats = {
     '%': {
         'DEBUG': '%(log_color)s%(msg)s (%(module)s:%(lineno)d)',
@@ -91,8 +91,7 @@ class ColoredFormatter(logging.Formatter):
 
     def __init__(self, fmt=None, datefmt=None, style='%',
                  log_colors=None, reset=True,
-                 secondary_log_colors=None,
-                 level_fmts=None):
+                 secondary_log_colors=None):
         """
         Set the format and colors the ColoredFormatter will use.
 
@@ -106,6 +105,9 @@ class ColoredFormatter(logging.Formatter):
 
         :Parameters:
         - fmt (str): The format string to use
+        - fmt (dict):
+            A mapping of log levels (represented as strings, e.g. 'WARNING') to
+            different formatters. (*New in version <TBD>)  # TODO: version?
         - datefmt (str): A format string for the date
         - log_colors (dict):
             A mapping of log level names to color names
@@ -115,27 +117,12 @@ class ColoredFormatter(logging.Formatter):
             The format style to use. (*No meaning prior to Python 3.2.*)
         - secondary_log_colors (dict):
             Map secondary ``log_color`` attributes. (*New in version 2.6.*)
-        - level_fmts (dict):
-            Map log levels (represented as strings, e.g. 'WARNING') to
-            different formatters. (*New in version <TBD>)  # TODO: version?
-            - If ``None``, use the formatter given in the ``fmt`` argument
-              instead (default behavior).
-            - If 'default', use a default mapping that differentiates
-              the log levels.
         """
         if fmt is None:
             if sys.version_info > (3, 2):
                 fmt = default_formats[style]
             else:
                 fmt = default_formats['%']
-
-        if level_fmts == 'default':
-            if sys.version_info > (3, 2):
-                self.level_fmts = default_level_formats[style]
-            else:
-                self.level_fmts = default_level_formats['%']
-        else:
-            self.level_fmts = level_fmts
 
         if sys.version_info > (3, 2):
             super(ColoredFormatter, self).__init__(fmt, datefmt, style)
@@ -149,6 +136,7 @@ class ColoredFormatter(logging.Formatter):
         self.secondary_log_colors = secondary_log_colors
         self.reset = reset
         self.style = style
+        self.fmt = fmt
 
     def color(self, log_colors, name):
         """Return escape codes from a ``log_colors`` dict."""
@@ -165,10 +153,9 @@ class ColoredFormatter(logging.Formatter):
                 color = self.color(log_colors, record.levelname)
                 setattr(record, name + '_log_color', color)
 
-        # Customize formatter per log level
-        if self.level_fmts is not None:
-            self._fmt = self.level_fmts[record.levelname]
-
+        # If fmt is a dict, customize formatter per log level
+        if isinstance(self.fmt, dict):
+            self._fmt = self.fmt[record.levelname]
             if sys.version_info > (3, 2):
                 # Update self._style because we've changed self._fmt
                 # (code based on stdlib's logging.Formatter.__init__())
