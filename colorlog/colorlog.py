@@ -167,16 +167,7 @@ class ColoredFormatter(logging.Formatter):
 
         # Customize formatter per log level
         if self.level_fmts is not None:
-            if record.levelno == logging.DEBUG:
-                self._fmt = self.level_fmts['DEBUG']
-            elif record.levelno == logging.INFO:
-                self._fmt = self.level_fmts['INFO']
-            elif record.levelno == logging.WARNING:
-                self._fmt = self.level_fmts['WARNING']
-            elif record.levelno == logging.ERROR:
-                self._fmt = self.level_fmts['ERROR']
-            elif record.levelno == logging.CRITICAL:
-                self._fmt = self.level_fmts['CRITICAL']
+            self._fmt = self.level_fmts[record.levelname]
 
             if sys.version_info > (3, 2):
                 # Update self._style because we've changed self._fmt
