@@ -27,31 +27,6 @@ default_formats = {
     '$': '${log_color}${levelname}:${name}:${message}'
 }
 
-# Level-based default formatters
-default_level_formats = {
-    '%': {
-        'DEBUG': '%(log_color)s%(msg)s (%(module)s:%(lineno)d)',
-        'INFO': '%(log_color)s%(msg)s',
-        'WARNING': '%(log_color)sWARNING: %(msg)s (%(module)s:%(lineno)d)',
-        'ERROR': '%(log_color)sERROR: %(msg)s (%(module)s:%(lineno)d)',
-        'CRITICAL': '%(log_color)sCRITICAL: %(msg)s (%(module)s:%(lineno)d)',
-    },
-    '{': {
-        'DEBUG': '{log_color}{msg} ({module}:{lineno})',
-        'INFO': '{log_color}{msg}',
-        'WARNING': '{log_color}WARNING: {msg} ({module}:{lineno})',
-        'ERROR': '{log_color}ERROR: {msg} ({module}:{lineno})',
-        'CRITICAL': '{log_color}CRITICAL: {msg} ({module}:{lineno})',
-    },
-    '$': {
-        'DEBUG': '${log_color}${msg} (${module}:${lineno})',
-        'INFO': '${log_color}${msg}',
-        'WARNING': '${log_color}WARNING: ${msg} (${module}:${lineno})',
-        'ERROR': '${log_color}ERROR: ${msg} (${module}:${lineno})',
-        'CRITICAL': '${log_color}CRITICAL: ${msg} (${module}:${lineno})',
-    },
-}
-
 
 class ColoredRecord(object):
     """
