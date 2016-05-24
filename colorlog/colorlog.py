@@ -9,7 +9,7 @@ import sys
 from colorlog.escape_codes import escape_codes, parse_colors
 
 __all__ = ('escape_codes', 'default_log_colors', 'ColoredFormatter',
-           'ColoredLevelFormatter')
+           'LevelFormatter')
 
 # The default colors to use for the debug levels
 default_log_colors = {
@@ -138,7 +138,7 @@ class ColoredFormatter(logging.Formatter):
         return message
 
 
-class ColoredLevelFormatter(ColoredFormatter):
+class LevelFormatter(ColoredFormatter):
     """
     An Extension of ColoredFormatter that uses per-loglevel format strings.
     """
@@ -160,7 +160,7 @@ class ColoredLevelFormatter(ColoredFormatter):
 
         Example:
 
-        formatter = colorlog.ColoredLevelFormatter(fmt={
+        formatter = colorlog.LevelFormatter(fmt={
             'DEBUG':'%(log_color)s%(msg)s (%(module)s:%(lineno)d)',
             'INFO': '%(log_color)s%(msg)s',
             'WARNING': '%(log_color)sWARN: %(msg)s (%(module)s:%(lineno)d)',
@@ -169,7 +169,7 @@ class ColoredLevelFormatter(ColoredFormatter):
         })
         """
         if sys.version_info > (2, 7):
-            super(ColoredLevelFormatter, self).__init__(
+            super(LevelFormatter, self).__init__(
                 fmt=fmt, datefmt=datefmt, style=style, log_colors=log_colors,
                 reset=reset, secondary_log_colors=secondary_log_colors)
         else:
@@ -193,7 +193,7 @@ class ColoredLevelFormatter(ColoredFormatter):
                 self._style = logging._STYLES[self.style][0](self._fmt)
 
         if sys.version_info > (2, 7):
-            message = super(ColoredLevelFormatter, self).format(record)
+            message = super(LevelFormatter, self).format(record)
         else:
             message = ColoredFormatter.format(self, record)
 
