@@ -139,9 +139,7 @@ class ColoredFormatter(logging.Formatter):
 
 
 class LevelFormatter(ColoredFormatter):
-    """
-    An Extension of ColoredFormatter that uses per-loglevel format strings.
-    """
+    """An extension of ColoredFormatter that uses per-level format strings."""
 
     def __init__(self, fmt=None, datefmt=None, style='%',
                  log_colors=None, reset=True,
@@ -155,7 +153,7 @@ class LevelFormatter(ColoredFormatter):
         :Parameters:
         - fmt (dict):
             A mapping of log levels (represented as strings, e.g. 'WARNING') to
-            different formatters. (*New in version <TBD>)  # TODO: version?
+            different formatters. (*New in version 2.7.0)
         (All other parameters are the same as in colorlog.ColoredFormatter)
 
         Example:
@@ -181,7 +179,7 @@ class LevelFormatter(ColoredFormatter):
         self.fmt = fmt
 
     def format(self, record):
-        # If fmt is a dict, customize formatter per log level
+        """Customize the message format based on the log level."""
         if isinstance(self.fmt, dict):
             self._fmt = self.fmt[record.levelname]
             if sys.version_info > (3, 2):
