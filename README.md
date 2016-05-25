@@ -181,7 +181,6 @@ Projects using colorlog
 - [Counterparty]
 - [Errbot]
 - [Pythran]
-- [Qutebrowser]
 - [zenlog]
 
 Licence
@@ -221,6 +220,5 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [Gentoo]: https://packages.gentoo.org/packages/dev-python/colorlog
 [OpenSuse]: http://rpm.pbone.net/index.php3?stat=3&search=python-colorlog&srodzaj=3
 [Pythran]: http://pythonhosted.org/pythran/DEVGUIDE.html
-[Qutebrowser]: http://www.qutebrowser.org/
 [Ubuntu]: https://launchpad.net/python-colorlog
 [zenlog]: https://github.com/ManufacturaInd/python-zenlog
