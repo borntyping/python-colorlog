@@ -9,7 +9,7 @@ import sys
 from colorlog.escape_codes import escape_codes, parse_colors
 
 __all__ = ('escape_codes', 'default_log_colors', 'ColoredFormatter',
-           'LevelFormatter')
+           'LevelFormatter', 'TTYColoredFormatter')
 
 # The default colors to use for the debug levels
 default_log_colors = {
@@ -85,7 +85,7 @@ class ColoredFormatter(logging.Formatter):
         - log_colors (dict):
             A mapping of log level names to color names
         - reset (bool):
-            Implictly append a color reset to all records unless False
+            Implicitly append a color reset to all records unless False
         - style ('%' or '{' or '$'):
             The format style to use. (*No meaning prior to Python 3.2.*)
         - secondary_log_colors (dict):
@@ -109,9 +109,9 @@ class ColoredFormatter(logging.Formatter):
         self.secondary_log_colors = secondary_log_colors
         self.reset = reset
 
-    def color(self, log_colors, name):
+    def color(self, log_colors, level_name):
         """Return escape codes from a ``log_colors`` dict."""
-        return parse_colors(log_colors.get(name, ""))
+        return parse_colors(log_colors.get(level_name, ""))
 
     def format(self, record):
         """Format a message from a record object."""
@@ -196,3 +196,26 @@ class LevelFormatter(ColoredFormatter):
             message = ColoredFormatter.format(self, record)
 
         return message
+
+
+class TTYColoredFormatter(ColoredFormatter):
+    """
+    Blanks all color codes if not running under a TTY.
+
+    This is useful when you want to be able to pipe colorlog output to a file.
+    """
+
+    def __init__(self, *args, **kwargs):
+        """Overwrites the `reset` argument to False if stream is not a TTY."""
+        self.stream = kwargs.pop('stream', sys.stdout)
+
+        # Both `reset` and `isatty` must be true to insert reset codes.
+        kwargs.setdefault('reset', kwargs['reset'] and self.stream.isatty())
+
+        ColoredFormatter.__init__(self, *args, **kwargs)
+
+    def color(self, log_colors, level_name):
+        """Only returns colors if STDOUT is a TTY."""
+        if not self.stream.isatty():
+            log_colors = {}
+        return ColoredFormatter.color(log_colors, level_name)

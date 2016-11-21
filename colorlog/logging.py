@@ -33,6 +33,7 @@ def ensure_configured(func):
         return func(*args, **kwargs)
     return wrapper
 
+
 root = logging.root
 getLogger = logging.getLogger
 debug = ensure_configured(logging.debug)

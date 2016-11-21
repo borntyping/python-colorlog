@@ -20,6 +20,7 @@ __all__ = ('escape_codes', 'parse_colors')
 def esc(*x):
     return '\033[' + ';'.join(x) + 'm'
 
+
 # The initial list of escape codes
 escape_codes = {
     'reset': esc('0'),

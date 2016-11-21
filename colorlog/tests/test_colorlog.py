@@ -4,6 +4,8 @@ import sys
 
 import pytest
 
+import colorlog
+
 
 def test_colored_formatter(create_and_test_logger):
     create_and_test_logger()
@@ -79,3 +81,9 @@ def test_braces_style(create_and_test_logger):
 def test_template_style(create_and_test_logger):
     create_and_test_logger(
         fmt='${log_color}${levelname}:${name}:${message}', style='$')
+
+
+def test_ttycolorlog(create_and_test_logger):
+    create_and_test_logger(
+        formatter_class=colorlog.TTYColoredFormatter,
+        validator=lambda line: '\x1b[' not in line)

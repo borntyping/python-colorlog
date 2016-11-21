@@ -52,7 +52,9 @@ def test_logger(reset_loggers, capsys):
 def create_and_test_logger(test_logger):
     def function(*args, **kwargs):
         validator = kwargs.pop('validator', None)
-        formatter = colorlog.ColoredFormatter(*args, **kwargs)
+        formatter_cls = kwargs.pop('formatter_class', colorlog.ColoredFormatter)
+
+        formatter = formatter_cls(*args, **kwargs)
 
         stream = logging.StreamHandler()
         stream.setLevel(logging.DEBUG)
