@@ -210,7 +210,7 @@ class TTYColoredFormatter(ColoredFormatter):
         self.stream = kwargs.pop('stream', sys.stdout)
 
         # Both `reset` and `isatty` must be true to insert reset codes.
-        kwargs.setdefault('reset', kwargs['reset'] and self.stream.isatty())
+        kwargs['reset'] = kwargs.get('reset', True) and self.stream.isatty()
 
         ColoredFormatter.__init__(self, *args, **kwargs)
 
@@ -218,4 +218,4 @@ class TTYColoredFormatter(ColoredFormatter):
         """Only returns colors if STDOUT is a TTY."""
         if not self.stream.isatty():
             log_colors = {}
-        return ColoredFormatter.color(log_colors, level_name)
+        return ColoredFormatter.color(self, log_colors, level_name)
