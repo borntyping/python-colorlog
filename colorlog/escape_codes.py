@@ -41,10 +41,10 @@ COLORS = [
 
 PREFIXES = [
     # Foreground without prefix
-    ('3', ''), ('01;3', 'bold_'),
+    ('3', ''), ('01;3', 'bold_'), ('02;3', 'thin_'),
 
     # Foreground with fg_ prefix
-    ('3', 'fg_'), ('01;3', 'fg_bold_'),
+    ('3', 'fg_'), ('01;3', 'fg_bold_'), ('02;3', 'fg_thin_'),
 
     # Background with bg_ prefix - bold/light works differently
     ('4', 'bg_'), ('10', 'bg_bold_'),
