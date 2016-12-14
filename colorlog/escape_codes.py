@@ -25,6 +25,7 @@ def esc(*x):
 escape_codes = {
     'reset': esc('0'),
     'bold': esc('01'),
+    'thin': esc('02')
 }
 
 # The color names
