@@ -206,7 +206,7 @@ class TTYColoredFormatter(ColoredFormatter):
     """
 
     def __init__(self, *args, **kwargs):
-        """Overwrites the `reset` argument to False if stream is not a TTY."""
+        """Overwrite the `reset` argument to False if stream is not a TTY."""
         self.stream = kwargs.pop('stream', sys.stdout)
 
         # Both `reset` and `isatty` must be true to insert reset codes.

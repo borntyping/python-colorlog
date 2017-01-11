@@ -4,11 +4,15 @@ env:
   - TOXENV=py27
   - TOXENV=py33
   - TOXENV=py34
+  - TOXENV=py35
+  - TOXENV=py36
   - TOXENV=pypy
   - TOXENV=py26-colorama
   - TOXENV=py27-colorama
   - TOXENV=py33-colorama
   - TOXENV=py34-colorama
+  - TOXENV=py35-colorama
+  - TOXENV=py36-colorama
   - TOXENV=pypy-colorama
   - TOXENV=lint
 install:
