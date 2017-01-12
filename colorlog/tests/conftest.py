@@ -9,6 +9,7 @@ import sys
 import colorlog
 
 import pytest
+import testing_stream_handler
 
 
 def assert_log_message(log_function, message, capsys):
@@ -56,7 +57,7 @@ def create_and_test_logger(test_logger):
 
         formatter = formatter_cls(*args, **kwargs)
 
-        stream = logging.StreamHandler()
+        stream = testing_stream_handler.TestingStreamHandler()
         stream.setLevel(logging.DEBUG)
         stream.setFormatter(formatter)
 

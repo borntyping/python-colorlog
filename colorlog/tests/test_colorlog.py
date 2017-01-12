@@ -83,12 +83,14 @@ def test_template_style(create_and_test_logger):
         fmt='${log_color}${levelname}:${name}:${message}', style='$')
 
 
-@pytest.mark.parametrize('isatty', [True, False])
-def test_ttycolorlog(create_and_test_logger, monkeypatch, isatty):
-    def isatty_func():
-        return isatty
-    monkeypatch.setattr(sys.stdout, 'isatty', isatty_func)
-
+def test_ttycolorlog(create_and_test_logger, monkeypatch):
+    monkeypatch.setattr(sys.stdout, 'isatty', lambda: True)
     create_and_test_logger(
         formatter_class=colorlog.TTYColoredFormatter,
-        validator=lambda line: ('\x1b[' in line) == isatty)
+        validator=lambda line: '\x1b[' in line)
+
+def test_ttycolorlog_notty(create_and_test_logger, monkeypatch):
+    monkeypatch.setattr(sys.stdout, 'isatty', lambda: False)
+    create_and_test_logger(
+        formatter_class=colorlog.TTYColoredFormatter,
+        validator=lambda line: '\x1b[' not in line)
