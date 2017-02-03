@@ -11,7 +11,7 @@ try:
 except ImportError:
     pass
 else:
-    colorama.init()
+    colorama.init(strip=False)
 
 __all__ = ('escape_codes', 'parse_colors')
 
