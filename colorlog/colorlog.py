@@ -42,7 +42,7 @@ class ColoredRecord(object):
             try:
                 return parse_colors(name)
             except Exception:
-                raise KeyError("{} is not a valid record attribute "
+                raise KeyError("{0} is not a valid record attribute "
                                "or color sequence".format(name))
 
     def __init__(self, record):
