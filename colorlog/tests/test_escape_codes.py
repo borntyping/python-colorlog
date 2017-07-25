@@ -1,6 +1,6 @@
 """Test the colorlog.escape_codes module."""
 
-from colorlog.escape_codes import escape_codes, esc, parse_colors
+from colorlog.escape_codes import escape_codes, esc
 
 import pytest
 
@@ -40,16 +40,3 @@ def test_rainbow(create_and_test_logger):
         "%(bg_red)sr%(bg_bold_red)sa%(bg_yellow)si%(bg_green)sn"
         "%(bg_bold_blue)sb%(bg_blue)so%(bg_purple)sw%(reset)s "
     )
-
-
-def test_parse_colors():
-    assert parse_colors('reset') == '\033[0m'
-
-
-def test_parse_multiple_colors():
-    assert parse_colors('bold_red,bg_bold_blue') == '\033[01;31m\033[104m'
-
-
-def test_parse_invalid_colors():
-    with pytest.raises(KeyError):
-        parse_colors('false')

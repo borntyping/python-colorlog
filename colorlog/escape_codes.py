@@ -13,7 +13,7 @@ except ImportError:
 else:
     colorama.init()
 
-__all__ = ('escape_codes', 'parse_colors')
+__all__ = ('escape_codes')
 
 
 # Returns escape codes from format codes

@@ -6,7 +6,7 @@ import logging
 import collections
 import sys
 
-from colorlog.escape_codes import escape_codes, parse_colors
+from colorlog.escape_codes import escape_codes
 
 __all__ = ('escape_codes', 'default_log_colors', 'ColoredFormatter',
            'LevelFormatter', 'TTYColoredFormatter')
@@ -30,28 +30,16 @@ default_formats = {
 
 class ColoredRecord(object):
     """
-    Wraps a LogRecord and attempts to parse missing keys as escape codes.
+    Wraps a LogRecord, adding named escape codes to the internal dict.
 
-    When the record is formatted, the logging library uses ``record.__dict__``
-    directly - so this class replaced the dict with a ``defaultdict`` that
-    checks if a missing key is an escape code.
+    The internal dict is used when formatting the message (by the PercentStyle,
+    StrFormatStyle, and StringTemplateStyle classes).
     """
 
-    class __dict(collections.defaultdict):
-        def __missing__(self, name):
-            try:
-                return parse_colors(name)
-            except Exception:
-                raise KeyError("{0} is not a valid record attribute "
-                               "or color sequence".format(name))
-
     def __init__(self, record):
-        # Replace the internal dict with one that can handle missing keys
-        self.__dict__ = self.__dict()
+        """Add attributes from the escape_codes dict and the record."""
+        self.__dict__.update(escape_codes)
         self.__dict__.update(record.__dict__)
-
-        # Keep a refrence to the original refrence so ``__getattr__`` can
-        # access functions that are not in ``__dict__``
         self.__record = record
 
     def __getattr__(self, name):
@@ -111,7 +99,7 @@ class ColoredFormatter(logging.Formatter):
 
     def color(self, log_colors, level_name):
         """Return escape codes from a ``log_colors`` dict."""
-        return parse_colors(log_colors.get(level_name, ""))
+        return escape_codes.get(log_colors.get(level_name), '')
 
     def format(self, record):
         """Format a message from a record object."""

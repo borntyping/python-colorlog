@@ -73,19 +73,22 @@ def test_some_secondary_colors(create_and_test_logger):
 
 def test_percent_style(create_and_test_logger):
     create_and_test_logger(
-        fmt='%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s', style='%')
+        fmt='%(log_color)s%(levelname)s%(reset)s:%(name)s:%(blue)s%(message)s',
+        style='%')
 
 
 @pytest.mark.skipif(sys.version_info < (3, 2), reason="requires python3.2")
 def test_braces_style(create_and_test_logger):
     create_and_test_logger(
-        fmt='{log_color}{levelname}{reset}:{name}:{message}', style='{')
+        fmt='{log_color}{levelname}{reset}:{name}:{blue}{message}',
+        style='{')
 
 
 @pytest.mark.skipif(sys.version_info < (3, 2), reason="requires python3.2")
 def test_template_style(create_and_test_logger):
     create_and_test_logger(
-        fmt='${log_color}${levelname}${reset}:${name}:${message}', style='$')
+        fmt='${log_color}${levelname}${reset}:${name}:${blue}${message}',
+        style='$')
 
 
 def test_ttycolorlog(create_and_test_logger, monkeypatch):
