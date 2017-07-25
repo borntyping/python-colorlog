@@ -158,6 +158,25 @@ by any handlers that are configured to use the `color` formatter.
 
 A full example configuration can be found in `tests/test_config.ini`.
 
+With custom log levels
+----------------------
+
+ColoredFormatter will work with custom log levels added with
+[`logging.addLevelName`]:
+
+```python
+import logging, colorlog
+TRACE = 5
+logging.addLevelName(TRACE, 'TRACE')
+formatter = colorlog.ColoredFormatter(log_colors={'TRACE': 'yellow'})
+handler = logging.StreamHandler()
+handler.setFormatter(formatter)
+logger = logging.getLogger('example')
+logger.addHandler(handler)
+logger.setLevel('TRACE')
+logger.log(TRACE, 'a message using a custom level')
+```
+
 Compatibility
 =============
 
@@ -207,6 +226,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [`dictConfig`]: http://docs.python.org/3/library/logging.config.html#logging.config.dictConfig
 [`fileConfig`]: http://docs.python.org/3/library/logging.config.html#logging.config.fileConfig
+[`logging.addLevelName`]: https://docs.python.org/3/library/logging.html#logging.addLevelName
 [`logging.Formatter`]: http://docs.python.org/3/library/logging.html#logging.Formatter
 [`tox`]: http://tox.readthedocs.org/
 [Arch AUR]: https://aur.archlinux.org/packages/python-colorlog/
