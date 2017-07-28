@@ -52,20 +52,19 @@ parameters to the format string:
 - `log_color`: Return the color associated with the records level.
 - `<name>_log_color`: Return another color based on the records level if the formatter has secondary colors configured (see `secondary_log_colors` below).
 
+Multiple escape codes can be used at once by joining them with commas when
+configuring the color for a log level (but can't be used directly in the format
+string). For example, `black,bg_white` would use the escape codes for black
+text on a white background.
+
 The following escape codes are made available for use in the format string:
 
 - `{color}`, `fg_{color}`, `bg_{color}`: Foreground and background colors.
 - `bold`, `bold_{color}`, `fg_bold_{color}`, `bg_bold_{color}`: Bold/bright colors.
 - `reset`: Clear all formatting (both foreground and background colors).
 
-The availible color names are `black`, `red`, `green`, `yellow`, `blue`,
-`purple`, `cyan` and `white`. Multiple escape codes can be used at once by
-joining them with commas. This example would return the escape codes for black
-text on a white background:
-
-```python
-colorlog.escape_codes.parse_colors("black,bg_white")
-```
+The available color names are `black`, `red`, `green`, `yellow`, `blue`,
+`purple`, `cyan` and `white`.
 
 Examples
 --------
