@@ -3,10 +3,9 @@
 from __future__ import absolute_import
 
 import logging
-import collections
 import sys
 
-from colorlog.escape_codes import escape_codes
+from colorlog.escape_codes import escape_codes, parse_colors
 
 __all__ = ('escape_codes', 'default_log_colors', 'ColoredFormatter',
            'LevelFormatter', 'TTYColoredFormatter')
@@ -40,6 +39,9 @@ class ColoredRecord(object):
         """Add attributes from the escape_codes dict and the record."""
         self.__dict__.update(escape_codes)
         self.__dict__.update(record.__dict__)
+
+        # Keep a reference to the original record so ``__getattr__`` can
+        # access functions that are not in ``__dict__``
         self.__record = record
 
     def __getattr__(self, name):
@@ -99,7 +101,7 @@ class ColoredFormatter(logging.Formatter):
 
     def color(self, log_colors, level_name):
         """Return escape codes from a ``log_colors`` dict."""
-        return escape_codes.get(log_colors.get(level_name), '')
+        return parse_colors(log_colors.get(level_name, ""))
 
     def format(self, record):
         """Format a message from a record object."""
