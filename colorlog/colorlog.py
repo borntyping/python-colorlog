@@ -27,27 +27,6 @@ default_formats = {
 }
 
 
-class ColoredRecord(object):
-    """
-    Wraps a LogRecord, adding named escape codes to the internal dict.
-
-    The internal dict is used when formatting the message (by the PercentStyle,
-    StrFormatStyle, and StringTemplateStyle classes).
-    """
-
-    def __init__(self, record):
-        """Add attributes from the escape_codes dict and the record."""
-        self.__dict__.update(escape_codes)
-        self.__dict__.update(record.__dict__)
-
-        # Keep a reference to the original record so ``__getattr__`` can
-        # access functions that are not in ``__dict__``
-        self.__record = record
-
-    def __getattr__(self, name):
-        return getattr(self.__record, name)
-
-
 class ColoredFormatter(logging.Formatter):
     """
     A formatter that allows colors to be placed in the format string.
@@ -105,7 +84,7 @@ class ColoredFormatter(logging.Formatter):
 
     def format(self, record):
         """Format a message from a record object."""
-        record = ColoredRecord(record)
+        record.__dict__.update(escape_codes)
         record.log_color = self.color(self.log_colors, record.levelname)
 
         # Set secondary log colors
