@@ -1,7 +1,8 @@
-MANIFEST
-dist/*
-build/*
 *.egg-info/*
 *.pyc
-.tox
 .cache
+.idea/
+.tox
+build/*
+dist/*
+MANIFEST
