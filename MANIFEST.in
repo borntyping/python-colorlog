@@ -1,2 +1,3 @@
 include README.md
 include LICENSE
+include colorlog/tests/test_config.ini
