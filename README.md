@@ -181,9 +181,8 @@ Compatibility
 
 colorlog works on Python 2.6 and above, including Python 3.
 
-On Windows, requires [colorama] to work properly. A dependancy on [colorama] is
-included as an optional package dependancy - depending on `colorlog[windows]`
-instead of `colorlog` will ensure it is included when installing.
+On Windows, [colorama] is required for `colorlog` to work properly.  It will
+automatically be included when installing `colorlog` on windows.
 
 Tests
 =====
