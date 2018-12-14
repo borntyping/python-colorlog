@@ -89,13 +89,16 @@ def test_template_style(create_and_test_logger):
 
 
 def test_ttycolorlog(create_and_test_logger, monkeypatch):
-    monkeypatch.setattr(sys.stdout, 'isatty', lambda: True)
+    monkeypatch.setattr(sys.stderr, 'isatty', lambda: True)
     create_and_test_logger(
         formatter_class=colorlog.TTYColoredFormatter,
-        validator=lambda line: '\x1b[' in line)
+        validator=lambda line: '\x1b[' in line,
+        stream=sys.stderr)
+
 
 def test_ttycolorlog_notty(create_and_test_logger, monkeypatch):
-    monkeypatch.setattr(sys.stdout, 'isatty', lambda: False)
+    monkeypatch.setattr(sys.stderr, 'isatty', lambda: False)
     create_and_test_logger(
         formatter_class=colorlog.TTYColoredFormatter,
-        validator=lambda line: '\x1b[' not in line)
+        validator=lambda line: '\x1b[' not in line,
+        stream=sys.stderr)

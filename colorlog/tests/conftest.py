@@ -6,10 +6,17 @@ import inspect
 import logging
 import sys
 
+import pytest
+
 import colorlog
 
-import pytest
-import testing_stream_handler
+
+class TestingStreamHandler(logging.StreamHandler):
+    """Raise errors to be caught by py.test instead of printing to stdout."""
+
+    def handleError(self, record):
+        _type, value, _traceback = sys.exc_info()
+        raise value
 
 
 def assert_log_message(log_function, message, capsys):
@@ -46,6 +53,7 @@ def test_logger(reset_loggers, capsys):
                 assert valid, "{!r} did not validate".format(line.strip())
 
         return lines
+
     return function
 
 
@@ -57,7 +65,7 @@ def create_and_test_logger(test_logger):
 
         formatter = formatter_cls(*args, **kwargs)
 
-        stream = testing_stream_handler.TestingStreamHandler()
+        stream = TestingStreamHandler(stream=sys.stderr)
         stream.setLevel(logging.DEBUG)
         stream.setFormatter(formatter)
 
@@ -66,4 +74,5 @@ def create_and_test_logger(test_logger):
         logger.addHandler(stream)
 
         return test_logger(logger, validator)
+
     return function
