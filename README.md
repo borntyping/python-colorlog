@@ -1,7 +1,9 @@
 
 # Log formatting with colors!
 
-[![](https://img.shields.io/pypi/v/colorlog.svg)](https://warehouse.python.org/project/colorlog/) [![](https://img.shields.io/pypi/l/colorlog.svg)](https://warehouse.python.org/project/colorlog/) [![](https://img.shields.io/travis/borntyping/python-colorlog/master.svg)](https://travis-ci.org/borntyping/python-colorlog)
+[![](https://img.shields.io/pypi/v/colorlog.svg)](https://warehouse.python.org/project/colorlog/)
+[![](https://img.shields.io/pypi/l/colorlog.svg)](https://warehouse.python.org/project/colorlog/)
+[![](https://img.shields.io/travis/borntyping/python-colorlog/master.svg)](https://travis-ci.org/borntyping/python-colorlog)
 
 `colorlog.ColoredFormatter` is a formatter for use with Python's `logging`
 module that outputs records using terminal colors.
@@ -40,11 +42,11 @@ logger.addHandler(handler)
 The `ColoredFormatter` class takes several arguments:
 
 - `format`: The format string used to output the message (required).
-- `datefmt`: An optional date format passed to the base class. See [`logging.Formatter`].
+- `datefmt`: An optional date format passed to the base class. See [`logging.Formatter`][Formatter].
 - `reset`: Implicitly adds a color reset code to the message output, unless the output already ends with one. Defaults to `True`.
 - `log_colors`: A mapping of record level names to color names. The defaults can be found in `colorlog.default_log_colors`, or the below example.
 - `secondary_log_colors`: A mapping of names to `log_colors` style mappings, defining additional colors that can be used in format strings. See below for an example.
-- `style`: Available on Python 3.2 and above. See [`logging.Formatter`].
+- `style`: Available on Python 3.2 and above. See [`logging.Formatter`][Formatter].
 
 Color escape codes can be selected based on the log records level, by adding
 parameters to the format string:
@@ -120,8 +122,8 @@ formatter = ColoredFormatter(
 )
 ```
 
-With [`dictConfig`]
--------------------
+With [`dictConfig`][dictConfig]
+-------------------------------
 
 ```python
 logging.config.dictConfig({
@@ -136,8 +138,8 @@ logging.config.dictConfig({
 
 A full example dictionary can be found in `tests/test_colorlog.py`.
 
-With [`fileConfig`]
--------------------
+With [`fileConfig`][fileConfig]
+-------------------------------
 
 ```ini
 ...
@@ -160,7 +162,7 @@ With custom log levels
 ----------------------
 
 ColoredFormatter will work with custom log levels added with
-[`logging.addLevelName`]:
+[`logging.addLevelName`][addLevelName]:
 
 ```python
 import logging, colorlog
@@ -188,7 +190,7 @@ Tests
 
 Tests similar to the above examples are found in `tests/test_colorlog.py`.
 
-[`tox`] will run the tests under all compatible python versions.
+[`tox`][tox] will run the tests under all compatible python versions.
 
 
 Projects using colorlog
@@ -221,11 +223,11 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-[`dictConfig`]: http://docs.python.org/3/library/logging.config.html#logging.config.dictConfig
-[`fileConfig`]: http://docs.python.org/3/library/logging.config.html#logging.config.fileConfig
-[`logging.addLevelName`]: https://docs.python.org/3/library/logging.html#logging.addLevelName
-[`logging.Formatter`]: http://docs.python.org/3/library/logging.html#logging.Formatter
-[`tox`]: http://tox.readthedocs.org/
+[dictConfig]: http://docs.python.org/3/library/logging.config.html#logging.config.dictConfig
+[fileConfig]: http://docs.python.org/3/library/logging.config.html#logging.config.fileConfig
+[addLevelName]: https://docs.python.org/3/library/logging.html#logging.addLevelNam[addLevelN]e
+[Formatter]: http://docs.python.org/3/library/logging.html#logging.Formatter
+[tox]: http://tox.readthedocs.org/
 [Arch AUR]: https://aur.archlinux.org/packages/python-colorlog/
 [BSD ports]: https://www.freshports.org/devel/py-colorlog/
 [colorama]: https://pypi.python.org/pypi/colorama
