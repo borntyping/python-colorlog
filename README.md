@@ -61,6 +61,7 @@ The following escape codes are made available for use in the format string:
 
 - `{color}`, `fg_{color}`, `bg_{color}`: Foreground and background colors.
 - `bold`, `bold_{color}`, `fg_bold_{color}`, `bg_bold_{color}`: Bold/bright colors.
+- `thin`, `thin_{color}`, `fg_thin_{color}`: Thin colors (terminal dependent).
 - `reset`: Clear all formatting (both foreground and background colors).
 
 The available color names are `black`, `red`, `green`, `yellow`, `blue`,
