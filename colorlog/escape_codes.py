@@ -3,7 +3,7 @@ Generates a dictionary of ANSI escape codes.
 
 http://en.wikipedia.org/wiki/ANSI_escape_code
 
-Uses colorama as an optional dependancy to support color on Windows
+Uses colorama as an optional dependency to support color on Windows
 """
 
 try:

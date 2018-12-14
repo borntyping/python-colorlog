@@ -19,7 +19,7 @@ Install from PyPI with:
 pip install colorlog
 ```
 
-Several Linux distributions provide offical packages ([Debian], [Gentoo],
+Several Linux distributions provide official packages ([Debian], [Gentoo],
 [OpenSuse] and [Ubuntu]), and others have user provided packages ([Arch AUR],
 [BSD ports], [Conda], [Fedora packaging scripts]).
 
@@ -130,9 +130,7 @@ logging.config.dictConfig({
 			'()': 'colorlog.ColoredFormatter',
 			'format': "%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s"
 		}
-	},
-
-	...
+	}
 })
 ```
 
