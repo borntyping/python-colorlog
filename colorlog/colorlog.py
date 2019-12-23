@@ -87,9 +87,9 @@ class ColoredFormatter(logging.Formatter):
             else:
                 fmt = default_formats['%']
 
-        if sys.version_info > (3, 8) and isinstance(self, LevelFormatter):
+        if sys.version_info > (3, 8) and isinstance(self, LevelFormatter) and isinstance(fmt, dict):
             super(ColoredFormatter, self).__init__(fmt, datefmt, style, validate=False)
-        if sys.version_info > (3, 2):
+        elif sys.version_info > (3, 2):
             super(ColoredFormatter, self).__init__(fmt, datefmt, style)
         elif sys.version_info > (2, 7):
             super(ColoredFormatter, self).__init__(fmt, datefmt)
