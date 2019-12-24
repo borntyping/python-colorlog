@@ -10,7 +10,7 @@ from colorlog.colorlog import ColoredFormatter
 BASIC_FORMAT = "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s"
 
 
-def basicConfig(**kwargs):
+def basicConfig(style='%', log_colors=None, reset=True, secondary_log_colors=None, **kwargs):
     """Call ``logging.basicConfig`` and override the formatter it creates."""
     logging.basicConfig(**kwargs)
     logging._acquireLock()
@@ -19,7 +19,12 @@ def basicConfig(**kwargs):
         stream.setFormatter(
             ColoredFormatter(
                 fmt=kwargs.get('format', BASIC_FORMAT),
-                datefmt=kwargs.get('datefmt', None)))
+                datefmt=kwargs.get('datefmt', None),
+                style=style,
+                log_colors=log_colors,
+                reset=reset,
+                secondary_log_colors=secondary_log_colors
+            ))
     finally:
         logging._releaseLock()
 
