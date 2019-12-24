@@ -10,7 +10,8 @@ from colorlog.colorlog import ColoredFormatter
 BASIC_FORMAT = "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s"
 
 
-def basicConfig(style='%', log_colors=None, reset=True, secondary_log_colors=None, **kwargs):
+def basicConfig(style='%', log_colors=None, reset=True, 
+                secondary_log_colors=None, **kwargs):
     """Call ``logging.basicConfig`` and override the formatter it creates."""
     logging.basicConfig(**kwargs)
     logging._acquireLock()
