@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='colorlog',
-    version='4.1.0',
+    version='4.2.1',
 
     description='Log formatting with colors!',
     long_description=open('README.md').read(),
@@ -13,7 +13,14 @@ setup(
     url='https://github.com/borntyping/python-colorlog',
     license='MIT License',
 
-    packages=['colorlog', 'colorlog.tests'],
+    packages=[
+        'colorlog',
+        'colorlog.tests'
+    ],
+
+    setup_requires=[
+        'setuptools>=38.6.0'
+    ],
 
     extras_require={
         ':sys_platform=="win32"': [
