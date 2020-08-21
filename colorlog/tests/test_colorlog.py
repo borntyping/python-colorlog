@@ -31,6 +31,42 @@ def test_no_reset(create_and_test_logger):
         validator=lambda line: not line.endswith('\x1b[0m'))
 
 
+def test_level_formatter_format(create_and_test_logger):
+    create_and_test_logger(
+        formatter_class=colorlog.LevelFormatter,
+        fmt={
+            'DEBUG': '%(log_color)s%(message)s (%(module)s:%(lineno)d)',
+            'INFO': '%(log_color)s%(message)s',
+            'WARNING': '%(log_color)sWARN: %(message)s (%(module)s:%(lineno)d)',
+            'ERROR': '%(log_color)sERROR: %(message)s (%(module)s:%(lineno)d)',
+            'CRITICAL': '%(log_color)sCRIT: %(message)s (%(module)s:%(lineno)d)',
+        },
+        reset=False,
+        lines=[
+            ('error', ('test %s', 'ok')),
+            ('info', ('test %s', 'ok')),
+            ('warning', ('test %s', 'ok')),
+            ('critical', ('test %s', 'ok')),
+            ('debug', ('test %s', 'ok')),
+        ],
+        # Check if the string was formatted
+        validator=lambda line: 'ok' in line)
+
+
+def test_color_formatter_format(create_and_test_logger):
+    create_and_test_logger(
+        fmt="%(log_color)s%(message)s",
+        lines=[
+            ('error', ('test %s', 'ok')),
+            ('info', ('test %s', 'ok')),
+            ('warning', ('test %s', 'ok')),
+            ('critical', ('test %s', 'ok')),
+            ('debug', ('test %s', 'ok')),
+        ],
+        # Check if the string was formatted
+        validator=lambda line: 'ok' in line)
+
+
 def test_secondary_colors(create_and_test_logger):
     expected = ':\x1b[31mtest_secondary_colors:\x1b[34m'
     create_and_test_logger(
