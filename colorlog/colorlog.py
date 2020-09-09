@@ -204,7 +204,7 @@ class TTYColoredFormatter(ColoredFormatter):
         self.stream = kwargs.pop('stream')
 
         # Both `reset` and `isatty` must be true to insert reset codes.
-        kwargs['reset'] = kwargs.get('reset', True) and self.stream.isatty()
+        kwargs['reset'] = kwargs.get('reset', True) and hasattr(self.stream, 'isatty') and self.stream.isatty()
 
         ColoredFormatter.__init__(self, *args, **kwargs)
 
