@@ -210,6 +210,6 @@ class TTYColoredFormatter(ColoredFormatter):
 
     def color(self, log_colors, level_name):
         """Only returns colors if STDOUT is a TTY."""
-        if not self.stream.isatty():
+        if not hasattr(self.stream, 'isatty') or not self.stream.isatty():
             log_colors = {}
         return ColoredFormatter.color(self, log_colors, level_name)
