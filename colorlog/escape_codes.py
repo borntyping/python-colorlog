@@ -52,7 +52,19 @@ PREFIXES = [
 ]
 
 for prefix, prefix_name in PREFIXES:
-    for code, name in enumerate(COLORS):
+    # Create a 256-color dictionary. Use  as example:  'INFO': 'bg_bold_c12', 
+	# where the 'c' character is just a prefix (abbreviated from color) and 12 is a number from 0 to 255
+	# example:
+    # log_colors={
+    #     'DEBUG': 'blue',
+    #     'INFO': 'bold_c12',
+    #     'WARNING': 'c240',
+    #     'ERROR': 'bg_bold_c48',
+    #     'CRITICAL': 'red,bg_c0',
+    #}
+	colors256={f'8;5;{i}':f'c{i}' for i in range(255)}
+    colors256.update(enumerate(COLORS))
+    for code, name in colors256.items():
         escape_codes[prefix_name + name] = esc(prefix + str(code))
 
 
