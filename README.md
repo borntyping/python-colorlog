@@ -1,5 +1,5 @@
 
-# Log formatting with colors!
+# Log formatting with colors! -- An amazing project
 
 [![](https://img.shields.io/pypi/v/colorlog.svg)](https://warehouse.python.org/project/colorlog/)
 [![](https://img.shields.io/pypi/l/colorlog.svg)](https://warehouse.python.org/project/colorlog/)
