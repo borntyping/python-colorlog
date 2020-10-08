@@ -1,5 +1,5 @@
-
-# Log formatting with colors!
+Log formatting with colors!
+===========================
 
 [![](https://img.shields.io/pypi/v/colorlog.svg)](https://warehouse.python.org/project/colorlog/)
 [![](https://img.shields.io/pypi/l/colorlog.svg)](https://warehouse.python.org/project/colorlog/)
@@ -96,8 +96,7 @@ formatter = ColoredFormatter(
 )
 ```
 
-Using `secondary_log_colors`
-------------------------------
+### Using `secondary_log_colors`
 
 Secondary log colors are a way to have more than one color that is selected
 based on the log level. Each key in `secondary_log_colors` adds an attribute
@@ -122,8 +121,7 @@ formatter = ColoredFormatter(
 )
 ```
 
-With [`dictConfig`][dictConfig]
--------------------------------
+### With [`dictConfig`][dictConfig]
 
 ```python
 logging.config.dictConfig({
@@ -138,8 +136,7 @@ logging.config.dictConfig({
 
 A full example dictionary can be found in `tests/test_colorlog.py`.
 
-With [`fileConfig`][fileConfig]
--------------------------------
+### With [`fileConfig`][fileConfig]
 
 ```ini
 ...
@@ -158,8 +155,7 @@ by any handlers that are configured to use the `color` formatter.
 
 A full example configuration can be found in `tests/test_config.ini`.
 
-With custom log levels
-----------------------
+### With custom log levels
 
 ColoredFormatter will work with custom log levels added with
 [`logging.addLevelName`][addLevelName]:
@@ -178,7 +174,7 @@ logger.log(TRACE, 'a message using a custom level')
 ```
 
 Compatibility
-=============
+-------------
 
 colorlog works on Python 2.6 and above, including Python 3.
 
@@ -186,12 +182,20 @@ On Windows, [colorama] is required for `colorlog` to work properly.  It will
 automatically be included when installing `colorlog` on windows.
 
 Tests
-=====
+-----
 
 Tests similar to the above examples are found in `tests/test_colorlog.py`.
 
 [`tox`][tox] will run the tests under all compatible python versions.
 
+
+Status
+------
+
+colorlog is in maintainance mode. I try and ensure bugfixes are published,
+but compatibility with Python 2.6+ and Python 3+ makes this a difficult 
+codebase to add features to. Any changes that might break backwards
+compatibility for existing users will not be considered.
 
 Projects using colorlog
 -----------------------
@@ -204,7 +208,7 @@ Projects using colorlog
 Licence
 -------
 
-Copyright (c) 2012 Sam Clements <sam@borntyping.co.uk>
+Copyright (c) 2012-2020 Sam Clements <sam@borntyping.co.uk>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

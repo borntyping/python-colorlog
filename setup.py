@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='colorlog',
-    version='4.2.1',
+    version='4.3.0',
 
     description='Log formatting with colors!',
     long_description=open('README.md').read(),
