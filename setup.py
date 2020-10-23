@@ -15,7 +15,6 @@ setup(
 
     packages=[
         'colorlog',
-        'colorlog.tests'
     ],
 
     setup_requires=[
