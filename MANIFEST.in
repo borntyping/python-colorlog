@@ -1,4 +1,5 @@
-include README.md
+global-exclude *.py[co]
+include colorlog/tests/
+include doc/
 include LICENSE
-include colorlog/tests/test_config.ini
-graft doc
+include README.md

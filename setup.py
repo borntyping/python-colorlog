@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='colorlog',
-    version='4.4.0',
+    version='4.5.0',
 
     description='Log formatting with colors!',
     long_description=open('README.md').read(),
@@ -14,8 +14,7 @@ setup(
     license='MIT License',
 
     packages=[
-        'colorlog',
-        'colorlog.tests'
+        'colorlog'
     ],
 
     setup_requires=[
