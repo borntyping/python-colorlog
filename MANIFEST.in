@@ -1,5 +1,5 @@
 global-exclude *.py[co]
-include colorlog/tests/
-include doc/
+recursive-include colorlog/tests/ *.py *.ini
+recursive-include doc/ *.py *.png
 include LICENSE
 include README.md
