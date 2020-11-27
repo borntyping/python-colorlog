@@ -1,15 +1,15 @@
 Log formatting with colors!
 ===========================
 
-[![](https://img.shields.io/pypi/v/colorlog.svg)](https://warehouse.python.org/project/colorlog/)
-[![](https://img.shields.io/pypi/l/colorlog.svg)](https://warehouse.python.org/project/colorlog/)
+[![](https://img.shields.io/pypi/v/colorlog.svg)](https://pypi.org/project/colorlog/)
+[![](https://img.shields.io/pypi/l/colorlog.svg)](https://pypi.org/project/colorlog/)
 [![](https://img.shields.io/travis/borntyping/python-colorlog/master.svg)](https://travis-ci.org/borntyping/python-colorlog)
 
 `colorlog.ColoredFormatter` is a formatter for use with Python's `logging`
 module that outputs records using terminal colors.
 
 * [Source on GitHub](https://github.com/borntyping/python-colorlog)
-* [Packages on PyPI](https://pypi.python.org/pypi/colorlog)
+* [Packages on PyPI](https://pypi.org/pypi/colorlog/)
 * [Builds on Travis CI](https://travis-ci.org/borntyping/python-colorlog)
 
 Installation
@@ -229,7 +229,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [dictConfig]: http://docs.python.org/3/library/logging.config.html#logging.config.dictConfig
 [fileConfig]: http://docs.python.org/3/library/logging.config.html#logging.config.fileConfig
-[addLevelName]: https://docs.python.org/3/library/logging.html#logging.addLevelNam[addLevelN]e
+[addLevelName]: https://docs.python.org/3/library/logging.html#logging.addLevelName
 [Formatter]: http://docs.python.org/3/library/logging.html#logging.Formatter
 [tox]: http://tox.readthedocs.org/
 [Arch AUR]: https://aur.archlinux.org/packages/python-colorlog/
@@ -242,6 +242,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [Fedora packaging scripts]: https://github.com/bartv/python-colorlog
 [Gentoo]: https://packages.gentoo.org/packages/dev-python/colorlog
 [OpenSuse]: http://rpm.pbone.net/index.php3?stat=3&search=python-colorlog&srodzaj=3
-[Pythran]: http://pythonhosted.org/pythran/DEVGUIDE.html
+[Pythran]: https://github.com/serge-sans-paille/pythran
 [Ubuntu]: https://launchpad.net/python-colorlog
 [zenlog]: https://github.com/ManufacturaInd/python-zenlog
