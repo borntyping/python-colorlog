@@ -197,6 +197,15 @@ but compatibility with Python 2.6+ and Python 3+ makes this a difficult
 codebase to add features to. Any changes that might break backwards
 compatibility for existing users will not be considered.
 
+Alternatives
+------------
+
+There are some more modern libraries for improving Python logging you may
+find useful.
+
+- [structlog]
+- [jsonlog]
+
 Projects using colorlog
 -----------------------
 
@@ -245,3 +254,5 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [Pythran]: https://github.com/serge-sans-paille/pythran
 [Ubuntu]: https://launchpad.net/python-colorlog
 [zenlog]: https://github.com/ManufacturaInd/python-zenlog
+[structlog]: https://www.structlog.org/en/stable/
+[jsonlog]: https://github.com/borntyping/jsonlog
