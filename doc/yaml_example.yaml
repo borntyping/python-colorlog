@@ -1,0 +1,34 @@
+version: 1
+formatters:
+  logging:
+    format: '%(asctime)s - %(name)-11s - %(levelname)-8s - %(message)-60s - formatter=logging.Formatter'
+  colorlog:
+    (): 'colorlog.ColoredFormatter'
+    format: '%(log_color)s%(asctime)s - %(name)-11s - %(levelname)-8s - %(message)-60s - formatter=colorlog.ColoredFormatter'
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: logging
+    stream: ext://sys.stdout
+  file:
+    class: logging.FileHandler
+    level: WARNING
+    formatter: logging
+    filename: doc/example_yaml.log
+  colour:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: colorlog
+loggers:
+  '':
+    level: DEBUG
+    handlers: [console]
+  example:
+    level: INFO
+    handlers: [file]
+    propagate: yes
+  application:
+    level: INFO
+    handlers: [colour, file]
+    propagate: no
