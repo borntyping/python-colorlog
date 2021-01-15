@@ -42,12 +42,8 @@ def ensure_configured(func):
 
 root = logging.root
 getLogger = logging.getLogger
-debug = ensure_configured(logging.debug)
-info = ensure_configured(logging.info)
-warning = ensure_configured(logging.warning)
-error = ensure_configured(logging.error)
-critical = ensure_configured(logging.critical)
-log = ensure_configured(logging.log)
-exception = ensure_configured(logging.exception)
+loggings = ['debug', 'info', 'warning', 'error', 'critical', 'log', 'exception']
+for l in loggings:
+    exec(l+' = ensure_configured(logging.'+l+')')
 
 StreamHandler = logging.StreamHandler
