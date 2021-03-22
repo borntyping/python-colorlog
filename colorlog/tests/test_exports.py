@@ -5,7 +5,18 @@ from colorlog import *  # noqa
 
 def test_exports():
     assert {
-        'ColoredFormatter', 'default_log_colors', 'escape_codes',
-        'basicConfig', 'root', 'getLogger', 'debug', 'info', 'warning',
-        'error', 'exception', 'critical', 'log', 'exception'
+        "ColoredFormatter",
+        "default_log_colors",
+        "escape_codes",
+        "basicConfig",
+        "root",
+        "getLogger",
+        "debug",
+        "info",
+        "warning",
+        "error",
+        "exception",
+        "critical",
+        "log",
+        "exception",
     } < set(globals())

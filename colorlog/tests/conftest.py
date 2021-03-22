@@ -24,9 +24,9 @@ def assert_log_message(log_function, message, capsys):
     log_function(message)
     out, err = capsys.readouterr()
     # Print the output so that py.test shows it when a test fails
-    print(err, end='', file=sys.stderr)
+    print(err, end="", file=sys.stderr)
     # Assert the message send to the logger was output
-    assert message in err, 'Log message not output to STDERR'
+    assert message in err, "Log message not output to STDERR"
     return err
 
 
@@ -40,11 +40,11 @@ def reset_loggers():
 def test_logger(reset_loggers, capsys):
     def function(logger, validator=None):
         lines = [
-            assert_log_message(logger.debug, 'a debug message', capsys),
-            assert_log_message(logger.info, 'an info message', capsys),
-            assert_log_message(logger.warning, 'a warning message', capsys),
-            assert_log_message(logger.error, 'an error message', capsys),
-            assert_log_message(logger.critical, 'a critical message', capsys)
+            assert_log_message(logger.debug, "a debug message", capsys),
+            assert_log_message(logger.info, "an info message", capsys),
+            assert_log_message(logger.warning, "a warning message", capsys),
+            assert_log_message(logger.error, "an error message", capsys),
+            assert_log_message(logger.critical, "a critical message", capsys),
         ]
 
         if validator is not None:
@@ -60,8 +60,8 @@ def test_logger(reset_loggers, capsys):
 @pytest.fixture()
 def create_and_test_logger(test_logger):
     def function(*args, **kwargs):
-        validator = kwargs.pop('validator', None)
-        formatter_cls = kwargs.pop('formatter_class', colorlog.ColoredFormatter)
+        validator = kwargs.pop("validator", None)
+        formatter_cls = kwargs.pop("formatter_class", colorlog.ColoredFormatter)
 
         formatter = formatter_cls(*args, **kwargs)
 

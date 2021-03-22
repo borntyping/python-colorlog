@@ -10,8 +10,15 @@ from colorlog.colorlog import ColoredFormatter
 BASIC_FORMAT = "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s"
 
 
-def basicConfig(style='%', log_colors=None, reset=True,
-                secondary_log_colors=None, format=BASIC_FORMAT, datefmt=None, **kwargs):
+def basicConfig(
+    style="%",
+    log_colors=None,
+    reset=True,
+    secondary_log_colors=None,
+    format=BASIC_FORMAT,
+    datefmt=None,
+    **kwargs
+):
     """Call ``logging.basicConfig`` and override the formatter it creates."""
     logging.basicConfig(**kwargs)
     logging._acquireLock()
@@ -24,19 +31,22 @@ def basicConfig(style='%', log_colors=None, reset=True,
                 style=style,
                 log_colors=log_colors,
                 reset=reset,
-                secondary_log_colors=secondary_log_colors
-            ))
+                secondary_log_colors=secondary_log_colors,
+            )
+        )
     finally:
         logging._releaseLock()
 
 
 def ensure_configured(func):
     """Modify a function to call ``basicConfig`` first if no handlers exist."""
+
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         if len(logging.root.handlers) == 0:
             basicConfig()
         return func(*args, **kwargs)
+
     return wrapper
 
 
