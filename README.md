@@ -186,14 +186,11 @@ Tests
 
 Tests similar to the above examples are found in `tests/test_colorlog.py`.
 
-[`tox`][tox] will run the tests under all compatible python versions.
-
-
 Status
 ------
 
 colorlog is in maintainance mode. I try and ensure bugfixes are published,
-but compatibility with Python 2.6+ and Python 3+ makes this a difficult 
+but compatibility with Python 2.6+ and Python 3+ makes this a difficult
 codebase to add features to. Any changes that might break backwards
 compatibility for existing users will not be considered.
 
