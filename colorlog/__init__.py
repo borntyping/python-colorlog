@@ -12,6 +12,7 @@ from colorlog.colorlog import (
 
 from colorlog.logging import (
     basicConfig,
+    colorize,
     root,
     getLogger,
     log,
@@ -29,6 +30,7 @@ __all__ = (
     "default_log_colors",
     "escape_codes",
     "basicConfig",
+    "colorize",
     "root",
     "getLogger",
     "debug",
