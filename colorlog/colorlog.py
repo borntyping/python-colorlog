@@ -78,6 +78,7 @@ class ColoredFormatter(logging.Formatter):
         secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
         validate: bool = True,
         stream: typing.Optional[typing.IO] = None,
+        no_color: bool = False,
     ) -> None:
         """
         Set the format and colors the ColoredFormatter will use.
@@ -122,6 +123,7 @@ class ColoredFormatter(logging.Formatter):
         )
         self.reset = reset
         self.stream = stream
+        self.no_color = no_color
 
     def formatMessage(self, record: logging.LogRecord) -> str:
         """Format a message from a record object."""
@@ -147,6 +149,9 @@ class ColoredFormatter(logging.Formatter):
 
     def _blank_escape_codes(self):
         """Return True if we should be prevented from printing escape codes."""
+        if self.no_color:
+            return True
+
         if "NO_COLOR" in os.environ:
             return True
 
