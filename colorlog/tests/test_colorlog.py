@@ -2,8 +2,6 @@
 
 import sys
 
-import pytest
-
 import colorlog
 
 
@@ -74,18 +72,30 @@ def test_percent_style(create_and_test_logger):
     )
 
 
-@pytest.mark.skipif(sys.version_info < (3, 2), reason="requires python3.2")
 def test_braces_style(create_and_test_logger):
     create_and_test_logger(
         fmt="{log_color}{levelname}{reset}:{name}:{message}", style="{"
     )
 
 
-@pytest.mark.skipif(sys.version_info < (3, 2), reason="requires python3.2")
 def test_template_style(create_and_test_logger):
     create_and_test_logger(
         fmt="${log_color}${levelname}${reset}:${name}:${message}", style="$"
     )
+
+
+class TestLevelFormatter:
+    def test_level_formatter(self, create_and_test_logger):
+        create_and_test_logger(
+            formatter_class=colorlog.LevelFormatter,
+            fmt={
+                "DEBUG": "%(message)s",
+                "INFO": "%(message)s",
+                "WARNING": "%(message)s",
+                "ERROR": "%(message)s",
+                "CRITICAL": "%(message)s",
+            },
+        )
 
 
 def test_ttycolorlog(create_and_test_logger, monkeypatch):

@@ -3,9 +3,6 @@
 import logging
 import logging.config
 import os.path
-import sys
-
-import pytest
 
 
 def path(filename):
@@ -18,7 +15,6 @@ def test_build_from_file(test_logger):
     test_logger(logging.getLogger(), lambda l: ":test_config.ini" in l)
 
 
-@pytest.mark.skipif(sys.version_info < (2, 7), reason="requires python2.7")
 def test_build_from_dictionary(test_logger):
     logging.config.dictConfig(
         {

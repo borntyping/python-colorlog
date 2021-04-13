@@ -93,10 +93,7 @@ class ColoredFormatter(logging.Formatter):
             Map secondary ``log_color`` attributes. (*New in version 2.6.*)
         """
         if fmt is None:
-            if sys.version_info > (3, 2):
-                fmt = default_formats[style]
-            else:
-                fmt = default_formats["%"]
+            fmt = default_formats[style]
 
         if (
             sys.version_info > (3, 8)
@@ -104,12 +101,8 @@ class ColoredFormatter(logging.Formatter):
             and isinstance(fmt, dict)
         ):
             super(ColoredFormatter, self).__init__(fmt, datefmt, style, validate=False)
-        elif sys.version_info > (3, 2):
-            super(ColoredFormatter, self).__init__(fmt, datefmt, style)
-        elif sys.version_info > (2, 7):
-            super(ColoredFormatter, self).__init__(fmt, datefmt)
         else:
-            logging.Formatter.__init__(self, fmt, datefmt)
+            super(ColoredFormatter, self).__init__(fmt, datefmt, style)
 
         self.log_colors = log_colors if log_colors is not None else default_log_colors
         self.secondary_log_colors = secondary_log_colors
@@ -131,10 +124,7 @@ class ColoredFormatter(logging.Formatter):
                 setattr(record, name + "_log_color", color)
 
         # Format the message
-        if sys.version_info > (2, 7):
-            message = super(ColoredFormatter, self).format(record)
-        else:
-            message = logging.Formatter.format(self, record)
+        message = super(ColoredFormatter, self).format(record)
 
         # Add a reset code to the end of the message
         # (if it wasn't explicitly added in format str)
@@ -178,25 +168,14 @@ class LevelFormatter(ColoredFormatter):
             'CRITICAL': '%(log_color)sCRIT: %(msg)s (%(module)s:%(lineno)d)',
         })
         """
-        if sys.version_info > (2, 7):
-            super(LevelFormatter, self).__init__(
-                fmt=fmt,
-                datefmt=datefmt,
-                style=style,
-                log_colors=log_colors,
-                reset=reset,
-                secondary_log_colors=secondary_log_colors,
-            )
-        else:
-            ColoredFormatter.__init__(
-                self,
-                fmt=fmt,
-                datefmt=datefmt,
-                style=style,
-                log_colors=log_colors,
-                reset=reset,
-                secondary_log_colors=secondary_log_colors,
-            )
+        super(LevelFormatter, self).__init__(
+            fmt=fmt,
+            datefmt=datefmt,
+            style=style,
+            log_colors=log_colors,
+            reset=reset,
+            secondary_log_colors=secondary_log_colors,
+        )
         self.style = style
         self.fmt = fmt
 
@@ -204,21 +183,16 @@ class LevelFormatter(ColoredFormatter):
         """Customize the message format based on the log level."""
         if isinstance(self.fmt, dict):
             self._fmt = self.fmt[record.levelname]
-            if sys.version_info > (3, 2):
-                # Update self._style because we've changed self._fmt
-                # (code based on stdlib's logging.Formatter.__init__())
-                if self.style not in logging._STYLES:
-                    raise ValueError(
-                        "Style must be one of: %s" % ",".join(logging._STYLES.keys())
-                    )
-                self._style = logging._STYLES[self.style][0](self._fmt)
 
-        if sys.version_info > (2, 7):
-            message = super(LevelFormatter, self).format(record)
-        else:
-            message = ColoredFormatter.format(self, record)
+            # Update self._style because we've changed self._fmt
+            # (code based on stdlib's logging.Formatter.__init__())
+            if self.style not in logging._STYLES:
+                raise ValueError(
+                    "Style must be one of: %s" % ",".join(logging._STYLES.keys())
+                )
+            self._style = logging._STYLES[self.style][0](self._fmt)
 
-        return message
+        return super(LevelFormatter, self).format(record)
 
 
 class TTYColoredFormatter(ColoredFormatter):
