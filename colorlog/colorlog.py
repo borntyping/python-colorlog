@@ -47,18 +47,9 @@ class ColoredRecord(object):
     StrFormatStyle, and StringTemplateStyle classes).
     """
 
-    def __init__(
-        self,
-        record: logging.LogRecord,
-        escapes: EscapeCodes,
-    ) -> None:
-        """Add attributes from the escape_codes dict and the record."""
+    def __init__(self, record: logging.LogRecord, escapes: EscapeCodes) -> None:
         self.__dict__.update(record.__dict__)
         self.__dict__.update(escapes)
-        self._record = record
-
-    def __getattr__(self, name: str) -> typing.Any:
-        return getattr(self._record, name)
 
 
 class ColoredFormatter(logging.Formatter):
