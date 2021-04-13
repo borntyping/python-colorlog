@@ -24,8 +24,8 @@ def basicConfig(
     logging.basicConfig(**kwargs)
     logging._acquireLock()
     try:
-        stream = logging.root.handlers[0]
-        stream.setFormatter(
+        handler = logging.root.handlers[0]
+        handler.setFormatter(
             ColoredFormatter(
                 fmt=format,
                 datefmt=datefmt,
@@ -33,6 +33,7 @@ def basicConfig(
                 log_colors=log_colors,
                 reset=reset,
                 secondary_log_colors=secondary_log_colors,
+                stream=kwargs.get("stream", None),
             )
         )
     finally:
