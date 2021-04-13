@@ -4,21 +4,22 @@ from __future__ import absolute_import
 
 import functools
 import logging
+import typing
 
-from colorlog.colorlog import ColoredFormatter
+from colorlog.colorlog import ColoredFormatter, LogColors, SecondaryLogColors
 
 BASIC_FORMAT = "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s"
 
 
 def basicConfig(
-    style="%",
-    log_colors=None,
-    reset=True,
-    secondary_log_colors=None,
-    format=BASIC_FORMAT,
-    datefmt=None,
+    style: str = "%",
+    log_colors: typing.Optional[LogColors] = None,
+    reset: bool = True,
+    secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
+    format: str = BASIC_FORMAT,
+    datefmt: typing.Optional[str] = None,
     **kwargs
-):
+) -> None:
     """Call ``logging.basicConfig`` and override the formatter it creates."""
     logging.basicConfig(**kwargs)
     logging._acquireLock()

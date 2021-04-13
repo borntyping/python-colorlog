@@ -19,15 +19,28 @@ __all__ = ("escape_codes", "parse_colors")
 
 
 # Returns escape codes from format codes
-def esc(*x):
+def esc(*x: str) -> str:
     return "\033[" + ";".join(x) + "m"
 
 
 # The initial list of escape codes
-escape_codes = {"reset": esc("0"), "bold": esc("01"), "thin": esc("02")}
+escape_codes = {
+    "reset": esc("0"),
+    "bold": esc("01"),
+    "thin": esc("02"),
+}
 
 # The color names
-COLORS = ["black", "red", "green", "yellow", "blue", "purple", "cyan", "white"]
+COLORS = [
+    "black",
+    "red",
+    "green",
+    "yellow",
+    "blue",
+    "purple",
+    "cyan",
+    "white",
+]
 
 PREFIXES = [
     # Foreground without prefix
@@ -48,6 +61,6 @@ for prefix, prefix_name in PREFIXES:
         escape_codes[prefix_name + name] = esc(prefix + str(code))
 
 
-def parse_colors(sequence):
+def parse_colors(sequence: str) -> str:
     """Return escape codes from a color sequence."""
     return "".join(escape_codes[n] for n in sequence.split(",") if n)

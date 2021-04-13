@@ -12,7 +12,10 @@ setup(
     license="MIT License",
     packages=["colorlog"],
     setup_requires=["setuptools>=38.6.0"],
-    extras_require={':sys_platform=="win32"': ["colorama"]},
+    extras_require={
+        ':sys_platform=="win32"': ["colorama"],
+        "development": ["black", "flake8", "mypy", "pytest", "types-colorama"],
+    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",

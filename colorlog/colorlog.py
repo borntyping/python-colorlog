@@ -4,6 +4,7 @@ from __future__ import absolute_import
 
 import logging
 import sys
+import typing
 
 from colorlog.escape_codes import escape_codes, parse_colors
 
@@ -14,6 +15,10 @@ __all__ = (
     "LevelFormatter",
     "TTYColoredFormatter",
 )
+
+# Type aliases used in function signatures.
+LogColors = typing.Mapping[str, str]
+SecondaryLogColors = typing.Mapping[str, LogColors]
 
 # The default colors to use for the debug levels
 default_log_colors = {
@@ -40,7 +45,7 @@ class ColoredRecord(object):
     StrFormatStyle, and StringTemplateStyle classes).
     """
 
-    def __init__(self, record):
+    def __init__(self, record: logging.LogRecord) -> None:
         """Add attributes from the escape_codes dict and the record."""
         self.__dict__.update(escape_codes)
         self.__dict__.update(record.__dict__)
@@ -49,7 +54,7 @@ class ColoredRecord(object):
         # access functions that are not in ``__dict__``
         self.__record = record
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str) -> typing.Any:
         return getattr(self.__record, name)
 
 
@@ -62,13 +67,13 @@ class ColoredFormatter(logging.Formatter):
 
     def __init__(
         self,
-        fmt=None,
-        datefmt=None,
-        style="%",
-        log_colors=None,
-        reset=True,
-        secondary_log_colors=None,
-    ):
+        fmt: typing.Optional[str] = None,
+        datefmt: typing.Optional[str] = None,
+        style: str = "%",
+        log_colors: typing.Optional[LogColors] = None,
+        reset: bool = True,
+        secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
+    ) -> None:
         """
         Set the format and colors the ColoredFormatter will use.
 
@@ -108,11 +113,11 @@ class ColoredFormatter(logging.Formatter):
         self.secondary_log_colors = secondary_log_colors
         self.reset = reset
 
-    def color(self, log_colors, level_name):
+    def color(self, log_colors: LogColors, level_name: str) -> str:
         """Return escape codes from a ``log_colors`` dict."""
         return parse_colors(log_colors.get(level_name, ""))
 
-    def format(self, record):
+    def format(self, record: logging.LogRecord) -> str:
         """Format a message from a record object."""
         record = ColoredRecord(record)
         record.log_color = self.color(self.log_colors, record.levelname)
@@ -139,12 +144,12 @@ class LevelFormatter(ColoredFormatter):
 
     def __init__(
         self,
-        fmt=None,
-        datefmt=None,
-        style="%",
-        log_colors=None,
-        reset=True,
-        secondary_log_colors=None,
+        fmt: typing.Optional[str] = None,
+        datefmt: typing.Optional[str] = None,
+        style: str = "%",
+        log_colors: typing.Optional[LogColors] = None,
+        reset: bool = True,
+        secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
     ):
         """
         Set the per-loglevel format that will be used.
@@ -179,7 +184,7 @@ class LevelFormatter(ColoredFormatter):
         self.style = style
         self.fmt = fmt
 
-    def format(self, record):
+    def format(self, record: logging.LogRecord) -> str:
         """Customize the message format based on the log level."""
         if isinstance(self.fmt, dict):
             self._fmt = self.fmt[record.levelname]
@@ -202,14 +207,31 @@ class TTYColoredFormatter(ColoredFormatter):
     This is useful when you want to be able to pipe colorlog output to a file.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(
+        self,
+        stream: typing.IO,
+        fmt: typing.Optional[typing.Mapping[str, str]] = None,
+        datefmt: typing.Optional[str] = None,
+        style: str = "%",
+        log_colors: typing.Optional[LogColors] = None,
+        reset: bool = True,
+        secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
+    ) -> None:
         """Overwrite the `reset` argument to False if stream is not a TTY."""
-        self.stream = kwargs.pop("stream")
+        self.stream = stream
 
         # Both `reset` and `isatty` must be true to insert reset codes.
-        kwargs["reset"] = kwargs.get("reset", True) and self.stream.isatty()
+        reset = reset and self.stream.isatty()
 
-        ColoredFormatter.__init__(self, *args, **kwargs)
+        ColoredFormatter.__init__(
+            self,
+            fmt=fmt,
+            datefmt=datefmt,
+            style=style,
+            log_colors=log_colors,
+            reset=reset,
+            secondary_log_colors=secondary_log_colors,
+        )
 
     def color(self, log_colors, level_name):
         """Only returns colors if STDOUT is a TTY."""
