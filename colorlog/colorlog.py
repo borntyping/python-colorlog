@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 
 import logging
+import os
 import sys
 import typing
 
@@ -76,6 +77,7 @@ class ColoredFormatter(logging.Formatter):
         reset: bool = True,
         secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
         validate: bool = True,
+        stream: typing.Optional[typing.IO] = None,
     ) -> None:
         """
         Set the format and colors the ColoredFormatter will use.
@@ -101,6 +103,9 @@ class ColoredFormatter(logging.Formatter):
             Map secondary ``log_color`` attributes. (*New in version 2.6.*)
         - validate (bool)
             Validate the format string.
+        - stream (typing.IO)
+            The stream formatted messages will be printed to. Used to toggle colour
+            on non-TTY outputs. Optional.
         """
 
         # Select a default format if `fmt` is not provided.
@@ -116,29 +121,43 @@ class ColoredFormatter(logging.Formatter):
             secondary_log_colors if secondary_log_colors is not None else {}
         )
         self.reset = reset
+        self.stream = stream
 
     def formatMessage(self, record: logging.LogRecord) -> str:
         """Format a message from a record object."""
-        escapes = self.escape_code_map(record.levelname)
+        escapes = self._escape_code_map(record.levelname)
         wrapper = ColoredRecord(record, escapes)
         message = super(ColoredFormatter, self).formatMessage(wrapper)
-        message = self.append_reset(message, escapes)
+        message = self._append_reset(message, escapes)
         return message
 
-    def escape_code_map(self, item: str) -> EscapeCodes:
-        """Build a map of keys to escape codes for use in message formatting."""
+    def _escape_code_map(self, item: str) -> EscapeCodes:
+        """
+        Build a map of keys to escape codes for use in message formatting.
+
+        If _blank_escape_codes() returns True, all values will be an empty string.
+        """
         codes = {**escape_codes}
-        codes.setdefault("log_color", self.escape_codes(self.log_colors, item))
-        for name, log_colors in self.secondary_log_colors.items():
-            codes.setdefault("%s_log_color" % name, self.escape_codes(log_colors, item))
+        codes.setdefault("log_color", self._get_escape_code(self.log_colors, item))
+        for name, colors in self.secondary_log_colors.items():
+            codes.setdefault("%s_log_color" % name, self._get_escape_code(colors, item))
+        if self._blank_escape_codes():
+            codes = {key: "" for key in codes.keys()}
         return codes
 
+    def _blank_escape_codes(self):
+        """Return True if we should be prevented from printing escape codes."""
+        if self.stream is not None and not self.stream.isatty():
+            return True
+
+        return False
+
     @staticmethod
-    def escape_codes(log_colors: LogColors, item: str) -> str:
+    def _get_escape_code(log_colors: LogColors, item: str) -> str:
         """Extract a color sequence from a mapping, and return escape codes."""
         return parse_colors(log_colors.get(item, ""))
 
-    def append_reset(self, message: str, escapes: EscapeCodes) -> str:
+    def _append_reset(self, message: str, escapes: EscapeCodes) -> str:
         """Add a reset code to the end of the message, if it's not already there."""
         reset_escape_code = escapes["reset"]
 
@@ -186,44 +205,6 @@ class LevelFormatter:
         return self.formatters[record.levelname].format(record)
 
 
-class TTYColoredFormatter(ColoredFormatter):
-    """
-    Blanks all color codes if not running under a TTY.
-
-    This is useful when you want to be able to pipe colorlog output to a file.
-    """
-
-    def __init__(
-        self,
-        stream: typing.IO,
-        fmt: typing.Optional[typing.Mapping[str, str]] = None,
-        datefmt: typing.Optional[str] = None,
-        style: str = "%",
-        log_colors: typing.Optional[LogColors] = None,
-        reset: bool = True,
-        secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
-    ) -> None:
-        super().__init__(
-            fmt=fmt,
-            datefmt=datefmt,
-            style=style,
-            log_colors=log_colors,
-            reset=reset,
-            secondary_log_colors=secondary_log_colors,
-            validate=False,
-        )
-        self.stream = stream
-
-    def escape_code_map(self, item: str) -> LogColors:
-        """
-        Blank all of the color variables we add.
-
-        This ensures we don't 'leak' any escape codes (e.g. via a user directly placing
-        '%(reset)s' in a format string) and that variable names are still available.
-        """
-        colors = super().escape_code_map(item)
-
-        if not self.stream.isatty():
-            colors = {key: "" for key in colors.keys()}
-
-        return colors
+# Provided for backwards compatibility. The features provided by this subclass are now
+# included directly in the `ColoredFormatter` class.
+TTYColoredFormatter = ColoredFormatter
