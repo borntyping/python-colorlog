@@ -73,6 +73,7 @@ class ColoredFormatter(logging.Formatter):
         log_colors: typing.Optional[LogColors] = None,
         reset: bool = True,
         secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
+        validate: bool = True,
     ) -> None:
         """
         Set the format and colors the ColoredFormatter will use.
@@ -97,15 +98,12 @@ class ColoredFormatter(logging.Formatter):
         - secondary_log_colors (dict):
             Map secondary ``log_color`` attributes. (*New in version 2.6.*)
         """
-        if fmt is None:
-            fmt = default_formats[style]
 
-        if (
-            sys.version_info > (3, 8)
-            and isinstance(self, LevelFormatter)
-            and isinstance(fmt, dict)
-        ):
-            super(ColoredFormatter, self).__init__(fmt, datefmt, style, validate=False)
+        # Select a default format if `fmt` is not provided.
+        fmt = default_formats[style] if fmt is None else fmt
+
+        if sys.version_info > (3, 8):
+            super(ColoredFormatter, self).__init__(fmt, datefmt, style, validate)
         else:
             super(ColoredFormatter, self).__init__(fmt, datefmt, style)
 
@@ -194,11 +192,12 @@ class TTYColoredFormatter(ColoredFormatter):
         reset: bool = True,
         secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
     ) -> None:
-        """Overwrite the `reset` argument to False if stream is not a TTY."""
-        self.stream = stream
+        """Remove color configuration if the provided stream is not a TTY."""
 
-        # Both `reset` and `isatty` must be true to insert reset codes.
-        reset = reset and self.stream.isatty()
+        if not stream.isatty():
+            reset = False
+            log_colors = {}
+            secondary_log_colors = {}
 
         ColoredFormatter.__init__(
             self,
@@ -208,10 +207,5 @@ class TTYColoredFormatter(ColoredFormatter):
             log_colors=log_colors,
             reset=reset,
             secondary_log_colors=secondary_log_colors,
+            validate=False,
         )
-
-    def color(self, log_colors, level_name):
-        """Only returns colors if STDOUT is a TTY."""
-        if not self.stream.isatty():
-            log_colors = {}
-        return ColoredFormatter.color(self, log_colors, level_name)
