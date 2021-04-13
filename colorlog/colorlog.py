@@ -102,7 +102,7 @@ class ColoredFormatter(logging.Formatter):
         # Select a default format if `fmt` is not provided.
         fmt = default_formats[style] if fmt is None else fmt
 
-        if sys.version_info > (3, 8):
+        if sys.version_info >= (3, 8):
             super(ColoredFormatter, self).__init__(fmt, datefmt, style, validate)
         else:
             super(ColoredFormatter, self).__init__(fmt, datefmt, style)
