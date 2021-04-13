@@ -117,7 +117,7 @@ class ColoredFormatter(logging.Formatter):
         """Return escape codes from a ``log_colors`` dict."""
         return parse_colors(log_colors.get(level_name, ""))
 
-    def format(self, record: logging.LogRecord) -> str:
+    def formatMessage(self, record: logging.LogRecord) -> str:
         """Format a message from a record object."""
         record = ColoredRecord(record)
         record.log_color = self.color(self.log_colors, record.levelname)
@@ -129,7 +129,7 @@ class ColoredFormatter(logging.Formatter):
                 setattr(record, name + "_log_color", color)
 
         # Format the message
-        message = super(ColoredFormatter, self).format(record)
+        message = super(ColoredFormatter, self).formatMessage(record)
 
         # Add a reset code to the end of the message
         # (if it wasn't explicitly added in format str)
@@ -184,7 +184,7 @@ class LevelFormatter(ColoredFormatter):
         self.style = style
         self.fmt = fmt
 
-    def format(self, record: logging.LogRecord) -> str:
+    def formatMessage(self, record: logging.LogRecord) -> str:
         """Customize the message format based on the log level."""
         if isinstance(self.fmt, dict):
             self._fmt = self.fmt[record.levelname]
@@ -197,7 +197,7 @@ class LevelFormatter(ColoredFormatter):
                 )
             self._style = logging._STYLES[self.style][0](self._fmt)
 
-        return super(LevelFormatter, self).format(record)
+        return super(LevelFormatter, self).formatMessage(record)
 
 
 class TTYColoredFormatter(ColoredFormatter):
