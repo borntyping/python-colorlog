@@ -147,6 +147,9 @@ class ColoredFormatter(logging.Formatter):
 
     def _blank_escape_codes(self):
         """Return True if we should be prevented from printing escape codes."""
+        if "NO_COLOR" in os.environ:
+            return True
+
         if self.stream is not None and not self.stream.isatty():
             return True
 
