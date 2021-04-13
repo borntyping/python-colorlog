@@ -49,7 +49,7 @@ __all__ = (
 
 if sys.version_info < (3, 5):
     warnings.warn(
-        "Colorlog 6.0.0 will require Python 3.5 or above. Pin 'colorlog<5' to your "
-        "dependencies if you require compatibility with older versions of Python. See "
+        "Colorlog requires Python 3.5 or above. Pin 'colorlog<5' to your dependencies "
+        "if you require compatibility with older versions of Python. See "
         "https://github.com/borntyping/python-colorlog#status for more information."
     )
