@@ -166,11 +166,11 @@ class LevelFormatter(ColoredFormatter):
         Example:
 
         formatter = colorlog.LevelFormatter(fmt={
-            'DEBUG':'%(log_color)s%(msg)s (%(module)s:%(lineno)d)',
-            'INFO': '%(log_color)s%(msg)s',
-            'WARNING': '%(log_color)sWARN: %(msg)s (%(module)s:%(lineno)d)',
-            'ERROR': '%(log_color)sERROR: %(msg)s (%(module)s:%(lineno)d)',
-            'CRITICAL': '%(log_color)sCRIT: %(msg)s (%(module)s:%(lineno)d)',
+            'DEBUG':'%(log_color)s%(message)s (%(module)s:%(lineno)d)',
+            'INFO': '%(log_color)s%(message)s',
+            'WARNING': '%(log_color)sWARN: %(message)s (%(module)s:%(lineno)d)',
+            'ERROR': '%(log_color)sERROR: %(message)s (%(module)s:%(lineno)d)',
+            'CRITICAL': '%(log_color)sCRIT: %(message)s (%(module)s:%(lineno)d)',
         })
         """
         super(LevelFormatter, self).__init__(
