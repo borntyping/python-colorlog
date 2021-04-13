@@ -93,6 +93,11 @@ for name, code in escape_codes_foreground.items():
 for name, code in escape_codes_background.items():
     escape_codes["bg_%s" % name] = esc(code)
 
+# 256 colour support
+for code in range(256):
+    escape_codes["fg_%d" % code] = esc(38, 5, code)
+    escape_codes["bg_%d" % code] = esc(48, 5, code)
+
 
 def parse_colors(string: str) -> str:
     """Return escape codes from a color sequence string."""

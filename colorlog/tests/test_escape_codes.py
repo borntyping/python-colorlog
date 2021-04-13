@@ -6,7 +6,7 @@ import pytest
 
 
 def test_esc():
-    assert esc("1", "2", "3") == "\033[1;2;3m"
+    assert esc(1, 2, 3) == "\033[1;2;3m"
 
 
 def test_reset():
@@ -50,3 +50,9 @@ def test_parse_multiple_colors():
 def test_parse_invalid_colors():
     with pytest.raises(KeyError):
         parse_colors("false")
+
+
+def test_256_colors():
+    for i in range(256):
+        assert parse_colors("fg_%d" % i) == "\033[38;5;%dm" % i
+        assert parse_colors("bg_%d" % i) == "\033[48;5;%dm" % i
