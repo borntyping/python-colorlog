@@ -241,7 +241,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [Arch AUR]: https://aur.archlinux.org/packages/python-colorlog/
 [BSD ports]: https://www.freshports.org/devel/py-colorlog/
 [colorama]: https://pypi.python.org/pypi/colorama
-[Conda]: https://anaconda.org/auto/colorlog
+[Conda]: https://anaconda.org/conda-forge/colorlog
 [Counterparty]: https://counterparty.io/
 [Debian]: https://packages.debian.org/jessie/python-colorlog
 [Errbot]: http://errbot.io/
