@@ -139,20 +139,14 @@ class ColoredFormatter(logging.Formatter):
         return message
 
 
-class LevelFormatter(ColoredFormatter):
+class LevelFormatter:
     """An extension of ColoredFormatter that uses per-level format strings."""
 
     def __init__(
-        self,
-        fmt: typing.Optional[str] = None,
-        datefmt: typing.Optional[str] = None,
-        style: str = "%",
-        log_colors: typing.Optional[LogColors] = None,
-        reset: bool = True,
-        secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
-    ):
+        self, fmt: typing.Mapping[str, typing.Mapping[str, str]], **kwargs: typing.Any
+    ) -> None:
         """
-        Set the per-loglevel format that will be used.
+        Configure a ColoredFormatter with its own format string for each log level.
 
         Supports fmt as a dict. All other args are passed on to the
         ``colorlog.ColoredFormatter`` constructor.
@@ -160,44 +154,27 @@ class LevelFormatter(ColoredFormatter):
         :Parameters:
         - fmt (dict):
             A mapping of log levels (represented as strings, e.g. 'WARNING') to
-            different formatters. (*New in version 2.7.0)
+            format strings. (*New in version 2.7.0)
         (All other parameters are the same as in colorlog.ColoredFormatter)
 
         Example:
 
-        formatter = colorlog.LevelFormatter(fmt={
-            'DEBUG':'%(log_color)s%(message)s (%(module)s:%(lineno)d)',
-            'INFO': '%(log_color)s%(message)s',
-            'WARNING': '%(log_color)sWARN: %(message)s (%(module)s:%(lineno)d)',
-            'ERROR': '%(log_color)sERROR: %(message)s (%(module)s:%(lineno)d)',
-            'CRITICAL': '%(log_color)sCRIT: %(message)s (%(module)s:%(lineno)d)',
-        })
-        """
-        super(LevelFormatter, self).__init__(
-            fmt=fmt,
-            datefmt=datefmt,
-            style=style,
-            log_colors=log_colors,
-            reset=reset,
-            secondary_log_colors=secondary_log_colors,
+        formatter = colorlog.LevelFormatter(
+            fmt={
+                "DEBUG": "%(log_color)s%(message)s (%(module)s:%(lineno)d)",
+                "INFO": "%(log_color)s%(message)s",
+                "WARNING": "%(log_color)sWRN: %(message)s (%(module)s:%(lineno)d)",
+                "ERROR": "%(log_color)sERR: %(message)s (%(module)s:%(lineno)d)",
+                "CRITICAL": "%(log_color)sCRT: %(message)s (%(module)s:%(lineno)d)",
+            }
         )
-        self.style = style
-        self.fmt = fmt
+        """
+        self.formatters = {
+            level: ColoredFormatter(fmt=fmt, **kwargs) for level, fmt in fmt.items()
+        }
 
-    def formatMessage(self, record: logging.LogRecord) -> str:
-        """Customize the message format based on the log level."""
-        if isinstance(self.fmt, dict):
-            self._fmt = self.fmt[record.levelname]
-
-            # Update self._style because we've changed self._fmt
-            # (code based on stdlib's logging.Formatter.__init__())
-            if self.style not in logging._STYLES:
-                raise ValueError(
-                    "Style must be one of: %s" % ",".join(logging._STYLES.keys())
-                )
-            self._style = logging._STYLES[self.style][0](self._fmt)
-
-        return super(LevelFormatter, self).formatMessage(record)
+    def format(self, record: logging.LogRecord) -> str:
+        return self.formatters[record.levelname].format(record)
 
 
 class TTYColoredFormatter(ColoredFormatter):
