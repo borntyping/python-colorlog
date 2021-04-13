@@ -17,6 +17,7 @@ __all__ = (
 )
 
 # Type aliases used in function signatures.
+EscapeCodes = typing.Mapping[str, str]
 LogColors = typing.Mapping[str, str]
 SecondaryLogColors = typing.Mapping[str, LogColors]
 
@@ -39,23 +40,24 @@ default_formats = {
 
 class ColoredRecord(object):
     """
-    Wraps a LogRecord, adding named escape codes to the internal dict.
+    Wraps a LogRecord, adding escape codes to the internal dict.
 
     The internal dict is used when formatting the message (by the PercentStyle,
     StrFormatStyle, and StringTemplateStyle classes).
     """
 
-    def __init__(self, record: logging.LogRecord) -> None:
+    def __init__(
+        self,
+        record: logging.LogRecord,
+        escapes: EscapeCodes,
+    ) -> None:
         """Add attributes from the escape_codes dict and the record."""
-        self.__dict__.update(escape_codes)
         self.__dict__.update(record.__dict__)
-
-        # Keep a reference to the original record so ``__getattr__`` can
-        # access functions that are not in ``__dict__``
-        self.__record = record
+        self.__dict__.update(escapes)
+        self._record = record
 
     def __getattr__(self, name: str) -> typing.Any:
-        return getattr(self.__record, name)
+        return getattr(self._record, name)
 
 
 class ColoredFormatter(logging.Formatter):
@@ -87,16 +89,18 @@ class ColoredFormatter(logging.Formatter):
         ``log_colors`` set.
 
         :Parameters:
-        - fmt (str): The format string to use
-        - datefmt (str): A format string for the date
+        - fmt (str): The format string to use.
+        - datefmt (str): A format string for the date.
         - log_colors (dict):
-            A mapping of log level names to color names
+            A mapping of log level names to color names.
         - reset (bool):
-            Implicitly append a color reset to all records unless False
+            Implicitly append a color reset to all records unless False.
         - style ('%' or '{' or '$'):
             The format style to use. (*No meaning prior to Python 3.2.*)
         - secondary_log_colors (dict):
             Map secondary ``log_color`` attributes. (*New in version 2.6.*)
+        - validate (bool)
+            Validate the format string.
         """
 
         # Select a default format if `fmt` is not provided.
@@ -108,31 +112,38 @@ class ColoredFormatter(logging.Formatter):
             super(ColoredFormatter, self).__init__(fmt, datefmt, style)
 
         self.log_colors = log_colors if log_colors is not None else default_log_colors
-        self.secondary_log_colors = secondary_log_colors
+        self.secondary_log_colors = (
+            secondary_log_colors if secondary_log_colors is not None else {}
+        )
         self.reset = reset
-
-    def color(self, log_colors: LogColors, level_name: str) -> str:
-        """Return escape codes from a ``log_colors`` dict."""
-        return parse_colors(log_colors.get(level_name, ""))
 
     def formatMessage(self, record: logging.LogRecord) -> str:
         """Format a message from a record object."""
-        record = ColoredRecord(record)
-        record.log_color = self.color(self.log_colors, record.levelname)
+        escapes = self.escape_code_map(record.levelname)
+        wrapper = ColoredRecord(record, escapes)
+        message = super(ColoredFormatter, self).formatMessage(wrapper)
+        message = self.append_reset(message, escapes)
+        return message
 
-        # Set secondary log colors
-        if self.secondary_log_colors:
-            for name, log_colors in self.secondary_log_colors.items():
-                color = self.color(log_colors, record.levelname)
-                setattr(record, name + "_log_color", color)
+    def escape_code_map(self, item: str) -> EscapeCodes:
+        """Build a map of keys to escape codes for use in message formatting."""
+        codes = {**escape_codes}
+        codes.setdefault("log_color", self.escape_codes(self.log_colors, item))
+        for name, log_colors in self.secondary_log_colors.items():
+            codes.setdefault("%s_log_color" % name, self.escape_codes(log_colors, item))
+        return codes
 
-        # Format the message
-        message = super(ColoredFormatter, self).formatMessage(record)
+    @staticmethod
+    def escape_codes(log_colors: LogColors, item: str) -> str:
+        """Extract a color sequence from a mapping, and return escape codes."""
+        return parse_colors(log_colors.get(item, ""))
 
-        # Add a reset code to the end of the message
-        # (if it wasn't explicitly added in format str)
-        if self.reset and not message.endswith(escape_codes["reset"]):
-            message += escape_codes["reset"]
+    def append_reset(self, message: str, escapes: EscapeCodes) -> str:
+        """Add a reset code to the end of the message, if it's not already there."""
+        reset_escape_code = escapes["reset"]
+
+        if self.reset and not message.endswith(reset_escape_code):
+            message += reset_escape_code
 
         return message
 
@@ -192,15 +203,7 @@ class TTYColoredFormatter(ColoredFormatter):
         reset: bool = True,
         secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
     ) -> None:
-        """Remove color configuration if the provided stream is not a TTY."""
-
-        if not stream.isatty():
-            reset = False
-            log_colors = {}
-            secondary_log_colors = {}
-
-        ColoredFormatter.__init__(
-            self,
+        super().__init__(
             fmt=fmt,
             datefmt=datefmt,
             style=style,
@@ -209,3 +212,18 @@ class TTYColoredFormatter(ColoredFormatter):
             secondary_log_colors=secondary_log_colors,
             validate=False,
         )
+        self.stream = stream
+
+    def escape_code_map(self, item: str) -> LogColors:
+        """
+        Blank all of the color variables we add.
+
+        This ensures we don't 'leak' any escape codes (e.g. via a user directly placing
+        '%(reset)s' in a format string) and that variable names are still available.
+        """
+        colors = super().escape_code_map(item)
+
+        if not self.stream.isatty():
+            colors = {key: "" for key in colors.keys()}
+
+        return colors
