@@ -5,12 +5,31 @@ Log formatting with colors!
 [![](https://img.shields.io/pypi/l/colorlog.svg)](https://pypi.org/project/colorlog/)
 [![](https://img.shields.io/travis/borntyping/python-colorlog/master.svg)](https://travis-ci.org/borntyping/python-colorlog)
 
-`colorlog.ColoredFormatter` is a formatter for use with Python's `logging`
-module that outputs records using terminal colors.
+Add colours to the output of Python's `logging` module.
 
 * [Source on GitHub](https://github.com/borntyping/python-colorlog)
 * [Packages on PyPI](https://pypi.org/pypi/colorlog/)
-* [Builds on Travis CI](https://travis-ci.org/borntyping/python-colorlog)
+
+Status
+------
+
+colorlog currently requires Python 3.5 or higher. Older versions (below 5.x.x) 
+support Python 2.6 and above.
+
+* colorlog 6.x requires Python 3.5 or higher.
+* colorlog 5.x is an interim version that will warn Python 2 users to downgrade.
+* colorlog 4.x is the final version supporting Python 2.
+
+[colorama] is included as a required dependency and initialised when using 
+colorlog on Windows.
+
+This library is almost a decade old and supported a wide set of Python versions
+for most of its life, which has made it a difficult library to add new features
+to. colorlog 6 may break backwards compatibility so that newer features
+can be added more easily, but may still not accept all changes or feature
+requests. colorlog 4 might accept essential bugfixes but should not be
+considered actively maintained and will not accept any major changes or new
+features.
 
 Installation
 ------------
@@ -173,14 +192,6 @@ logger.setLevel('TRACE')
 logger.log(TRACE, 'a message using a custom level')
 ```
 
-Compatibility
--------------
-
-colorlog works on Python 2.6 and above, including Python 3.
-
-On Windows, [colorama] is required for `colorlog` to work properly.  It will
-automatically be included when installing `colorlog` on windows.
-
 Tests
 -----
 
@@ -189,7 +200,7 @@ Tests similar to the above examples are found in `tests/test_colorlog.py`.
 Status
 ------
 
-colorlog is in maintainance mode. I try and ensure bugfixes are published,
+colorlog is in maintenance mode. I try and ensure bugfixes are published,
 but compatibility with Python 2.6+ and Python 3+ makes this a difficult
 codebase to add features to. Any changes that might break backwards
 compatibility for existing users will not be considered.
@@ -214,7 +225,7 @@ Projects using colorlog
 Licence
 -------
 
-Copyright (c) 2012-2020 Sam Clements <sam@borntyping.co.uk>
+Copyright (c) 2012-2021 Sam Clements <sam@borntyping.co.uk>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
