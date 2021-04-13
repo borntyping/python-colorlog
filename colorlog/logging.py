@@ -22,7 +22,7 @@ def basicConfig(
 ) -> None:
     """Call ``logging.basicConfig`` and override the formatter it creates."""
     logging.basicConfig(**kwargs)
-    logging._acquireLock()
+    logging._acquireLock()  # type: ignore
     try:
         handler = logging.root.handlers[0]
         handler.setFormatter(
@@ -37,7 +37,7 @@ def basicConfig(
             )
         )
     finally:
-        logging._releaseLock()
+        logging._releaseLock()  # type: ignore
 
 
 def ensure_configured(func):

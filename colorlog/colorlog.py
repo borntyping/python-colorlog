@@ -127,7 +127,7 @@ class ColoredFormatter(logging.Formatter):
         """Format a message from a record object."""
         escapes = self._escape_code_map(record.levelname)
         wrapper = ColoredRecord(record, escapes)
-        message = super(ColoredFormatter, self).formatMessage(wrapper)
+        message = super(ColoredFormatter, self).formatMessage(wrapper)  # type: ignore
         message = self._append_reset(message, escapes)
         return message
 
@@ -173,9 +173,7 @@ class ColoredFormatter(logging.Formatter):
 class LevelFormatter:
     """An extension of ColoredFormatter that uses per-level format strings."""
 
-    def __init__(
-        self, fmt: typing.Mapping[str, typing.Mapping[str, str]], **kwargs: typing.Any
-    ) -> None:
+    def __init__(self, fmt: typing.Mapping[str, str], **kwargs: typing.Any) -> None:
         """
         Configure a ColoredFormatter with its own format string for each log level.
 
@@ -201,7 +199,7 @@ class LevelFormatter:
         )
         """
         self.formatters = {
-            level: ColoredFormatter(fmt=fmt, **kwargs) for level, fmt in fmt.items()
+            level: ColoredFormatter(fmt=f, **kwargs) for level, f in fmt.items()
         }
 
     def format(self, record: logging.LogRecord) -> str:
