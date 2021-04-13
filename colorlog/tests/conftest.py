@@ -19,14 +19,14 @@ class TestingStreamHandler(logging.StreamHandler):
         raise value
 
 
-def assert_log_message(log_function, message, capsys):
+def assert_log_message(capsys, log_function, message, *args):
     """Call a log function and check the message has been output."""
-    log_function(message)
+    log_function(message, *args)
     out, err = capsys.readouterr()
     # Print the output so that py.test shows it when a test fails
     print(err, end="", file=sys.stderr)
     # Assert the message send to the logger was output
-    assert message in err, "Log message not output to STDERR"
+    assert message % args in err, "Log message not output to STDERR"
     return err
 
 
@@ -40,11 +40,11 @@ def reset_loggers():
 def test_logger(reset_loggers, capsys):
     def function(logger, validator=None):
         lines = [
-            assert_log_message(logger.debug, "a debug message", capsys),
-            assert_log_message(logger.info, "an info message", capsys),
-            assert_log_message(logger.warning, "a warning message", capsys),
-            assert_log_message(logger.error, "an error message", capsys),
-            assert_log_message(logger.critical, "a critical message", capsys),
+            assert_log_message(capsys, logger.debug, "a debug message %s", 1),
+            assert_log_message(capsys, logger.info, "an info message %s", 2),
+            assert_log_message(capsys, logger.warning, "a warning message %s", 3),
+            assert_log_message(capsys, logger.error, "an error message %s", 4),
+            assert_log_message(capsys, logger.critical, "a critical message %s", 5),
         ]
 
         if validator is not None:
