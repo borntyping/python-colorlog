@@ -14,11 +14,11 @@ def test_reset():
 
 
 def test_bold_color():
-    assert escape_codes["bold_red"] == "\033[01;31m"
+    assert escape_codes["bold_red"] == "\033[1;31m"
 
 
 def test_fg_color():
-    assert escape_codes["fg_bold_yellow"] == "\033[01;33m"
+    assert escape_codes["fg_bold_yellow"] == "\033[1;33m"
 
 
 def test_bg_color():
@@ -44,7 +44,7 @@ def test_parse_colors():
 
 
 def test_parse_multiple_colors():
-    assert parse_colors("bold_red,bg_bold_blue") == "\033[01;31m\033[104m"
+    assert parse_colors("bold_red,bg_bold_blue") == "\033[1;31m\033[104m"
 
 
 def test_parse_invalid_colors():

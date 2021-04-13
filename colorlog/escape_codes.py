@@ -19,48 +19,81 @@ __all__ = ("escape_codes", "parse_colors")
 
 
 # Returns escape codes from format codes
-def esc(*x: str) -> str:
-    return "\033[" + ";".join(x) + "m"
+def esc(*codes: int) -> str:
+    return "\033[" + ";".join(str(code) for code in codes) + "m"
 
 
-# The initial list of escape codes
 escape_codes = {
-    "reset": esc("0"),
-    "bold": esc("01"),
-    "thin": esc("02"),
+    "reset": esc(0),
+    "bold": esc(1),
+    "thin": esc(2),
 }
 
-# The color names
-COLORS = [
-    "black",
-    "red",
-    "green",
-    "yellow",
-    "blue",
-    "purple",
-    "cyan",
-    "white",
-]
+escape_codes_foreground = {
+    "black": 30,
+    "red": 31,
+    "green": 32,
+    "yellow": 33,
+    "blue": 34,
+    "purple": 35,
+    "cyan": 36,
+    "white": 37,
+    "light_black": 90,
+    "light_red": 91,
+    "light_green": 92,
+    "light_yellow": 93,
+    "light_blue": 94,
+    "light_purple": 95,
+    "light_cyan": 96,
+    "light_white": 97,
+}
 
-PREFIXES = [
-    # Foreground without prefix
-    ("3", ""),
-    ("01;3", "bold_"),
-    ("02;3", "thin_"),
-    # Foreground with fg_ prefix
-    ("3", "fg_"),
-    ("01;3", "fg_bold_"),
-    ("02;3", "fg_thin_"),
-    # Background with bg_ prefix - bold/light works differently
-    ("4", "bg_"),
-    ("10", "bg_bold_"),
-]
+escape_codes_background = {
+    "black": 40,
+    "red": 41,
+    "green": 42,
+    "yellow": 43,
+    "blue": 44,
+    "purple": 45,
+    "cyan": 46,
+    "white": 47,
+    "light_black": 100,
+    "light_red": 101,
+    "light_green": 102,
+    "light_yellow": 103,
+    "light_blue": 104,
+    "light_purple": 105,
+    "light_cyan": 106,
+    "light_white": 107,
+    # Bold background colors don't exist,
+    # but we used to provide these names.
+    "bold_black": 100,
+    "bold_red": 101,
+    "bold_green": 102,
+    "bold_yellow": 103,
+    "bold_blue": 104,
+    "bold_purple": 105,
+    "bold_cyan": 106,
+    "bold_white": 107,
+}
 
-for prefix, prefix_name in PREFIXES:
-    for code, name in enumerate(COLORS):
-        escape_codes[prefix_name + name] = esc(prefix + str(code))
+# Foreground without prefix
+for name, code in escape_codes_foreground.items():
+    escape_codes["%s" % name] = esc(code)
+    escape_codes["bold_%s" % name] = esc(1, code)
+    escape_codes["thin_%s" % name] = esc(2, code)
+
+# Foreground with fg_ prefix
+for name, code in escape_codes_foreground.items():
+    escape_codes["fg_%s" % name] = esc(code)
+    escape_codes["fg_bold_%s" % name] = esc(1, code)
+    escape_codes["fg_thin_%s" % name] = esc(2, code)
+
+# Background with bg_ prefix
+for name, code in escape_codes_background.items():
+    escape_codes["bg_%s" % name] = esc(code)
 
 
-def parse_colors(sequence: str) -> str:
-    """Return escape codes from a color sequence."""
-    return "".join(escape_codes[n] for n in sequence.split(",") if n)
+def parse_colors(string: str) -> str:
+    """Return escape codes from a color sequence string."""
+    return "".join(escape_codes[n] for n in string.split(",") if n)
