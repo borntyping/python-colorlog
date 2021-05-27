@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="colorlog",
-    version="6.0.0a4",
+    version="6.1.0a1",
     description="Add colours to the output of Python's logging module.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -11,6 +11,7 @@ setup(
     url="https://github.com/borntyping/python-colorlog",
     license="MIT License",
     packages=["colorlog"],
+    package_data={"colorlog": ["py.typed"]},
     setup_requires=["setuptools>=38.6.0"],
     extras_require={
         ':sys_platform=="win32"': ["colorama"],
