@@ -40,9 +40,9 @@ Install from PyPI with:
 pip install colorlog
 ```
 
-Several Linux distributions provide official packages ([Debian], [Gentoo],
-[OpenSuse] and [Ubuntu]), and others have user provided packages ([Arch AUR],
-[BSD ports], [Conda], [Fedora packaging scripts]).
+Several Linux distributions provide official packages ([Debian], [Fedora], 
+[Gentoo], [OpenSuse] and [Ubuntu]), and others have user provided packages
+([Arch AUR], [BSD ports], [Conda]).
 
 Usage
 -----
@@ -254,9 +254,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [colorama]: https://pypi.python.org/pypi/colorama
 [Conda]: https://anaconda.org/conda-forge/colorlog
 [Counterparty]: https://counterparty.io/
-[Debian]: https://packages.debian.org/jessie/python-colorlog
+[Debian]: https://packages.debian.org/buster/python3-colorlog
 [Errbot]: http://errbot.io/
-[Fedora packaging scripts]: https://github.com/bartv/python-colorlog
+[Fedora]: https://src.fedoraproject.org/rpms/python-colorlog
 [Gentoo]: https://packages.gentoo.org/packages/dev-python/colorlog
 [OpenSuse]: http://rpm.pbone.net/index.php3?stat=3&search=python-colorlog&srodzaj=3
 [Pythran]: https://github.com/serge-sans-paille/pythran
