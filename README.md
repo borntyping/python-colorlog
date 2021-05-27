@@ -217,10 +217,9 @@ find useful.
 Projects using colorlog
 -----------------------
 
-- [Counterparty]
-- [Errbot]
-- [Pythran]
-- [zenlog]
+GitHub provides [a list of projects that depend on colorlog][dependents].
+
+Some early adopters included [Errbot], [Pythran], and [zenlog].
 
 Licence
 -------
@@ -253,7 +252,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [BSD ports]: https://www.freshports.org/devel/py-colorlog/
 [colorama]: https://pypi.python.org/pypi/colorama
 [Conda]: https://anaconda.org/conda-forge/colorlog
-[Counterparty]: https://counterparty.io/
 [Debian]: https://packages.debian.org/buster/python3-colorlog
 [Errbot]: http://errbot.io/
 [Fedora]: https://src.fedoraproject.org/rpms/python-colorlog
@@ -264,3 +262,4 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [zenlog]: https://github.com/ManufacturaInd/python-zenlog
 [structlog]: https://www.structlog.org/en/stable/
 [jsonlog]: https://github.com/borntyping/jsonlog
+[dependents]: https://github.com/borntyping/python-colorlog/network/dependents?package_id=UGFja2FnZS01MDk3NDcyMQ%3D%3D
