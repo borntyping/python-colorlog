@@ -16,7 +16,7 @@ jobs:
       - name: "🐍 Display Python version"
         run: "python --version"
       - name: "🐍 Install dependencies"
-        run: "python -m pip install --user --pre black flake8 mypy"
+        run: "python -m pip install --user --pre black flake8 mypy types-PyYAML"
       - name: "🐍 Run mypy"
         run: "python -m mypy ."
       - name: "🐍 Run flake8"
