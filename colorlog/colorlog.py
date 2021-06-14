@@ -1,7 +1,5 @@
 """The ColoredFormatter class."""
 
-from __future__ import absolute_import
-
 import logging
 import os
 import sys
@@ -39,7 +37,7 @@ default_formats = {
 }
 
 
-class ColoredRecord(object):
+class ColoredRecord:
     """
     Wraps a LogRecord, adding escape codes to the internal dict.
 
@@ -104,9 +102,9 @@ class ColoredFormatter(logging.Formatter):
         fmt = default_formats[style] if fmt is None else fmt
 
         if sys.version_info >= (3, 8):
-            super(ColoredFormatter, self).__init__(fmt, datefmt, style, validate)
+            super().__init__(fmt, datefmt, style, validate)
         else:
-            super(ColoredFormatter, self).__init__(fmt, datefmt, style)
+            super().__init__(fmt, datefmt, style)
 
         self.log_colors = log_colors if log_colors is not None else default_log_colors
         self.secondary_log_colors = (
@@ -120,7 +118,7 @@ class ColoredFormatter(logging.Formatter):
         """Format a message from a record object."""
         escapes = self._escape_code_map(record.levelname)
         wrapper = ColoredRecord(record, escapes)
-        message = super(ColoredFormatter, self).formatMessage(wrapper)  # type: ignore
+        message = super().formatMessage(wrapper)  # type: ignore
         message = self._append_reset(message, escapes)
         return message
 

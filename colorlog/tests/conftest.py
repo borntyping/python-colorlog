@@ -1,7 +1,5 @@
 """Fixtures that can be used in other tests."""
 
-from __future__ import print_function
-
 import inspect
 import logging
 import sys
@@ -50,7 +48,7 @@ def test_logger(reset_loggers, capsys):
         if validator is not None:
             for line in lines:
                 valid = validator(line.strip())
-                assert valid, "{!r} did not validate".format(line.strip())
+                assert valid, f"{line.strip()!r} did not validate"
 
         return lines
 
