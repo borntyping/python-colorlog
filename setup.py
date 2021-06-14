@@ -17,6 +17,7 @@ setup(
         ':sys_platform=="win32"': ["colorama"],
         "development": ["black", "flake8", "mypy", "pytest", "types-colorama"],
     },
+    python_requires=">=3.5",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
@@ -29,6 +30,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Topic :: Terminals",
         "Topic :: Utilities",
     ],
