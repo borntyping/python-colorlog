@@ -47,9 +47,9 @@ __all__ = (
     "TTYColoredFormatter",
 )
 
-if sys.version_info < (3, 5):
+if sys.version_info < (3, 6):
     warnings.warn(
-        "Colorlog requires Python 3.5 or above. Pin 'colorlog<5' to your dependencies "
+        "Colorlog requires Python 3.6 or above. Pin 'colorlog<5' to your dependencies "
         "if you require compatibility with older versions of Python. See "
         "https://github.com/borntyping/python-colorlog#status for more information."
     )
