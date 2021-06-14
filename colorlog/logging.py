@@ -1,7 +1,5 @@
 """Wrappers around the logging module."""
 
-from __future__ import absolute_import
-
 import functools
 import logging
 import typing
