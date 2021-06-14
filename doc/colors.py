@@ -2,8 +2,8 @@
 Print every color code supported by colorlog in it's own color.
 """
 
-from colorlog import escape_codes
+import colorlog.escape_codes
 
 if __name__ == "__main__":
-    for key, value in escape_codes.items():
-        print(value, key, escape_codes["reset"])
+    for key, value in colorlog.escape_codes.escape_codes.items():
+        print(value, key, colorlog.escape_codes.escape_codes["reset"])
