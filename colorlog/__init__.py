@@ -3,8 +3,7 @@
 import sys
 import warnings
 
-from colorlog.colorlog import (
-    escape_codes,
+from colorlog.formatter import (
     default_log_colors,
     ColoredFormatter,
     LevelFormatter,
@@ -28,7 +27,6 @@ from colorlog.logging import (
 __all__ = (
     "ColoredFormatter",
     "default_log_colors",
-    "escape_codes",
     "basicConfig",
     "root",
     "getLogger",

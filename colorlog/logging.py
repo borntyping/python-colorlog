@@ -4,16 +4,16 @@ import functools
 import logging
 import typing
 
-from colorlog.colorlog import ColoredFormatter, LogColors, SecondaryLogColors
+import colorlog.formatter
 
 BASIC_FORMAT = "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s"
 
 
 def basicConfig(
     style: str = "%",
-    log_colors: typing.Optional[LogColors] = None,
+    log_colors: typing.Optional[colorlog.formatter.LogColors] = None,
     reset: bool = True,
-    secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
+    secondary_log_colors: typing.Optional[colorlog.formatter.SecondaryLogColors] = None,
     format: str = BASIC_FORMAT,
     datefmt: typing.Optional[str] = None,
     **kwargs
@@ -24,7 +24,7 @@ def basicConfig(
     try:
         handler = logging.root.handlers[0]
         handler.setFormatter(
-            ColoredFormatter(
+            colorlog.formatter.ColoredFormatter(
                 fmt=format,
                 datefmt=datefmt,
                 style=style,

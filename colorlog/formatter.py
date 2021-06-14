@@ -5,10 +5,9 @@ import os
 import sys
 import typing
 
-from colorlog.escape_codes import escape_codes, parse_colors
+import colorlog.escape_codes
 
 __all__ = (
-    "escape_codes",
     "default_log_colors",
     "ColoredFormatter",
     "LevelFormatter",
@@ -128,7 +127,7 @@ class ColoredFormatter(logging.Formatter):
 
         If _blank_escape_codes() returns True, all values will be an empty string.
         """
-        codes = {**escape_codes}
+        codes = {**colorlog.escape_codes.escape_codes}
         codes.setdefault("log_color", self._get_escape_code(self.log_colors, item))
         for name, colors in self.secondary_log_colors.items():
             codes.setdefault("%s_log_color" % name, self._get_escape_code(colors, item))
@@ -152,7 +151,7 @@ class ColoredFormatter(logging.Formatter):
     @staticmethod
     def _get_escape_code(log_colors: LogColors, item: str) -> str:
         """Extract a color sequence from a mapping, and return escape codes."""
-        return parse_colors(log_colors.get(item, ""))
+        return colorlog.escape_codes.parse_colors(log_colors.get(item, ""))
 
     def _append_reset(self, message: str, escapes: EscapeCodes) -> str:
         """Add a reset code to the end of the message, if it's not already there."""

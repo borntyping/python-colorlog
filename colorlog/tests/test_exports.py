@@ -7,7 +7,6 @@ def test_exports():
     assert {
         "ColoredFormatter",
         "default_log_colors",
-        "escape_codes",
         "basicConfig",
         "root",
         "getLogger",
