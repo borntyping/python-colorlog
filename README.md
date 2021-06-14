@@ -13,10 +13,10 @@ Add colours to the output of Python's `logging` module.
 Status
 ------
 
-colorlog currently requires Python 3.5 or higher. Older versions (below 5.x.x) 
+colorlog currently requires Python 3.6 or higher. Older versions (below 5.x.x) 
 support Python 2.6 and above.
 
-* colorlog 6.x requires Python 3.5 or higher.
+* colorlog 6.x requires Python 3.6 or higher.
 * colorlog 5.x is an interim version that will warn Python 2 users to downgrade.
 * colorlog 4.x is the final version supporting Python 2.
 
