@@ -3,36 +3,32 @@
 import sys
 import warnings
 
-from logging import (
-    CRITICAL,
-    FATAL,
-    ERROR,
-    WARNING,
-    WARN,
-    INFO,
-    DEBUG,
-    NOTSET,
-)
-
 from colorlog.formatter import (
-    default_log_colors,
     ColoredFormatter,
     LevelFormatter,
     TTYColoredFormatter,
+    default_log_colors,
 )
-
-from colorlog.logging import (
+from colorlog.wrappers import (
+    CRITICAL,
+    DEBUG,
+    ERROR,
+    FATAL,
+    INFO,
+    NOTSET,
+    StreamHandler,
+    WARN,
+    WARNING,
     basicConfig,
-    root,
-    getLogger,
-    log,
+    critical,
     debug,
-    info,
-    warning,
     error,
     exception,
-    critical,
-    StreamHandler,
+    getLogger,
+    info,
+    log,
+    root,
+    warning,
 )
 
 __all__ = (

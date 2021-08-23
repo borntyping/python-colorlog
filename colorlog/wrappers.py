@@ -3,10 +3,21 @@
 import functools
 import logging
 import typing
+from logging import (
+    CRITICAL,
+    DEBUG,
+    ERROR,
+    FATAL,
+    INFO,
+    NOTSET,
+    StreamHandler,
+    WARN,
+    WARNING,
+    getLogger,
+    root,
+)
 
 import colorlog.formatter
-
-BASIC_FORMAT = "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s"
 
 
 def basicConfig(
@@ -14,7 +25,7 @@ def basicConfig(
     log_colors: typing.Optional[colorlog.formatter.LogColors] = None,
     reset: bool = True,
     secondary_log_colors: typing.Optional[colorlog.formatter.SecondaryLogColors] = None,
-    format: str = BASIC_FORMAT,
+    format: str = "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s",
     datefmt: typing.Optional[str] = None,
     **kwargs
 ) -> None:
@@ -39,7 +50,7 @@ def basicConfig(
 
 
 def ensure_configured(func):
-    """Modify a function to call ``basicConfig`` first if no handlers exist."""
+    """Modify a function to call our basicConfig() first if no handlers exist."""
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -50,8 +61,6 @@ def ensure_configured(func):
     return wrapper
 
 
-root = logging.root
-getLogger = logging.getLogger
 debug = ensure_configured(logging.debug)
 info = ensure_configured(logging.info)
 warning = ensure_configured(logging.warning)
@@ -59,5 +68,3 @@ error = ensure_configured(logging.error)
 critical = ensure_configured(logging.critical)
 log = ensure_configured(logging.log)
 exception = ensure_configured(logging.exception)
-
-StreamHandler = logging.StreamHandler
