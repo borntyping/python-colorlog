@@ -1,8 +1,8 @@
 """Test the colorlog.escape_codes module."""
 
-from colorlog.escape_codes import escape_codes, esc, parse_colors
-
 import pytest
+
+from colorlog.escape_codes import esc, escape_codes, parse_colors
 
 
 def test_esc():
