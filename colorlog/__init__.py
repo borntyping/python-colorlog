@@ -3,6 +3,17 @@
 import sys
 import warnings
 
+from logging import (
+    CRITICAL,
+    FATAL,
+    ERROR,
+    WARNING,
+    WARN,
+    INFO,
+    DEBUG,
+    NOTSET,
+)
+
 from colorlog.formatter import (
     default_log_colors,
     ColoredFormatter,
@@ -41,6 +52,14 @@ __all__ = (
     "StreamHandler",
     "LevelFormatter",
     "TTYColoredFormatter",
+    "CRITICAL",
+    "FATAL",
+    "ERROR",
+    "WARNING",
+    "WARN",
+    "INFO",
+    "DEBUG",
+    "NOTSET",
 )
 
 if sys.version_info < (3, 6):
