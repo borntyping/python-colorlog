@@ -67,6 +67,7 @@ class ColoredFormatter(logging.Formatter):
         validate: bool = True,
         stream: typing.Optional[typing.IO] = None,
         no_color: bool = False,
+        force_color: bool = False,
     ) -> None:
         """
         Set the format and colors the ColoredFormatter will use.
@@ -95,6 +96,10 @@ class ColoredFormatter(logging.Formatter):
         - stream (typing.IO)
             The stream formatted messages will be printed to. Used to toggle colour
             on non-TTY outputs. Optional.
+        - no_color (bool):
+            Disable color output.
+        - force_color (bool):
+            Enable color output. Takes precedence over `no_color`.
         """
 
         # Select a default format if `fmt` is not provided.
@@ -106,12 +111,11 @@ class ColoredFormatter(logging.Formatter):
             super().__init__(fmt, datefmt, style)
 
         self.log_colors = log_colors if log_colors is not None else default_log_colors
-        self.secondary_log_colors = (
-            secondary_log_colors if secondary_log_colors is not None else {}
-        )
+        self.secondary_log_colors = secondary_log_colors if secondary_log_colors is not None else {}
         self.reset = reset
         self.stream = stream
         self.no_color = no_color
+        self.force_color = force_color
 
     def formatMessage(self, record: logging.LogRecord) -> str:
         """Format a message from a record object."""
@@ -137,10 +141,10 @@ class ColoredFormatter(logging.Formatter):
 
     def _blank_escape_codes(self):
         """Return True if we should be prevented from printing escape codes."""
-        if self.no_color:
-            return True
+        if self.force_color or "FORCE_COLOR" in os.environ:
+            return False
 
-        if "NO_COLOR" in os.environ:
+        if self.no_color or "NO_COLOR" in os.environ:
             return True
 
         if self.stream is not None and not self.stream.isatty():
@@ -191,9 +195,7 @@ class LevelFormatter:
             }
         )
         """
-        self.formatters = {
-            level: ColoredFormatter(fmt=f, **kwargs) for level, f in fmt.items()
-        }
+        self.formatters = {level: ColoredFormatter(fmt=f, **kwargs) for level, f in fmt.items()}
 
     def format(self, record: logging.LogRecord) -> str:
         return self.formatters[record.levelname].format(record)
