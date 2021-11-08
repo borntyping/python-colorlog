@@ -111,7 +111,9 @@ class ColoredFormatter(logging.Formatter):
             super().__init__(fmt, datefmt, style)
 
         self.log_colors = log_colors if log_colors is not None else default_log_colors
-        self.secondary_log_colors = secondary_log_colors if secondary_log_colors is not None else {}
+        self.secondary_log_colors = (
+            secondary_log_colors if secondary_log_colors is not None else {}
+        )
         self.reset = reset
         self.stream = stream
         self.no_color = no_color
@@ -195,7 +197,9 @@ class LevelFormatter:
             }
         )
         """
-        self.formatters = {level: ColoredFormatter(fmt=f, **kwargs) for level, f in fmt.items()}
+        self.formatters = {
+            level: ColoredFormatter(fmt=f, **kwargs) for level, f in fmt.items()
+        }
 
     def format(self, record: logging.LogRecord) -> str:
         return self.formatters[record.levelname].format(record)
