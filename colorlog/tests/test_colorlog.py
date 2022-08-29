@@ -63,7 +63,7 @@ def test_some_secondary_colors(create_and_test_logger):
         secondary_log_colors={"message": {"ERROR": "red", "CRITICAL": "red"}},
     )
     # Check that only two lines are colored
-    assert len([l for l in lines if "\x1b[31m" in l]) == 2
+    assert len([line for line in lines if "\x1b[31m" in line]) == 2
 
 
 def test_percent_style(create_and_test_logger):
