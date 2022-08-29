@@ -68,11 +68,12 @@ class ColoredFormatter(logging.Formatter):
         stream: typing.Optional[typing.IO] = None,
         no_color: bool = False,
         force_color: bool = False,
+        defaults: typing.Optional[typing.Mapping[str, typing.Any]] = None,
     ) -> None:
         """
         Set the format and colors the ColoredFormatter will use.
 
-        The ``fmt``, ``datefmt`` and ``style`` args are passed on to the
+        The ``fmt``, ``datefmt``, ``style``, and ``default`` args are passed on to the
         ``logging.Formatter`` constructor.
 
         The ``secondary_log_colors`` argument can be used to create additional
@@ -105,7 +106,9 @@ class ColoredFormatter(logging.Formatter):
         # Select a default format if `fmt` is not provided.
         fmt = default_formats[style] if fmt is None else fmt
 
-        if sys.version_info >= (3, 8):
+        if sys.version_info >= (3, 10):
+            super().__init__(fmt, datefmt, style, validate, defaults=defaults)
+        elif sys.version_info >= (3, 8):
             super().__init__(fmt, datefmt, style, validate)
         else:
             super().__init__(fmt, datefmt, style)
