@@ -18,6 +18,10 @@ __all__ = (
 EscapeCodes = typing.Mapping[str, str]
 LogColors = typing.Mapping[str, str]
 SecondaryLogColors = typing.Mapping[str, LogColors]
+if sys.version_info >= (3, 8):
+    _FormatStyle = typing.Literal["%", "{", "$"]
+else:
+    _FormatStyle = str
 
 # The default colors to use for the debug levels
 default_log_colors = {
@@ -60,7 +64,7 @@ class ColoredFormatter(logging.Formatter):
         self,
         fmt: typing.Optional[str] = None,
         datefmt: typing.Optional[str] = None,
-        style: str = "%",
+        style: _FormatStyle = "%",
         log_colors: typing.Optional[LogColors] = None,
         reset: bool = True,
         secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
@@ -89,7 +93,7 @@ class ColoredFormatter(logging.Formatter):
         - reset (bool):
             Implicitly append a color reset to all records unless False.
         - style ('%' or '{' or '$'):
-            The format style to use. (*No meaning prior to Python 3.2.*)
+            The format style to use.
         - secondary_log_colors (dict):
             Map secondary ``log_color`` attributes. (*New in version 2.6.*)
         - validate (bool)

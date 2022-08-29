@@ -43,7 +43,7 @@ __all__ = (
 
 
 def basicConfig(
-    style: str = "%",
+    style: colorlog.formatter._FormatStyle = "%",
     log_colors: typing.Optional[colorlog.formatter.LogColors] = None,
     reset: bool = True,
     secondary_log_colors: typing.Optional[colorlog.formatter.SecondaryLogColors] = None,
