@@ -47,7 +47,9 @@ def basicConfig(
     log_colors: typing.Optional[colorlog.formatter.LogColors] = None,
     reset: bool = True,
     secondary_log_colors: typing.Optional[colorlog.formatter.SecondaryLogColors] = None,
-    format: str = "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s",
+    format: typing.Optional[str] = (
+        "%(log_color)s%(levelname)s%(reset)s:%(name)s:%(message)s"
+    ),
     datefmt: typing.Optional[str] = None,
     **kwargs
 ) -> None:
