@@ -2,6 +2,7 @@
 
 import functools
 import logging
+import sys
 import typing
 from logging import (
     CRITICAL,
@@ -64,7 +65,7 @@ def basicConfig(
                 log_colors=log_colors,
                 reset=reset,
                 secondary_log_colors=secondary_log_colors,
-                stream=kwargs.get("stream", None),
+                stream=kwargs.get("stream", sys.stderr),
             )
         )
     finally:
