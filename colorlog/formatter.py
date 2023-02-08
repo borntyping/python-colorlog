@@ -69,7 +69,7 @@ class ColoredFormatter(logging.Formatter):
         reset: bool = True,
         secondary_log_colors: typing.Optional[SecondaryLogColors] = None,
         validate: bool = True,
-        stream: typing.Optional[typing.IO] = None,
+        stream: typing.IO = sys.stderr,
         no_color: bool = False,
         force_color: bool = False,
         defaults: typing.Optional[typing.Mapping[str, typing.Any]] = None,
@@ -156,7 +156,7 @@ class ColoredFormatter(logging.Formatter):
         if self.no_color or "NO_COLOR" in os.environ:
             return True
 
-        if self.stream is not None and not self.stream.isatty():
+        if not self.stream.isatty():
             return True
 
         return False
