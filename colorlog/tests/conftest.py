@@ -28,6 +28,12 @@ def assert_log_message(capsys, log_function, message, *args):
     return err
 
 
+@pytest.fixture(autouse=True)
+def clean_env(monkeypatch):
+    monkeypatch.delenv("FORCE_COLOR", raising=False)
+    monkeypatch.delenv("NO_COLOR", raising=False)
+
+
 @pytest.fixture()
 def reset_loggers():
     logging.root.handlers = list()
