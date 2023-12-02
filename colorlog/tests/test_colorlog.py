@@ -17,7 +17,7 @@ def test_custom_colors(create_and_test_logger):
 
 
 def test_reset(create_and_test_logger):
-    create_and_test_logger(reset=True, validator=lambda l: l.endswith("\x1b[0m"))
+    create_and_test_logger(reset=True, validator=lambda line: line.endswith("\x1b[0m"))
 
 
 def test_no_reset(create_and_test_logger):

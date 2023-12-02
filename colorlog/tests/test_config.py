@@ -12,7 +12,7 @@ def path(filename):
 
 def test_build_from_file(test_logger):
     logging.config.fileConfig(path("test_config.ini"))
-    test_logger(logging.getLogger(), lambda l: ":test_config.ini" in l)
+    test_logger(logging.getLogger(), lambda line: ":test_config.ini" in line)
 
 
 def test_build_from_dictionary(test_logger):
@@ -40,4 +40,4 @@ def test_build_from_dictionary(test_logger):
             },
         }
     )
-    test_logger(logging.getLogger(), lambda l: ":dict" in l)
+    test_logger(logging.getLogger(), lambda line: ":dict" in line)
