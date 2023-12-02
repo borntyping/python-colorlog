@@ -85,8 +85,28 @@ The following escape codes are made available for use in the format string:
 - `thin`, `thin_{color}`, `fg_thin_{color}`: Thin colors (terminal dependent).
 - `reset`: Clear all formatting (both foreground and background colors).
 
-The available color names are `black`, `red`, `green`, `yellow`, `blue`,
-`purple`, `cyan` and `white`.
+The available color names are:
+
+- `black`
+- `red`
+- `green`
+- `yellow`
+- `blue`,
+- `purple`
+- `cyan`
+- `white`
+
+You can also use "bright" colors. These aren't standard ANSI codes, and
+support for these varies wildly across different terminals.
+
+- `light_black`
+- `light_red`
+- `light_green`
+- `light_yellow`
+- `light_blue`
+- `light_purple`
+- `light_cyan`
+- `light_white`
 
 Examples
 --------
