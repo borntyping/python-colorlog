@@ -3,7 +3,6 @@ Log formatting with colors!
 
 [![](https://img.shields.io/pypi/v/colorlog.svg)](https://pypi.org/project/colorlog/)
 [![](https://img.shields.io/pypi/l/colorlog.svg)](https://pypi.org/project/colorlog/)
-[![](https://img.shields.io/travis/borntyping/python-colorlog/master.svg)](https://travis-ci.org/borntyping/python-colorlog)
 
 Add colours to the output of Python's `logging` module.
 
@@ -40,9 +39,9 @@ Install from PyPI with:
 pip install colorlog
 ```
 
-Several Linux distributions provide official packages ([Debian], [Fedora], 
+Several Linux distributions provide official packages ([Debian], [Arch], [Fedora], 
 [Gentoo], [OpenSuse] and [Ubuntu]), and others have user provided packages
-([Arch AUR], [BSD ports], [Conda]).
+([BSD ports], [Conda]).
 
 Usage
 -----
@@ -268,11 +267,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [addLevelName]: https://docs.python.org/3/library/logging.html#logging.addLevelName
 [Formatter]: http://docs.python.org/3/library/logging.html#logging.Formatter
 [tox]: http://tox.readthedocs.org/
-[Arch AUR]: https://aur.archlinux.org/packages/python-colorlog/
+[Arch]: https://archlinux.org/packages/extra/any/python-colorlog/
 [BSD ports]: https://www.freshports.org/devel/py-colorlog/
 [colorama]: https://pypi.python.org/pypi/colorama
 [Conda]: https://anaconda.org/conda-forge/colorlog
-[Debian]: https://packages.debian.org/buster/python3-colorlog
+[Debian]: [https://packages.debian.org/buster/python3-colorlog](https://packages.debian.org/buster/python3-colorlog)
 [Errbot]: http://errbot.io/
 [Fedora]: https://src.fedoraproject.org/rpms/python-colorlog
 [Gentoo]: https://packages.gentoo.org/packages/dev-python/colorlog
