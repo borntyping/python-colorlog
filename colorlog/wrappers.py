@@ -2,6 +2,7 @@
 
 import functools
 import logging
+import sys
 import typing
 from logging import (
     CRITICAL,
@@ -53,8 +54,8 @@ def basicConfig(
 ) -> None:
     """Call ``logging.basicConfig`` and override the formatter it creates."""
     logging.basicConfig(**kwargs)
-    logging._acquireLock()  # type: ignore
-    try:
+
+    def _basicConfig():
         handler = logging.root.handlers[0]
         handler.setFormatter(
             colorlog.formatter.ColoredFormatter(
@@ -67,8 +68,16 @@ def basicConfig(
                 stream=kwargs.get("stream", None),
             )
         )
-    finally:
-        logging._releaseLock()  # type: ignore
+
+    if sys.version_info >= (3, 13):
+        with logging._lock:
+            _basicConfig()
+    else:
+        logging._acquireLock()  # type: ignore
+        try:
+            _basicConfig()
+        finally:
+            logging._releaseLock()  # type: ignore
 
 
 def ensure_configured(func):
