@@ -20,7 +20,7 @@ support Python 2.6 and above.
 [colorama] is included as a required dependency and initialised when using 
 colorlog on Windows.
 
-This library is almost a decade old and supported a wide set of Python versions
+This library is over a decade old and supported a wide set of Python versions
 for most of its life, which has made it a difficult library to add new features
 to. colorlog 6 may break backwards compatibility so that newer features
 can be added more easily, but may still not accept all changes or feature
