@@ -1,5 +1,4 @@
-Log formatting with colors!
-===========================
+# Log formatting with colors!
 
 [![](https://img.shields.io/pypi/v/colorlog.svg)](https://pypi.org/project/colorlog/)
 [![](https://img.shields.io/pypi/l/colorlog.svg)](https://pypi.org/project/colorlog/)
@@ -9,8 +8,7 @@ Add colours to the output of Python's `logging` module.
 * [Source on GitHub](https://github.com/borntyping/python-colorlog)
 * [Packages on PyPI](https://pypi.org/pypi/colorlog/)
 
-Status
-------
+## Status
 
 colorlog currently requires Python 3.6 or higher. Older versions (below 5.x.x) 
 support Python 2.6 and above.
@@ -30,8 +28,7 @@ requests. colorlog 4 might accept essential bugfixes but should not be
 considered actively maintained and will not accept any major changes or new
 features.
 
-Installation
-------------
+## Installation
 
 Install from PyPI with:
 
@@ -43,8 +40,7 @@ Several Linux distributions provide official packages ([Debian], [Arch], [Fedora
 [Gentoo], [OpenSuse] and [Ubuntu]), and others have user provided packages
 ([BSD ports], [Conda]).
 
-Usage
------
+## Usage
 
 ```python
 import colorlog
@@ -107,8 +103,7 @@ support for these varies wildly across different terminals.
 - `light_cyan`
 - `light_white`
 
-Examples
---------
+## Examples
 
 ![Example output](doc/example.png)
 
@@ -211,21 +206,18 @@ logger.setLevel('TRACE')
 logger.log(TRACE, 'a message using a custom level')
 ```
 
-Tests
------
+## Tests
 
 Tests similar to the above examples are found in `tests/test_colorlog.py`.
 
-Status
-------
+## Status
 
 colorlog is in maintenance mode. I try and ensure bugfixes are published,
 but compatibility with Python 2.6+ and Python 3+ makes this a difficult
 codebase to add features to. Any changes that might break backwards
 compatibility for existing users will not be considered.
 
-Alternatives
-------------
+## Alternatives
 
 There are some more modern libraries for improving Python logging you may
 find useful.
@@ -233,15 +225,13 @@ find useful.
 - [structlog]
 - [jsonlog]
 
-Projects using colorlog
------------------------
+## Projects using colorlog
 
 GitHub provides [a list of projects that depend on colorlog][dependents].
 
 Some early adopters included [Errbot], [Pythran], and [zenlog].
 
-Licence
--------
+## Licence
 
 Copyright (c) 2012-2021 Sam Clements <sam@borntyping.co.uk>
 
