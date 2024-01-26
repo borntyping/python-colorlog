@@ -5,6 +5,7 @@ http://en.wikipedia.org/wiki/ANSI_escape_code
 
 Uses colorama as an optional dependency to support color on Windows
 """
+
 import sys
 
 try:
