@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="colorlog",
-    version="6.8.3",
+    version="6.9.0",
     description="Add colours to the output of Python's logging module.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -31,6 +31,9 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Topic :: Terminals",
         "Topic :: Utilities",
     ],
