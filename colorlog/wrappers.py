@@ -70,7 +70,7 @@ def basicConfig(
         )
 
     if sys.version_info >= (3, 13):
-        with logging._lock:
+        with logging._lock:  # type: ignore
             _basicConfig()
     else:
         logging._acquireLock()  # type: ignore
