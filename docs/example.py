@@ -23,7 +23,7 @@ def setup_logger():
             "ERROR": "red",
             "CRITICAL": "bold_red",
         },
-        secondary_log_colors=None,
+        secondary_log_colors={},
         stream=None,
         no_color=False,
         force_color=False
