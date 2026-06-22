@@ -72,7 +72,7 @@ Additional arguments:
   `None`. See below for an example.
 - `stream`: The stream being written to (e.g. `sys.stderr`). Used to detect
   whether the output is a TTY. Colors are disabled automatically on non-TTY
-  streams unless `force_color` is set.  Defaults to `None`.
+  streams unless `force_color` is set. Defaults to `None`.
 - `no_color`: Disable color output. Can also be set via the `NO_COLOR`
   environment variable. Defaults to `False`.
 - `force_color`: Force color output even on non-TTY streams. Takes precedence
