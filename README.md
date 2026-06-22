@@ -72,7 +72,7 @@ Additional arguments:
   can be found in `colorlog.default_log_colors`, or the below example.
 - `secondary_log_colors`: A mapping of names to `log_colors` style mappings,
   defining additional colors that can be used in format strings. Defaults to
-  `None`. See below for an example.
+  `{}`. See below for an example.
 - `stream`: The stream being written to (e.g. `sys.stderr`). Used to detect
   whether the output is a TTY. Colors are disabled automatically on non-TTY
   streams unless `force_color` is set. Defaults to `None`.
@@ -154,7 +154,7 @@ formatter = ColoredFormatter(
 		"ERROR": "red",
 		"CRITICAL": "bold_red",
 	},
-	secondary_log_colors=None,
+	secondary_log_colors={},
     stream=None,
     no_color=False,
     force_color=False
