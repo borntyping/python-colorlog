@@ -58,7 +58,7 @@ logger.addHandler(handler)
 its arguments:
 
 - `fmt`, `datefmt`, `style`, `validate`, `defaults`:
-  See [`logging.Formatter`][formatter].
+  see [`logging.Formatter`][formatter].
 
   The only difference is `fmt`: if not provided, a default format string is
   chosen based on `style` (e.g.
