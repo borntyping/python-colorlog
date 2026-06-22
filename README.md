@@ -36,9 +36,9 @@ Install from PyPI with:
 pip install colorlog
 ```
 
-Several Linux distributions provide official packages ([Debian], [Arch], [Fedora],
-[Gentoo], [OpenSuse] and [Ubuntu]), and others have user provided packages
-([BSD ports], [Conda]).
+Several Linux distributions provide official packages ([Debian], [Arch],
+[Fedora], [Gentoo], [OpenSuse] and [Ubuntu]), and others have user provided
+packages ([BSD ports], [Conda]).
 
 ## Usage
 
@@ -83,7 +83,8 @@ Color escape codes can be selected based on the log records level, by adding
 parameters to the format string:
 
 - `log_color`: Return the color associated with the records level.
-- `<name>_log_color`: Return another color based on the records level if the formatter has secondary colors configured (see `secondary_log_colors` below).
+- `<name>_log_color`: Return another color based on the records level if the
+  formatter has secondary colors configured (see `secondary_log_colors` below).
 
 Multiple escape codes can be used at once by joining them with commas when
 configuring the color for a log level (but can't be used directly in the format
@@ -93,7 +94,8 @@ text on a white background.
 The following escape codes are made available for use in the format string:
 
 - `{color}`, `fg_{color}`, `bg_{color}`: Foreground and background colors.
-- `bold`, `bold_{color}`, `fg_bold_{color}`, `bg_bold_{color}`: Bold/bright colors.
+- `bold`, `bold_{color}`, `fg_bold_{color}`, `bg_bold_{color}`: Bold/bright
+  colors.
 - `thin`, `thin_{color}`, `fg_thin_{color}`: Thin colors (terminal dependent).
 - `reset`: Clear all formatting (both foreground and background colors).
 
