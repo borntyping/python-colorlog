@@ -279,7 +279,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [bsd ports]: https://www.freshports.org/devel/py-colorlog/
 [colorama]: https://pypi.python.org/pypi/colorama
 [conda]: https://anaconda.org/conda-forge/colorlog
-[debian]: https://packages.debian.org/buster/python3-colorlog
+[debian]: https://packages.debian.org/trixie/python3-colorlog
 [dependents]: https://github.com/borntyping/python-colorlog/network/dependents?package_id=UGFja2FnZS01MDk3NDcyMQ%3D%3D
 [dictconfig]: http://docs.python.org/3/library/logging.config.html#logging.config.dictConfig
 [errbot]: http://errbot.io/
