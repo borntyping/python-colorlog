@@ -5,17 +5,17 @@
 
 Add colours to the output of Python's `logging` module.
 
-* [Source on GitHub](https://github.com/borntyping/python-colorlog)
-* [Packages on PyPI](https://pypi.org/pypi/colorlog/)
+- [Source on GitHub](https://github.com/borntyping/python-colorlog)
+- [Packages on PyPI](https://pypi.org/pypi/colorlog/)
 
 ## Status
 
-colorlog currently requires Python 3.6 or higher. Older versions (below 5.x.x) 
+colorlog currently requires Python 3.6 or higher. Older versions (below 5.x.x)
 support Python 2.6 and above.
 
-* colorlog 6.x requires Python 3.6 or higher.
-* colorlog 5.x is an interim version that will warn Python 2 users to downgrade.
-* colorlog 4.x is the final version supporting Python 2.
+- colorlog 6.x requires Python 3.6 or higher.
+- colorlog 5.x is an interim version that will warn Python 2 users to downgrade.
+- colorlog 4.x is the final version supporting Python 2.
 
 [colorama] is included as a dependency on Windows, where it is automatically
 initialised to support colored output.
@@ -36,7 +36,7 @@ Install from PyPI with:
 pip install colorlog
 ```
 
-Several Linux distributions provide official packages ([Debian], [Arch], [Fedora], 
+Several Linux distributions provide official packages ([Debian], [Arch], [Fedora],
 [Gentoo], [OpenSuse] and [Ubuntu]), and others have user provided packages
 ([BSD ports], [Conda]).
 
@@ -53,13 +53,13 @@ logger = colorlog.getLogger('example')
 logger.addHandler(handler)
 ```
 
-`ColoredFormatter` extends [`logging.Formatter`][Formatter] and accepts all of
+`ColoredFormatter` extends [`logging.Formatter`][formatter] and accepts all of
 its arguments. The only difference is `fmt`: if not provided, a default format
 string is chosen based on `style` (e.g.
 `%(log_color)s%(levelname)s:%(name)s:%(message)s` for `%` style).
 
 - `fmt`, `datefmt`, `style`, `validate`, `defaults`:
-  See [`logging.Formatter`][Formatter].
+  See [`logging.Formatter`][formatter].
 
 Additional arguments:
 
@@ -174,7 +174,7 @@ formatter = ColoredFormatter(
 )
 ```
 
-### With [`dictConfig`][dictConfig]
+### With [`dictConfig`][dictconfig]
 
 ```python
 logging.config.dictConfig({
@@ -189,7 +189,7 @@ logging.config.dictConfig({
 
 A full example dictionary can be found in `tests/test_colorlog.py`.
 
-### With [`fileConfig`][fileConfig]
+### With [`fileConfig`][fileconfig]
 
 ```ini
 ...
@@ -211,7 +211,7 @@ A full example configuration can be found in `tests/test_config.ini`.
 ### With custom log levels
 
 ColoredFormatter will work with custom log levels added with
-[`logging.addLevelName`][addLevelName]:
+[`logging.addLevelName`][addlevelname]:
 
 ```python
 import logging, colorlog
@@ -272,23 +272,22 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-[dictConfig]: http://docs.python.org/3/library/logging.config.html#logging.config.dictConfig
-[fileConfig]: http://docs.python.org/3/library/logging.config.html#logging.config.fileConfig
-[addLevelName]: https://docs.python.org/3/library/logging.html#logging.addLevelName
-[Formatter]: http://docs.python.org/3/library/logging.html#logging.Formatter
-[tox]: http://tox.readthedocs.org/
-[Arch]: https://archlinux.org/packages/extra/any/python-colorlog/
-[BSD ports]: https://www.freshports.org/devel/py-colorlog/
+[addlevelname]: https://docs.python.org/3/library/logging.html#logging.addLevelName
+[arch]: https://archlinux.org/packages/extra/any/python-colorlog/
+[bsd ports]: https://www.freshports.org/devel/py-colorlog/
 [colorama]: https://pypi.python.org/pypi/colorama
-[Conda]: https://anaconda.org/conda-forge/colorlog
-[Debian]: [https://packages.debian.org/buster/python3-colorlog](https://packages.debian.org/buster/python3-colorlog)
-[Errbot]: http://errbot.io/
-[Fedora]: https://src.fedoraproject.org/rpms/python-colorlog
-[Gentoo]: https://packages.gentoo.org/packages/dev-python/colorlog
-[OpenSuse]: http://rpm.pbone.net/index.php3?stat=3&search=python-colorlog&srodzaj=3
-[Pythran]: https://github.com/serge-sans-paille/pythran
-[Ubuntu]: https://launchpad.net/python-colorlog
-[zenlog]: https://github.com/ManufacturaInd/python-zenlog
-[structlog]: https://www.structlog.org/en/stable/
-[jsonlog]: https://github.com/borntyping/jsonlog
+[conda]: https://anaconda.org/conda-forge/colorlog
+[debian]: https://packages.debian.org/buster/python3-colorlog
 [dependents]: https://github.com/borntyping/python-colorlog/network/dependents?package_id=UGFja2FnZS01MDk3NDcyMQ%3D%3D
+[dictconfig]: http://docs.python.org/3/library/logging.config.html#logging.config.dictConfig
+[errbot]: http://errbot.io/
+[fedora]: https://src.fedoraproject.org/rpms/python-colorlog
+[fileconfig]: http://docs.python.org/3/library/logging.config.html#logging.config.fileConfig
+[formatter]: http://docs.python.org/3/library/logging.html#logging.Formatter
+[gentoo]: https://packages.gentoo.org/packages/dev-python/colorlog
+[jsonlog]: https://github.com/borntyping/jsonlog
+[opensuse]: http://rpm.pbone.net/index.php3?stat=3&search=python-colorlog&srodzaj=3
+[pythran]: https://github.com/serge-sans-paille/pythran
+[structlog]: https://www.structlog.org/en/stable/
+[ubuntu]: https://launchpad.net/python-colorlog
+[zenlog]: https://github.com/ManufacturaInd/python-zenlog
