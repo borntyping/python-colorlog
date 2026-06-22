@@ -17,8 +17,8 @@ support Python 2.6 and above.
 * colorlog 5.x is an interim version that will warn Python 2 users to downgrade.
 * colorlog 4.x is the final version supporting Python 2.
 
-[colorama] is included as a required dependency and initialised when using 
-colorlog on Windows.
+[colorama] is included as a dependency on Windows, where it is automatically
+initialised to support colored output.
 
 This library is over a decade old and supported a wide set of Python versions
 for most of its life, which has made it a difficult library to add new features
@@ -53,14 +53,31 @@ logger = colorlog.getLogger('example')
 logger.addHandler(handler)
 ```
 
-The `ColoredFormatter` class takes several arguments:
+`ColoredFormatter` extends [`logging.Formatter`][Formatter] and accepts all of
+its arguments. The only difference is `fmt`: if not provided, a default format
+string is chosen based on `style` (e.g.
+`%(log_color)s%(levelname)s:%(name)s:%(message)s` for `%` style).
 
-- `format`: The format string used to output the message (required).
-- `datefmt`: An optional date format passed to the base class. See [`logging.Formatter`][Formatter].
-- `reset`: Implicitly adds a color reset code to the message output, unless the output already ends with one. Defaults to `True`.
-- `log_colors`: A mapping of record level names to color names. The defaults can be found in `colorlog.default_log_colors`, or the below example.
-- `secondary_log_colors`: A mapping of names to `log_colors` style mappings, defining additional colors that can be used in format strings. See below for an example.
-- `style`: Available on Python 3.2 and above. See [`logging.Formatter`][Formatter].
+- `fmt`, `datefmt`, `style`, `validate`, `defaults`:
+  See [`logging.Formatter`][Formatter].
+
+Additional arguments:
+
+- `reset`: Implicitly adds a color reset code to the message output, unless the
+  output already ends with one. Defaults to `True`.
+- `log_colors`: A mapping of record level names to color names. The defaults
+  can be found in `colorlog.default_log_colors`, or the below example.
+- `secondary_log_colors`: A mapping of names to `log_colors` style mappings,
+  defining additional colors that can be used in format strings. Defaults to
+  `None`. See below for an example.
+- `stream`: The stream being written to (e.g. `sys.stderr`). Used to detect
+  whether the output is a TTY. Colors are disabled automatically on non-TTY
+  streams unless `force_color` is set.  Defaults to `None`.
+- `no_color`: Disable color output. Can also be set via the `NO_COLOR`
+  environment variable. Defaults to `False`.
+- `force_color`: Force color output even on non-TTY streams. Takes precedence
+  over `no_color`. Can also be set via the `FORCE_COLOR` environment variable.
+  Defaults to `False`.
 
 Color escape codes can be selected based on the log records level, by adding
 parameters to the format string:
@@ -86,7 +103,7 @@ The available color names are:
 - `red`
 - `green`
 - `yellow`
-- `blue`,
+- `blue`
 - `purple`
 - `cyan`
 - `white`
@@ -103,6 +120,9 @@ support for these varies wildly across different terminals.
 - `light_cyan`
 - `light_white`
 
+In addition to color names, you can use integers from 0 to 255 for 256-color
+support (e.g. `fg_196`, `bg_42`).
+
 ## Examples
 
 ![Example output](docs/example.png)
@@ -114,18 +134,18 @@ using the default values for each argument.
 from colorlog import ColoredFormatter
 
 formatter = ColoredFormatter(
-	"%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s",
+	fmt="%(log_color)s%(levelname)s:%(name)s:%(message)s",
 	datefmt=None,
-	reset=True,
+    style='%',
 	log_colors={
-		'DEBUG':    'cyan',
+		'DEBUG':    'white',
 		'INFO':     'green',
 		'WARNING':  'yellow',
 		'ERROR':    'red',
-		'CRITICAL': 'red,bg_white',
+		'CRITICAL': 'bold_red',
 	},
-	secondary_log_colors={},
-	style='%'
+    reset=True,
+	secondary_log_colors={}
 )
 ```
 
