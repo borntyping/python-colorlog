@@ -6,18 +6,27 @@ from colorlog import ColoredFormatter
 
 
 def setup_logger():
-    """Return a logger with a default ColoredFormatter."""
+    """Return a logger with a ColoredFormatter using the default values for
+    each argument.
+    """
     formatter = ColoredFormatter(
-        "%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s",
+        fmt="%(log_color)s%(levelname)s:%(name)s:%(message)s",
         datefmt=None,
+        style='%',
+        validate=True,
+        defaults=None,
         reset=True,
         log_colors={
-            "DEBUG": "cyan",
-            "INFO": "green",
-            "WARNING": "yellow",
-            "ERROR": "red",
-            "CRITICAL": "red",
+            'DEBUG': 'white',
+            'INFO': 'green',
+            'WARNING': 'yellow',
+            'ERROR': 'red',
+            'CRITICAL': 'bold_red',
         },
+        secondary_log_colors=None,
+        stream=None,
+        no_color=False,
+        force_color=False
     )
 
     logger = logging.getLogger("example")
