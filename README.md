@@ -6,7 +6,7 @@
 Add colours to the output of Python's `logging` module.
 
 - [Source on GitHub](https://github.com/borntyping/python-colorlog)
-- [Packages on PyPI](https://pypi.org/pypi/colorlog/)
+- [Package on PyPI](https://pypi.org/pypi/colorlog/)
 
 ## Status
 
@@ -46,20 +46,23 @@ packages ([BSD ports], [Conda]).
 import colorlog
 
 handler = colorlog.StreamHandler()
-handler.setFormatter(colorlog.ColoredFormatter(
-	'%(log_color)s%(levelname)s:%(name)s:%(message)s'))
+handler.setFormatter(colorlog.ColoredFormatter())
 
 logger = colorlog.getLogger('example')
 logger.addHandler(handler)
 ```
 
+### Arguments
+
 `ColoredFormatter` extends [`logging.Formatter`][formatter] and accepts all of
-its arguments. The only difference is `fmt`: if not provided, a default format
-string is chosen based on `style` (e.g.
-`%(log_color)s%(levelname)s:%(name)s:%(message)s` for `%` style).
+its arguments:
 
 - `fmt`, `datefmt`, `style`, `validate`, `defaults`:
   See [`logging.Formatter`][formatter].
+
+  The only difference is `fmt`: if not provided, a default format string is
+  chosen based on `style` (e.g.
+  `%(log_color)s%(levelname)s:%(name)s:%(message)s` for `%` style).
 
 Additional arguments:
 
@@ -78,6 +81,8 @@ Additional arguments:
 - `force_color`: Force color output even on non-TTY streams. Takes precedence
   over `no_color`. Can also be set via the `FORCE_COLOR` environment variable.
   Defaults to `False`.
+
+### Color escape codes
 
 Color escape codes can be selected based on the log records level, by adding
 parameters to the format string:
@@ -122,8 +127,8 @@ support for these varies wildly across different terminals.
 - `light_cyan`
 - `light_white`
 
-In addition to color names, you can use integers from 0 to 255 for 256-color
-support (e.g. `fg_196`, `bg_42`).
+In addition to pre-defined color names, you can use integers from 0 to 255 for
+256-color support (e.g. `fg_196`, `bg_42`).
 
 ## Examples
 
@@ -139,15 +144,20 @@ formatter = ColoredFormatter(
 	fmt="%(log_color)s%(levelname)s:%(name)s:%(message)s",
 	datefmt=None,
     style='%',
-	log_colors={
+    validate=True,
+    defaults=None,
+    reset=True,
+  	log_colors={
 		'DEBUG':    'white',
 		'INFO':     'green',
 		'WARNING':  'yellow',
 		'ERROR':    'red',
 		'CRITICAL': 'bold_red',
 	},
-    reset=True,
-	secondary_log_colors={}
+	secondary_log_colors=None,
+    stream=None,
+    no_color=False,
+    force_color=False
 )
 ```
 
