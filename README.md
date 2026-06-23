@@ -130,32 +130,25 @@ In addition to pre-defined color names, you can use integers from 0 to 255 for
 
 ![Example output](docs/example.png)
 
-The following code creates a `ColoredFormatter` for use in a logging setup,
-using the default values for each argument.
+The following snippet creates a `ColoredFormatter` for use in a logging setup,
+with a custom format string and log colors:
 
 ```python
 from colorlog import ColoredFormatter
 
 formatter = ColoredFormatter(
-	fmt="%(log_color)s%(levelname)s:%(name)s:%(message)s",
-	datefmt=None,
-    style='%',
-    validate=True,
-    defaults=None,
-    reset=True,
+	"%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s",
 	log_colors={
-		"DEBUG": "white",
+		"DEBUG": "cyan",
 		"INFO": "green",
 		"WARNING": "yellow",
 		"ERROR": "red",
-		"CRITICAL": "bold_red",
-	},
-	secondary_log_colors={},
-    stream=None,
-    no_color=False,
-    force_color=False
+		"CRITICAL": "red,bg_white",
+    }
 )
 ```
+
+*See `docs/example.py` for full example script.*
 
 ### Using `secondary_log_colors`
 
