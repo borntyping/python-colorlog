@@ -54,33 +54,29 @@ logger.addHandler(handler)
 
 ### Arguments
 
-`ColoredFormatter` extends [`logging.Formatter`][formatter] and accepts all of
-its arguments:
+`ColoredFormatter` extends [`logging.Formatter`][formatter] and accepts the
+following arguments:
 
-- `fmt`, `datefmt`, `style`, `validate`, `defaults`:
-  see [`logging.Formatter`][formatter].
-
-  The only difference is `fmt`: if not provided, a default format string is
-  chosen based on `style` (e.g.
+- `fmt` *(default=`None`)*: A format string used to output the message. If
+  `None`, a default format string is selected based on `style` (e.g.
   `%(log_color)s%(levelname)s:%(name)s:%(message)s` for `%` style).
-
-Additional arguments:
-
-- `reset`: Implicitly adds a color reset code to the message output, unless the
-  output already ends with one. Defaults to `True`.
-- `log_colors`: A mapping of record level names to color names. The defaults
-  can be found in `colorlog.default_log_colors`, or the below example.
-- `secondary_log_colors`: A mapping of names to `log_colors` style mappings,
-  defining additional colors that can be used in format strings. Defaults to
-  `{}`. See below for an example.
-- `stream`: The stream being written to (e.g. `sys.stderr`). Used to detect
-  whether the output is a TTY. Colors are disabled automatically on non-TTY
-  streams unless `force_color` is set. Defaults to `None`.
-- `no_color`: Disable color output. Can also be set via the `NO_COLOR`
-  environment variable. Defaults to `False`.
-- `force_color`: Force color output even on non-TTY streams. Takes precedence
-  over `no_color`. Can also be set via the `FORCE_COLOR` environment variable.
-  Defaults to `False`.
+- `datefmt`, `style`, `validate`, `defaults`: see
+  [`logging.Formatter`][formatter].
+- `reset` *(default=`True`)*: Implicitly adds a color reset code to the
+  message output, unless the output already ends with one.
+- `log_colors` *(default=`None`)*: A mapping of record level names to color
+  names. If `None`, `colorlog.default_log_colors` is used (see example below).
+- `secondary_log_colors` *(default=`None`)*: A mapping of names to `log_colors`
+  style mappings, defining additional colors that can be used in format strings.
+  If `None`, an empty mapping is used.
+- `stream` *(default=`None`)*: The stream being written to (e.g. `sys.stderr`).
+  Used to detect whether the output is a TTY. Colors are disabled automatically
+  on non-TTY streams unless `force_color` is set.
+- `no_color` *(default=`False`)*: Disable color output. Can also be set via the
+  `NO_COLOR` environment variable.
+- `force_color` *(default=`False`)*: Force color output even on non-TTY streams.
+  Takes precedence over `no_color`. Can also be set via the `FORCE_COLOR`
+  environment variable.
 
 ### Color escape codes
 
@@ -147,7 +143,7 @@ formatter = ColoredFormatter(
     validate=True,
     defaults=None,
     reset=True,
-  	log_colors={
+	log_colors={
 		"DEBUG": "white",
 		"INFO": "green",
 		"WARNING": "yellow",
@@ -179,7 +175,7 @@ formatter = ColoredFormatter(
 	"%(log_color)s%(levelname)-8s%(reset)s %(message_log_color)s%(message)s",
 	secondary_log_colors={
 		'message': {
-			'ERROR':    'red',
+			'ERROR': 'red',
 			'CRITICAL': 'red'
 		}
 	}
