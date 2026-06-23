@@ -65,7 +65,7 @@ following arguments:
 - `reset` *(default=`True`)*: Implicitly adds a color reset code to the
   message output, unless the output already ends with one.
 - `log_colors` *(default=`None`)*: A mapping of record level names to color
-  names. If `None`, `colorlog.default_log_colors` is used (see example below).
+  names. If `None`, `colorlog.default_log_colors` is used.
 - `secondary_log_colors` *(default=`None`)*: A mapping of names to `log_colors`
   style mappings, defining additional colors that can be used in format strings.
   If `None`, an empty mapping is used.
