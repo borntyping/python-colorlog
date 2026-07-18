@@ -212,6 +212,12 @@ class LevelFormatter:
         - fmt (dict):
             A mapping of log levels (represented as strings, e.g. 'WARNING') to
             format strings. (*New in version 2.7.0)
+
+            Levels that are not present in the mapping fall back to a default
+            formatter, so records logged at custom or unlisted levels are
+            formatted rather than raising a ``KeyError``. To customise the
+            fallback, provide a format string under the special ``"DEFAULT"``
+            key; otherwise the default format for the chosen ``style`` is used.
         (All other parameters are the same as in colorlog.ColoredFormatter)
 
         Example:
@@ -229,9 +235,15 @@ class LevelFormatter:
         self.formatters = {
             level: ColoredFormatter(fmt=f, **kwargs) for level, f in fmt.items()
         }
+        # Used for any level not present in ``fmt``. An explicit "DEFAULT" entry
+        # takes precedence; otherwise fall back to the default format string.
+        self.default_formatter = self.formatters.get(
+            "DEFAULT", ColoredFormatter(**kwargs)
+        )
 
     def format(self, record: logging.LogRecord) -> str:
-        return self.formatters[record.levelname].format(record)
+        formatter = self.formatters.get(record.levelname, self.default_formatter)
+        return formatter.format(record)
 
 
 # Provided for backwards compatibility. The features provided by this subclass are now
