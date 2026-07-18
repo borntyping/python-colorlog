@@ -1,5 +1,6 @@
 """Test the colorlog.colorlog module."""
 
+import logging
 import sys
 import unittest.mock
 
@@ -99,6 +100,29 @@ class TestLevelFormatter:
                 "CRITICAL": "%(message)s",
             },
         )
+
+    def test_unlisted_level_uses_default(self):
+        """A level missing from fmt must not raise; it uses the fallback."""
+        logging.addLevelName(25, "NOTICE")
+        formatter = colorlog.LevelFormatter(fmt={"INFO": "%(message)s"})
+        record = logging.LogRecord(
+            "test", 25, "path", 1, "a notice message", None, None
+        )
+        assert "a notice message" in formatter.format(record)
+
+    def test_explicit_default_key(self):
+        """A 'DEFAULT' entry overrides the fallback format for unlisted levels."""
+        logging.addLevelName(25, "NOTICE")
+        formatter = colorlog.LevelFormatter(
+            fmt={
+                "INFO": "%(message)s",
+                "DEFAULT": "DEFAULT: %(message)s",
+            }
+        )
+        record = logging.LogRecord(
+            "test", 25, "path", 1, "a notice message", None, None
+        )
+        assert "DEFAULT: a notice message" in formatter.format(record)
 
 
 def test_ttycolorlog(create_and_test_logger, monkeypatch):
