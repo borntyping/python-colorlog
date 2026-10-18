@@ -56,6 +56,8 @@ def basicConfig(
     logging.basicConfig(**kwargs)
 
     def _basicConfig():
+        if not logging.root.handlers:
+            return
         handler = logging.root.handlers[0]
         handler.setFormatter(
             colorlog.formatter.ColoredFormatter(

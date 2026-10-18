@@ -1,5 +1,6 @@
 """Test the colorlog.wrappers module."""
 
+import io
 import logging
 
 import colorlog
@@ -41,3 +42,20 @@ def test_wrappers():
     assert colorlog.critical is not logging.critical
     assert colorlog.log is not logging.log
     assert colorlog.exception is not logging.exception
+
+
+def test_basicConfig_with_no_handlers(monkeypatch):
+    monkeypatch.setattr(logging.root, "handlers", [])
+    colorlog.basicConfig(handlers=[])
+    assert logging.root.handlers == []
+
+
+def test_basicConfig_with_supplied_handler(monkeypatch):
+    monkeypatch.setattr(logging.root, "handlers", [])
+    stream = io.StringIO()
+    handler = logging.StreamHandler(stream)
+    colorlog.basicConfig(handlers=[handler], format="%(message)s", reset=False)
+    assert logging.root.handlers == [handler]
+    assert isinstance(handler.formatter, colorlog.ColoredFormatter)
+    logging.root.warning("configured message")
+    assert stream.getvalue() == "configured message\n"
