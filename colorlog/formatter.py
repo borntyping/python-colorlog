@@ -1,5 +1,6 @@
 """The ColoredFormatter class."""
 
+import copy
 import logging
 import os
 import sys
@@ -178,6 +179,16 @@ class ColoredFormatter(logging.Formatter):
         return message
 
     if sys.version_info >= (3, 13):
+
+        def format(self, record: logging.LogRecord) -> str:
+            """Keep exception colors local to this formatter."""
+            if record.exc_info:
+                if not record.exc_text:
+                    # Keep plain exception text available to record forwarders.
+                    record.exc_text = super().formatException(record.exc_info)
+                record = copy.copy(record)
+                record.exc_text = None
+            return super().format(record)
 
         def formatException(self, ei) -> str:
             """

@@ -1,6 +1,8 @@
 """Test the colorlog.colorlog module."""
 
+import io
 import logging
+import pickle
 import sys
 import unittest.mock
 
@@ -158,3 +160,58 @@ if sys.version_info >= (3, 13):
             text = formatter.formatException(ei)
 
         assert ("\x1b[" in text) == tty
+
+    @pytest.fixture
+    def exception_record() -> logging.LogRecord:
+        try:
+            raise ValueError("example failure")
+        except ValueError:
+            return logging.LogRecord(
+                "example", logging.ERROR, "example.py", 1, "failed", (), sys.exc_info()
+            )
+
+    @pytest.mark.parametrize(
+        "plain_formatter",
+        [
+            logging.Formatter("%(message)s"),
+            colorlog.ColoredFormatter("%(message)s", no_color=True),
+            colorlog.ColoredFormatter("%(message)s", stream=io.StringIO()),
+        ],
+        ids=["stdlib", "no_color", "non_tty"],
+    )
+    @pytest.mark.parametrize("color_first", [True, False])
+    def test_exception_colors_are_per_formatter(
+        exception_record, plain_formatter, color_first
+    ):
+        colored_formatter = colorlog.ColoredFormatter("%(message)s", force_color=True)
+        if color_first:
+            colored = colored_formatter.format(exception_record)
+            plain = plain_formatter.format(exception_record)
+        else:
+            plain = plain_formatter.format(exception_record)
+            colored = colored_formatter.format(exception_record)
+
+        assert "\x1b[" not in plain
+        assert "\x1b[" in colored.split("\n", 1)[1]
+
+    def test_exception_text_survives_record_forwarding(exception_record):
+        colorlog.ColoredFormatter("%(message)s", force_color=True).format(
+            exception_record
+        )
+        exception_record.exc_info = None
+        forwarded = pickle.loads(pickle.dumps(exception_record))
+        output = logging.Formatter("%(message)s").format(forwarded)
+
+        assert "ValueError: example failure" in output
+        assert "\x1b[" not in output
+
+    @pytest.mark.parametrize("force_color", [True, False])
+    def test_cached_exception_text_without_exc_info(exception_record, force_color):
+        exception_record.exc_info = None
+        exception_record.exc_text = "ValueError: remotely cached failure"
+        formatter = colorlog.ColoredFormatter(
+            "%(message)s", force_color=force_color, no_color=not force_color
+        )
+
+        assert formatter.format(exception_record).endswith(exception_record.exc_text)
+        assert exception_record.exc_text == "ValueError: remotely cached failure"
